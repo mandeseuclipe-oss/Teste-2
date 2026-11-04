@@ -2,438 +2,447 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bruno Sant's | Guia de Identidade e Galeria</title>
-  <meta name="description" content="Bruno Sant's: galeria em parallax e identidade visual da marca.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Bruno Sants | Fotografia</title>
+  <meta name="description" content="Portfólio do fotógrafo Bruno Sants: Retratos, Life e Automotivo.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --alizarina: #EE2A3B;   /* Alizarina cor carmesim */
-      --branco-gelo: #FFFFFF; /* Branco Gelo */
+      --alizarina: #EE2A3B;   /* Alizarina cor carmesim (manual de marca) */
+      --gelo: #FFFFFF;        /* Branco Gelo */
       --preto: #000000;       /* Preto absoluto */
+      --cinza: #8a8a8a;
       --gutter: 16px;
+      --ease: cubic-bezier(.2,.7,.1,1);
     }
-
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       background: var(--preto);
-      color: var(--branco-gelo);
+      color: var(--gelo);
       font-family: "Montserrat", system-ui, sans-serif;
-      overflow-x: hidden;
+      overflow-x: clip;
       -webkit-font-smoothing: antialiased;
     }
     img { display: block; max-width: 100%; }
     a { color: inherit; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+    .display { font-family: "Bebas Neue", "Montserrat", sans-serif; letter-spacing: .04em; line-height: .9; text-transform: uppercase; }
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--alizarina); }
+    .muted { color: var(--cinza); }
 
-    /* ---------- Logotipo (recriação tipográfica provisória) ---------- */
-    .logo {
-      font-family: "Bebas Neue", "Montserrat", sans-serif;
-      letter-spacing: 0.06em;
-      line-height: 1;
-      text-transform: uppercase;
-      white-space: nowrap;
+    /* ---------- Menu ---------- */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: calc(env(safe-area-inset-top) + 16px) var(--gutter) 16px;
+      mix-blend-mode: difference;
     }
-
-    /* ---------- Cabeçalho ---------- */
-    .topbar {
-      position: fixed;
-      inset: 0 0 auto 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px var(--gutter);
-      background: linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,0));
-    }
-    .topbar .logo { font-size: 26px; color: var(--branco-gelo); text-decoration: none; }
-    .topbar nav { display: flex; gap: 18px; font-size: 13px; font-weight: 600; }
-    .topbar nav a { text-decoration: none; opacity: .85; }
-    .topbar nav a:hover { color: var(--alizarina); opacity: 1; }
-
-    /* ---------- Hero ---------- */
-    .hero {
+    .brand { font-size: 28px; text-decoration: none; color: var(--gelo); }
+    .nav { display: flex; gap: 28px; }
+    .nav a {
       position: relative;
-      min-height: 100vh;
-      min-height: 100svh;
-      display: flex;
-      align-items: flex-end;
-      overflow: hidden;
-      padding: 0 var(--gutter) 48px;
-      background: var(--preto);
+      font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+      text-decoration: none; color: var(--gelo);
+      transition: color .35s var(--ease);
+      padding: 6px 0;
     }
-    .hero__slash {
-      position: absolute;
-      top: 0;
-      right: -10%;
-      width: 75%;
-      height: 100%;
+    .nav a::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
       background: var(--alizarina);
-      clip-path: polygon(38% 0, 100% 0, 100% 100%, 0 100%, 26% 64%, 40% 58%, 40% 40%, 14% 16%);
-      opacity: .95;
+      transform: scaleX(0); transform-origin: right;
+      transition: transform .45s var(--ease);
     }
-    .hero__content { position: relative; z-index: 2; max-width: 900px; }
-    .hero__logo { font-size: clamp(64px, 17vw, 200px); margin: 0; color: var(--branco-gelo); }
-    .hero__sub {
-      margin: 10px 0 0;
-      font-size: clamp(14px, 3.4vw, 20px);
-      font-weight: 700;
-      color: var(--alizarina);
-      letter-spacing: .02em;
-    }
-    .hero__lead {
-      max-width: 42ch;
-      margin: 14px 0 0;
-      font-size: 15px;
-      line-height: 1.6;
-      opacity: .9;
-    }
-    .hero__scroll {
-      position: absolute;
-      right: var(--gutter);
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 2;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .25em;
-      writing-mode: vertical-rl;
-      text-transform: uppercase;
-      opacity: .8;
-    }
+    .nav a:hover, .nav a:focus-visible { color: var(--alizarina); outline: none; }
+    .nav a:hover::after, .nav a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+    .burger { display: none; width: 44px; height: 44px; position: relative; }
+    .burger span { position: absolute; left: 10px; right: 10px; height: 2px; background: var(--gelo); transition: transform .4s var(--ease), opacity .3s; }
+    .burger span:nth-child(1) { top: 16px; }
+    .burger span:nth-child(2) { top: 26px; }
+    .menu-open .burger span:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+    .menu-open .burger span:nth-child(2) { transform: translateY(-5px) rotate(-45deg); }
 
-    /* ---------- Galeria em parallax (fotos empilhadas) ---------- */
-    .stack-intro {
-      padding: 80px var(--gutter) 40px;
-      background: var(--preto);
-    }
-    .eyebrow {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--alizarina);
-    }
-    .h2 {
-      margin: 10px 0 0;
-      font-size: clamp(32px, 8vw, 64px);
-      font-weight: 800;
-      line-height: 1.05;
-    }
-    .stack-intro p { max-width: 52ch; line-height: 1.6; opacity: .85; font-size: 15px; }
-
-    .stack { position: relative; background: var(--preto); }
-    .panel {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      height: 100svh;
-      overflow: hidden;
-      background: var(--preto);
-      transform-origin: 50% 0;
-      will-change: transform;
-      border-top: 1px solid rgba(255,255,255,.08);
-    }
-    .panel:nth-child(1) { z-index: 1; }
-    .panel:nth-child(2) { z-index: 2; }
-    .panel:nth-child(3) { z-index: 3; }
-    .panel:nth-child(4) { z-index: 4; }
-    .panel:nth-child(5) { z-index: 5; }
-    .panel:nth-child(6) { z-index: 6; }
-    .panel:nth-child(7) { z-index: 7; }
-    .panel__frame {
-      position: absolute;
-      inset: -12% 0;          /* folga para o efeito de parallax */
-      overflow: hidden;
-    }
-    .panel__img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      will-change: transform;
-    }
-    .panel__shade {
-      position: absolute;
-      inset: 0;
-      background: #000;
-      opacity: 0;
+    .overlay {
+      position: fixed; inset: 0; z-index: 90; background: var(--preto);
+      display: flex; flex-direction: column; justify-content: center; gap: 8px;
+      padding: 0 var(--gutter);
+      clip-path: circle(0% at calc(100% - 36px) 36px);
+      transition: clip-path .8s var(--ease);
       pointer-events: none;
     }
-    .panel__caption {
-      position: absolute;
-      left: var(--gutter);
-      right: var(--gutter);
-      bottom: 28px;
-      z-index: 2;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .panel__num {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: clamp(64px, 16vw, 140px);
-      line-height: .85;
-      color: var(--alizarina);
-      margin: 0;
-    }
-    .panel__title {
-      margin: 0;
-      font-size: clamp(16px, 3.6vw, 22px);
-      font-weight: 800;
-      text-align: right;
-      text-shadow: 0 1px 12px rgba(0,0,0,.6);
-    }
-    .panel__bar {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: var(--alizarina);
-      z-index: 2;
-    }
+    .menu-open .overlay { clip-path: circle(150% at calc(100% - 36px) 36px); pointer-events: auto; }
+    .overlay a { font-family: "Bebas Neue", sans-serif; font-size: clamp(56px, 18vw, 96px); text-decoration: none; line-height: 1; color: var(--gelo); transition: color .3s; }
+    .overlay a:hover { color: var(--alizarina); }
 
-    /* ---------- Identidade (fundo claro, como no manual) ---------- */
-    .brand {
-      background: var(--branco-gelo);
-      color: var(--preto);
-      padding: 88px var(--gutter);
+    /* ---------- Hero ---------- */
+    .hero { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; }
+    .hero__media { position: absolute; inset: -8% 0; }
+    .hero__img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: saturate(.9); }
+    .hero::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.5) 100%);
     }
-    .brand .h2 { color: var(--preto); }
-    .brand__grid {
-      display: grid;
-      gap: 40px;
-      margin-top: 40px;
+    .hero__content { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: calc(env(safe-area-inset-bottom) + 40px); }
+    .hero__word { display: flex; flex-wrap: wrap; font-size: clamp(64px, 17vw, 230px); margin: 0; }
+    .hero__word span { display: inline-block; overflow: hidden; }
+    .hero__word span > i { display: inline-block; font-style: normal; }
+    .hero__meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
+    .hero__meta p { margin: 0; max-width: 40ch; font-size: 15px; line-height: 1.55; opacity: .9; }
+    .hero__slash {
+      position: absolute; z-index: 1; top: 0; right: -20%; width: 70%; height: 100%;
+      background: var(--alizarina); clip-path: polygon(40% 0, 100% 0, 100% 100%, 0 100%, 28% 62%, 42% 56%, 42% 40%, 16% 18%);
+      mix-blend-mode: multiply; opacity: .9;
     }
-    .brand__text p { line-height: 1.7; font-size: 15px; max-width: 56ch; }
+    .hero__hint { position: absolute; z-index: 2; right: var(--gutter); top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: right center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .7; }
 
-    .swatches {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    .swatch {
-      min-height: 150px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      font-weight: 800;
-    }
-    .swatch small { font-weight: 600; font-size: 12px; opacity: .8; letter-spacing: .04em; }
-    .swatch--red   { background: var(--alizarina); color: var(--branco-gelo); }
-    .swatch--white { background: var(--branco-gelo); color: var(--preto); border: 1px solid #ddd; }
-    .swatch--black { background: var(--preto); color: var(--branco-gelo); }
+    /* ---------- Seções ---------- */
+    .section { padding: 120px var(--gutter); }
+    .section__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; }
+    .section__title { font-size: clamp(64px, 12vw, 160px); margin: 8px 0 0; }
+    .section__desc { max-width: 40ch; margin: 0; font-size: 15px; line-height: 1.6; color: var(--cinza); }
 
-    .rules { margin-top: 56px; }
-    .rules h3 { font-size: 20px; margin: 0 0 16px; }
-    .rules ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
-    .rules li {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .rules .ok, .rules .no {
-      flex: 0 0 22px;
-      height: 22px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--branco-gelo);
-    }
-    .rules .ok { background: #1f9d55; }
-    .rules .no { background: var(--alizarina); }
+    /* Retratos: foto grande com legenda */
+    .portrait { display: grid; gap: 32px; align-items: center; }
+    .frame { position: relative; overflow: hidden; background: #111; cursor: zoom-in; }
+    .frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+    .frame:hover img { transform: scale(1.03); }
+    .portrait .frame { aspect-ratio: 4 / 5; }
+    .caption { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cinza); margin-top: 12px; }
+    .portrait__text h3 { font-family: "Bebas Neue", sans-serif; font-size: clamp(48px, 7vw, 96px); margin: 0; line-height: .9; }
+    .portrait__text p { font-size: 16px; line-height: 1.7; color: #cfcfcf; max-width: 44ch; }
 
-    /* ---------- Rodapé ---------- */
-    .footer {
-      background: var(--alizarina);
-      color: var(--branco-gelo);
-      padding: 72px var(--gutter) 56px;
+    /* Life: grade com parallax */
+    .life { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .life__item { position: relative; overflow: hidden; }
+    .life__item .frame { aspect-ratio: 4 / 5; }
+    .life__item img { height: 118%; margin-top: -9%; will-change: transform; }
+    .life__item .frame:hover img { transform: scale(1.03); }
+    .life__item--wide .frame { aspect-ratio: 4 / 3; }
+    .life__item .caption { display: flex; justify-content: space-between; }
+
+    /* Automotivo: estado vazio honesto */
+    .empty {
+      border: 1px dashed rgba(255,255,255,.25);
+      padding: clamp(40px, 8vw, 96px) var(--gutter);
+      text-align: center;
+      display: grid; gap: 14px; justify-items: center;
     }
-    .footer .logo { font-size: clamp(48px, 12vw, 96px); }
-    .footer p { max-width: 44ch; line-height: 1.6; font-size: 15px; }
-    .footer a { font-weight: 700; font-size: 17px; text-decoration: none; border-bottom: 2px solid var(--preto); }
-    .footer a:hover { color: var(--preto); }
+    .empty .display { font-size: clamp(48px, 9vw, 110px); margin: 0; }
+    .empty p { margin: 0; max-width: 46ch; color: var(--cinza); line-height: 1.6; }
+    .empty a { margin-top: 8px; font-weight: 700; color: var(--alizarina); text-decoration: none; border-bottom: 2px solid currentColor; padding-bottom: 2px; }
+    .empty a:hover { color: var(--gelo); }
+
+    /* Sobre */
+    .about { background: var(--gelo); color: var(--preto); }
+    .about .section__desc { color: #444; }
+    .about__grid { display: grid; gap: 40px; }
+    .about__grid p { font-size: 17px; line-height: 1.75; margin: 0; max-width: 56ch; }
+    .palette { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 56px; }
+    .palette div { height: 180px; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; font-weight: 700; font-size: 14px; }
+    .palette small { font-weight: 500; opacity: .75; font-size: 12px; }
+    .palette .r { background: var(--alizarina); color: var(--gelo); }
+    .palette .w { background: var(--gelo); color: var(--preto); box-shadow: inset 0 0 0 1px #ddd; }
+    .palette .b { background: var(--preto); color: var(--gelo); }
+
+    /* Contato */
+    .contact { background: var(--alizarina); padding: 120px var(--gutter) 64px; }
+    .contact h2 { font-size: clamp(72px, 15vw, 220px); margin: 0; line-height: .85; }
+    .contact a.mail { display: inline-block; margin-top: 32px; font-size: clamp(18px, 3vw, 28px); font-weight: 700; color: var(--gelo); text-decoration: none; border-bottom: 2px solid var(--preto); }
+    .contact a.mail:hover { color: var(--preto); }
+    .foot { margin-top: 80px; display: flex; justify-content: space-between; gap: 16px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; flex-wrap: wrap; }
+
+    /* Lightbox */
+    .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.94); display: none; align-items: center; justify-content: center; padding: 24px; }
+    .lightbox.is-open { display: flex; }
+    .lightbox img { max-width: 100%; max-height: 88vh; object-fit: contain; }
+    .lightbox__close { position: absolute; top: 16px; right: var(--gutter); font-size: 36px; line-height: 1; padding: 8px; }
+    .lightbox__close:hover { color: var(--alizarina); }
 
     /* ---------- Telas maiores ---------- */
     @media (min-width: 768px) {
-      :root { --gutter: 40px; }
-      .topbar { padding: 20px var(--gutter); }
-      .topbar .logo { font-size: 34px; }
-      .hero__scroll { display: block; }
-      .brand__grid { grid-template-columns: 1fr 1.2fr; align-items: start; }
-      .swatches { grid-template-columns: repeat(3, 1fr); }
-      .rules ul { grid-template-columns: 1fr 1fr; }
-      .panel__caption { bottom: 48px; }
+      :root { --gutter: 48px; }
+      .portrait { grid-template-columns: 1.1fr .9fr; }
+      .life { grid-template-columns: repeat(12, 1fr); }
+      .life__item:nth-child(1) { grid-column: span 7; }
+      .life__item:nth-child(2) { grid-column: span 5; margin-top: 120px; }
+      .life__item:nth-child(3) { grid-column: span 5; }
+      .life__item:nth-child(4) { grid-column: span 7; margin-top: 80px; }
+      .life__item:nth-child(5) { grid-column: span 12; }
+      .life__item:nth-child(5) .frame { aspect-ratio: 21 / 9; }
+      .about__grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 899px) {
+      .nav { display: none; }
+      .burger { display: block; }
+    }
+    @media (min-width: 900px) {
+      .burger { display: none; }
     }
     @media (max-width: 767px) {
-      .hero__scroll { display: none; }
-      .topbar nav a:not(.cta) { display: none; }
+      .hero__hint { display: none; }
+      .section { padding: 88px var(--gutter); }
+      .palette div { height: 130px; }
     }
-
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .panel__img { transform: none !important; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
 
-  <header class="topbar">
-    <a class="logo" href="#topo" aria-label="Bruno Sant's">Brunosants</a>
-    <nav aria-label="Principal">
-      <a href="#galeria">Galeria</a>
-      <a href="#identidade">Identidade</a>
+  <header class="header" id="header">
+    <a class="brand display" href="#topo" aria-label="Bruno Sants, início">Brunosants</a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#retratos">Retratos</a>
+      <a href="#life">Life</a>
+      <a href="#automotivo">Automotivo</a>
+      <a href="#sobre">Sobre</a>
       <a href="#contato">Contato</a>
     </nav>
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="overlay">
+      <span></span><span></span>
+    </button>
   </header>
 
-  <main>
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <a href="#retratos">Retratos</a>
+    <a href="#life">Life</a>
+    <a href="#automotivo">Automotivo</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+  </div>
+
+  <main id="topo">
     <!-- Hero -->
-    <section class="hero" id="topo">
+    <section class="hero" aria-label="Apresentação">
+      <div class="hero__media" data-hero>
+        <img class="hero__img" src="assets/img/foto-1.jpg" alt="Gérberas e flores em tons vermelhos, amarelos e brancos">
+      </div>
       <div class="hero__slash" aria-hidden="true"></div>
       <div class="hero__content">
-        <h1 class="logo hero__logo" aria-label="Bruno Sant's">Brunosants</h1>
-        <p class="hero__sub">Guia de identidade &amp; galeria</p>
-        <p class="hero__lead">Imagens do que está ao redor: flores, ruas, esculturas e pessoas, vistas de perto e em camadas.</p>
-      </div>
-      <span class="hero__scroll" aria-hidden="true">Role para ver</span>
-    </section>
-
-    <!-- Galeria -->
-    <section class="stack-intro" id="galeria">
-      <span class="eyebrow">Galeria</span>
-      <h2 class="h2">Uma imagem atrás da outra</h2>
-      <p>Role a página: cada foto sobe por cima da anterior, e o fundo se move em outra velocidade para criar profundidade.</p>
-    </section>
-
-    <div class="stack" id="stack">
-      <article class="panel">
-        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-1.jpg" alt="Flores laranja e vermelhas de kalanchoe em vaso"></div>
-        <div class="panel__shade"></div>
-        <div class="panel__caption"><p class="panel__num">01</p><h3 class="panel__title">Kalanchoe em vermelho</h3></div>
-      </article>
-      <article class="panel">
-        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-2.jpg" alt="Buquê de gérberas brancas, amarelas, vermelhas e rosa"></div>
-        <div class="panel__shade"></div>
-        <div class="panel__caption"><p class="panel__num">02</p><h3 class="panel__title">Gérberas coloridas</h3></div>
-      </article>
-      <article class="panel">
-        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-3.jpg" alt="Orquídea cymbidium em tons rosados com detalhes magenta"></div>
-        <div class="panel__shade"></div>
-        <div class="panel__caption"><p class="panel__num">03</p><h3 class="panel__title">Orquídea rosada</h3></div>
-      </article>
-      <article class="panel">
-        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-4.jpg" alt="Rosas em tons de pêssego, amarelo e rosa no mercado de flores"></div>
-        <div class="panel__shade"></div>
-        <div class="panel__caption"><p class="panel__num">04</p><h3 class="panel__title">Rosas do mercado</h3></div>
-      </article>
-      <article class="panel">
-        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-5.jpg" alt="Skatista atravessando uma avenida ao entardecer"></div>
-        <div class="panel__shade"></div>
-        <div class="panel__caption"><p class="panel__num">05</p><h3 class="panel__title">Movimento na cidade</h3></div>
-      </article>
-      <article class="panel">
-        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-6.jpg" alt="Escultura em mármore de um bezerro abraçado por uma figura"></div>
-        <div class="panel__shade"></div>
-        <div class="panel__caption"><p class="panel__num">06</p><h3 class="panel__title">Escultura em mármore</h3></div>
-      </article>
-      <article class="panel">
-        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-7.jpg" alt="Retrato de um jovem de camiseta preta diante de um muro grafitado"></div>
-        <div class="panel__shade"></div>
-        <div class="panel__caption"><p class="panel__num">07</p><h3 class="panel__title">Retrato urbano</h3></div>
-      </article>
-    </div>
-
-    <!-- Identidade -->
-    <section class="brand" id="identidade">
-      <span class="eyebrow">Manual de marca</span>
-      <h2 class="h2">Cores e uso do logotipo</h2>
-      <div class="brand__grid">
-        <div class="brand__text">
-          <p>A identidade Bruno Sant's usa três cores, sempre em alto contraste: o vermelho alizarina como cor de destaque, o branco gelo e o preto absoluto como base.</p>
-          <p>O logotipo precisa de espaço livre ao redor, de 100 a 150% da altura da marca, para não competir com textos e imagens.</p>
-        </div>
-        <div class="swatches" role="list">
-          <div class="swatch swatch--red" role="listitem">Alizarina cor carmesim <small>#EE2A3B</small></div>
-          <div class="swatch swatch--white" role="listitem">Branco Gelo <small>#FFFFFF</small></div>
-          <div class="swatch swatch--black" role="listitem">Preto absoluto <small>#000000</small></div>
+        <h1 class="display hero__word" aria-label="Bruno Sants">
+          <span><i>B</i></span><span><i>R</i></span><span><i>U</i></span><span><i>N</i></span><span><i>O</i></span><span><i>S</i></span><span><i>A</i></span><span><i>N</i></span><span><i>T</i></span><span><i>S</i></span>
+        </h1>
+        <div class="hero__meta">
+          <p>Fotografia autoral entre retratos, cenas do cotidiano e o universo automotivo.</p>
+          <span class="eyebrow">Portfólio 2026</span>
         </div>
       </div>
+      <span class="hero__hint">Role para explorar</span>
+    </section>
 
-      <div class="rules">
-        <h3>Uso do logotipo</h3>
-        <ul>
-          <li><span class="ok" aria-hidden="true">✓</span> Use as versões aprovadas: vermelho, preto ou branco, sobre fundos sólidos.</li>
-          <li><span class="ok" aria-hidden="true">✓</span> Mantenha a zona de exclusão livre de textos e gráficos.</li>
-          <li><span class="no" aria-hidden="true">✕</span> Não adicione sombras, contornos ou gradientes.</li>
-          <li><span class="no" aria-hidden="true">✕</span> Não incline, gire, estique ou altere a orientação.</li>
-          <li><span class="no" aria-hidden="true">✕</span> Não preencha o logotipo com padrões ou troque suas cores.</li>
-          <li><span class="no" aria-hidden="true">✕</span> Não altere a ordem das letras nem adicione objetos.</li>
-        </ul>
+    <!-- Retratos -->
+    <section class="section" id="retratos">
+      <div class="section__head" data-reveal>
+        <div>
+          <span class="eyebrow">01 — Retratos</span>
+          <h2 class="display section__title">Retratos</h2>
+        </div>
+        <p class="section__desc">Pessoas diante da câmera, com luz natural e atenção ao olhar e à postura.</p>
+      </div>
+      <div class="portrait">
+        <figure data-reveal style="margin:0">
+          <div class="frame" data-lightbox data-src="assets/img/foto-7.jpg" data-alt="Retrato de um jovem de camiseta preta diante de um muro grafitado">
+            <img src="assets/img/foto-7.jpg" alt="Retrato de um jovem de camiseta preta diante de um muro grafitado" loading="lazy">
+          </div>
+          <figcaption class="caption">Retrato urbano · muro grafitado</figcaption>
+        </figure>
+        <div class="portrait__text" data-reveal>
+          <span class="eyebrow">Série</span>
+          <h3>Olhar de rua</h3>
+          <p>Enquadramentos próximos, fundos com textura e uma luz que deixa o rosto em evidência. Cada retrato é uma conversa breve entre quem fotografa e quem é fotografado.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Life -->
+    <section class="section" id="life">
+      <div class="section__head" data-reveal>
+        <div>
+          <span class="eyebrow">02 — Life</span>
+          <h2 class="display section__title">Life</h2>
+        </div>
+        <p class="section__desc">O cotidiano da cidade e das coisas pequenas: flores, esculturas, movimento e pausas.</p>
+      </div>
+      <div class="life">
+        <figure class="life__item" data-reveal style="margin:0">
+          <div class="frame" data-lightbox data-src="assets/img/foto-4.jpg" data-alt="Rosas em tons de pêssego, amarelo e rosa">
+            <div data-parallax style="height:100%"><img src="assets/img/foto-4.jpg" alt="Rosas em tons de pêssego, amarelo e rosa" loading="lazy"></div>
+          </div>
+          <figcaption class="caption"><span>Rosas do mercado</span><span>01</span></figcaption>
+        </figure>
+        <figure class="life__item" data-reveal style="margin:0">
+          <div class="frame" data-lightbox data-src="assets/img/foto-3.jpg" data-alt="Orquídea rosada com detalhes magenta">
+            <div data-parallax style="height:100%"><img src="assets/img/foto-3.jpg" alt="Orquídea rosada com detalhes magenta" loading="lazy"></div>
+          </div>
+          <figcaption class="caption"><span>Orquídea</span><span>02</span></figcaption>
+        </figure>
+        <figure class="life__item" data-reveal style="margin:0">
+          <div class="frame" data-lightbox data-src="assets/img/foto-6.jpg" data-alt="Escultura em mármore de um bezerro abraçado por uma figura">
+            <div data-parallax style="height:100%"><img src="assets/img/foto-6.jpg" alt="Escultura em mármore de um bezerro abraçado por uma figura" loading="lazy"></div>
+          </div>
+          <figcaption class="caption"><span>Escultura em mármore</span><span>03</span></figcaption>
+        </figure>
+        <figure class="life__item" data-reveal style="margin:0">
+          <div class="frame" data-lightbox data-src="assets/img/foto-2.jpg" data-alt="Buquê de gérberas coloridas">
+            <div data-parallax style="height:100%"><img src="assets/img/foto-2.jpg" alt="Buquê de gérberas coloridas" loading="lazy"></div>
+          </div>
+          <figcaption class="caption"><span>Gérberas</span><span>04</span></figcaption>
+        </figure>
+        <figure class="life__item life__item--wide" data-reveal style="margin:0">
+          <div class="frame" data-lightbox data-src="assets/img/foto-5.jpg" data-alt="Skatista atravessando uma avenida ao entardecer">
+            <div data-parallax style="height:100%"><img src="assets/img/foto-5.jpg" alt="Skatista atravessando uma avenida ao entardecer" loading="lazy"></div>
+          </div>
+          <figcaption class="caption"><span>Movimento na cidade</span><span>05</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Automotivo -->
+    <section class="section" id="automotivo">
+      <div class="section__head" data-reveal>
+        <div>
+          <span class="eyebrow">03 — Automotivo</span>
+          <h2 class="display section__title">Automotivo</h2>
+        </div>
+        <p class="section__desc">Carros, detalhes mecânicos e a estrada em movimento.</p>
+      </div>
+      <div class="empty" data-reveal>
+        <p class="display">Em breve</p>
+        <p>Esta seção ainda não tem fotos. Assim que as imagens automotivas forem enviadas, elas entram aqui no mesmo formato da seção Life.</p>
+        <a href="mailto:brunosantsjob@gmail.com?subject=Fotos%20automotivo">Enviar fotos para a seção</a>
+      </div>
+    </section>
+
+    <!-- Sobre -->
+    <section class="section about" id="sobre">
+      <div class="section__head" data-reveal>
+        <div>
+          <span class="eyebrow">Sobre</span>
+          <h2 class="display section__title">Bruno Sants</h2>
+        </div>
+      </div>
+      <div class="about__grid">
+        <div data-reveal>
+          <p>Fotógrafo que observa a cidade e as pessoas com calma. Trabalha com retratos, cenas do cotidiano e automotivo, sempre com luz natural e um olhar próximo do que acontece.</p>
+        </div>
+        <div data-reveal>
+          <p>Esta página segue o manual de marca: vermelho alizarina como destaque, branco gelo e preto absoluto como base, e o logotipo sempre com espaço livre ao redor.</p>
+        </div>
+      </div>
+      <div class="palette" data-reveal>
+        <div class="r">Alizarina cor carmesim <small>#EE2A3B</small></div>
+        <div class="w">Branco Gelo <small>#FFFFFF</small></div>
+        <div class="b">Preto absoluto <small>#000000</small></div>
       </div>
     </section>
 
     <!-- Contato -->
-    <footer class="footer" id="contato">
-      <span class="logo" aria-hidden="true">Brunosants</span>
-      <p>Se você está tendo problemas com qualquer coisa neste guia, ou precisa de arquivos da marca, entre em contato.</p>
-      <p><a href="mailto:brunosantsjob@gmail.com">brunosantsjob@gmail.com</a></p>
+    <footer class="contact" id="contato">
+      <h2 class="display" data-reveal>Vamos<br>fazer uma<br>foto?</h2>
+      <a class="mail" href="mailto:brunosantsjob@gmail.com" data-reveal>brunosantsjob@gmail.com</a>
+      <div class="foot">
+        <span>© 2026 Bruno Sants</span>
+        <span>Retratos · Life · Automotivo</span>
+      </div>
     </footer>
   </main>
 
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+    <button class="lightbox__close" id="lbClose" aria-label="Fechar">×</button>
+    <img id="lbImg" alt="">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
     (function () {
-      var stack = document.getElementById('stack');
-      var panels = Array.prototype.slice.call(stack.querySelectorAll('.panel'));
-      var imgs = panels.map(function (p) { return p.querySelector('.panel__img'); });
-      var shades = panels.map(function (p) { return p.querySelector('.panel__shade'); });
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var ticking = false;
+      var hasGsap = typeof window.gsap !== 'undefined';
 
-      function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
-
-      function update() {
-        ticking = false;
-        var vh = window.innerHeight;
-
-        panels.forEach(function (panel, i) {
-          var rect = panel.getBoundingClientRect();
-
-          // Parallax interno: a imagem anda mais devagar que a moldura,
-          // criando a sensação de profundidade enquanto a foto entra.
-          if (!reduce) {
-            var enter = clamp(rect.top / vh, -1, 1); // 1 = entrando por baixo, 0 = fixa no topo
-            imgs[i].style.transform = 'translate3d(0,' + (enter * 60).toFixed(1) + 'px,0)';
-          }
-
-          // Cobertura: quanto a próxima foto já cobriu esta.
-          var next = panels[i + 1];
-          if (next) {
-            var covered = clamp((vh - next.getBoundingClientRect().top) / vh, 0, 1);
-            panel.style.transform = 'scale(' + (1 - covered * 0.06).toFixed(4) + ')';
-            shades[i].style.opacity = (covered * 0.75).toFixed(3);
-          }
-        });
-      }
-
-      function requestUpdate() {
-        if (!ticking) {
-          ticking = true;
-          window.requestAnimationFrame(update);
+      /* Menu: troca de cor no hover (CSS) + menu mobile */
+      var burger = document.getElementById('burger');
+      var overlay = document.getElementById('overlay');
+      function setMenu(open) {
+        document.body.classList.toggle('menu-open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+        overlay.setAttribute('aria-hidden', String(!open));
+        if (open && hasGsap && !reduce) {
+          gsap.from('.overlay a', { y: 40, opacity: 0, duration: .7, stagger: .07, ease: 'power3.out', delay: .25 });
         }
       }
+      burger.addEventListener('click', function () { setMenu(!document.body.classList.contains('menu-open')); });
+      overlay.addEventListener('click', function (e) { if (e.target.tagName === 'A') setMenu(false); });
 
-      window.addEventListener('scroll', requestUpdate, { passive: true });
-      window.addEventListener('resize', requestUpdate);
-      update();
+      /* Lightbox */
+      var lb = document.getElementById('lightbox');
+      var lbImg = document.getElementById('lbImg');
+      function openLb(src, alt) {
+        lbImg.src = src; lbImg.alt = alt;
+        lb.classList.add('is-open');
+        if (hasGsap && !reduce) gsap.fromTo(lbImg, { scale: .96, opacity: 0 }, { scale: 1, opacity: 1, duration: .5, ease: 'power3.out' });
+      }
+      function closeLb() { lb.classList.remove('is-open'); }
+      document.querySelectorAll('[data-lightbox]').forEach(function (el) {
+        el.addEventListener('click', function () { openLb(el.dataset.src, el.dataset.alt); });
+      });
+      document.getElementById('lbClose').addEventListener('click', closeLb);
+      lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { closeLb(); setMenu(false); }
+      });
+
+      /* Cabeçalho: menu com links que trocam de cor ao passar o mouse já está no CSS */
+
+      if (!hasGsap || reduce) return;
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      /* Intro do hero: letras sobem, foto recua */
+      var tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+      tl.from('.hero__word i', { yPercent: 110, duration: 1.3, stagger: .05 }, .15)
+        .from('.hero__img', { scale: 1.12, duration: 2.2, ease: 'power2.out' }, 0)
+        .from('.hero__slash', { xPercent: 20, opacity: 0, duration: 1.4 }, .3)
+        .from('.hero__meta > *, .hero__hint', { y: 18, opacity: 0, duration: .9, stagger: .1 }, .9)
+        .from('.header', { yPercent: -100, duration: .9, ease: 'power3.out' }, 0);
+
+      /* Parallax do hero ao rolar */
+      gsap.to('.hero__media', {
+        yPercent: 14, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+
+      /* Parallax das fotos da seção Life (imagem anda mais devagar que a moldura) */
+      gsap.utils.toArray('[data-parallax] img').forEach(function (img) {
+        gsap.fromTo(img, { yPercent: -8 }, {
+          yPercent: 8, ease: 'none',
+          scrollTrigger: { trigger: img.closest('.life__item'), start: 'top bottom', end: 'bottom top', scrub: true }
+        });
+      });
+
+      /* Revelação de blocos com intenção: sobem e aparecem uma vez */
+      gsap.utils.toArray('[data-reveal]').forEach(function (el) {
+        gsap.from(el, {
+          y: 60, opacity: 0, duration: 1.1, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+        });
+      });
+
+      /* Títulos de seção: letras sobem em sequência */
+      gsap.utils.toArray('.section__title').forEach(function (t) {
+        gsap.from(t, {
+          clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'power4.out',
+          scrollTrigger: { trigger: t, start: 'top 90%', once: true }
+        });
+      });
+
+      window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     })();
   </script>
 </body>
