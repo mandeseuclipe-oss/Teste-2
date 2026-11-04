@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bruno Sant's | Guia de Identidade e Galeria</title>
+  <meta name="description" content="Bruno Sant's: galeria em parallax e identidade visual da marca.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --alizarina: #EE2A3B;   /* Alizarina cor carmesim */
+      --branco-gelo: #FFFFFF; /* Branco Gelo */
+      --preto: #000000;       /* Preto absoluto */
+      --gutter: 16px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--preto);
+      color: var(--branco-gelo);
+      font-family: "Montserrat", system-ui, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ---------- Logotipo (recriação tipográfica provisória) ---------- */
+    .logo {
+      font-family: "Bebas Neue", "Montserrat", sans-serif;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ---------- Cabeçalho ---------- */
+    .topbar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px var(--gutter);
+      background: linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,0));
+    }
+    .topbar .logo { font-size: 26px; color: var(--branco-gelo); text-decoration: none; }
+    .topbar nav { display: flex; gap: 18px; font-size: 13px; font-weight: 600; }
+    .topbar nav a { text-decoration: none; opacity: .85; }
+    .topbar nav a:hover { color: var(--alizarina); opacity: 1; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      padding: 0 var(--gutter) 48px;
+      background: var(--preto);
+    }
+    .hero__slash {
+      position: absolute;
+      top: 0;
+      right: -10%;
+      width: 75%;
+      height: 100%;
+      background: var(--alizarina);
+      clip-path: polygon(38% 0, 100% 0, 100% 100%, 0 100%, 26% 64%, 40% 58%, 40% 40%, 14% 16%);
+      opacity: .95;
+    }
+    .hero__content { position: relative; z-index: 2; max-width: 900px; }
+    .hero__logo { font-size: clamp(64px, 17vw, 200px); margin: 0; color: var(--branco-gelo); }
+    .hero__sub {
+      margin: 10px 0 0;
+      font-size: clamp(14px, 3.4vw, 20px);
+      font-weight: 700;
+      color: var(--alizarina);
+      letter-spacing: .02em;
+    }
+    .hero__lead {
+      max-width: 42ch;
+      margin: 14px 0 0;
+      font-size: 15px;
+      line-height: 1.6;
+      opacity: .9;
+    }
+    .hero__scroll {
+      position: absolute;
+      right: var(--gutter);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .25em;
+      writing-mode: vertical-rl;
+      text-transform: uppercase;
+      opacity: .8;
+    }
+
+    /* ---------- Galeria em parallax (fotos empilhadas) ---------- */
+    .stack-intro {
+      padding: 80px var(--gutter) 40px;
+      background: var(--preto);
+    }
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--alizarina);
+    }
+    .h2 {
+      margin: 10px 0 0;
+      font-size: clamp(32px, 8vw, 64px);
+      font-weight: 800;
+      line-height: 1.05;
+    }
+    .stack-intro p { max-width: 52ch; line-height: 1.6; opacity: .85; font-size: 15px; }
+
+    .stack { position: relative; background: var(--preto); }
+    .panel {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      height: 100svh;
+      overflow: hidden;
+      background: var(--preto);
+      transform-origin: 50% 0;
+      will-change: transform;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .panel:nth-child(1) { z-index: 1; }
+    .panel:nth-child(2) { z-index: 2; }
+    .panel:nth-child(3) { z-index: 3; }
+    .panel:nth-child(4) { z-index: 4; }
+    .panel:nth-child(5) { z-index: 5; }
+    .panel:nth-child(6) { z-index: 6; }
+    .panel:nth-child(7) { z-index: 7; }
+    .panel__frame {
+      position: absolute;
+      inset: -12% 0;          /* folga para o efeito de parallax */
+      overflow: hidden;
+    }
+    .panel__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      will-change: transform;
+    }
+    .panel__shade {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .panel__caption {
+      position: absolute;
+      left: var(--gutter);
+      right: var(--gutter);
+      bottom: 28px;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .panel__num {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(64px, 16vw, 140px);
+      line-height: .85;
+      color: var(--alizarina);
+      margin: 0;
+    }
+    .panel__title {
+      margin: 0;
+      font-size: clamp(16px, 3.6vw, 22px);
+      font-weight: 800;
+      text-align: right;
+      text-shadow: 0 1px 12px rgba(0,0,0,.6);
+    }
+    .panel__bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--alizarina);
+      z-index: 2;
+    }
+
+    /* ---------- Identidade (fundo claro, como no manual) ---------- */
+    .brand {
+      background: var(--branco-gelo);
+      color: var(--preto);
+      padding: 88px var(--gutter);
+    }
+    .brand .h2 { color: var(--preto); }
+    .brand__grid {
+      display: grid;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .brand__text p { line-height: 1.7; font-size: 15px; max-width: 56ch; }
+
+    .swatches {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .swatch {
+      min-height: 150px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      font-weight: 800;
+    }
+    .swatch small { font-weight: 600; font-size: 12px; opacity: .8; letter-spacing: .04em; }
+    .swatch--red   { background: var(--alizarina); color: var(--branco-gelo); }
+    .swatch--white { background: var(--branco-gelo); color: var(--preto); border: 1px solid #ddd; }
+    .swatch--black { background: var(--preto); color: var(--branco-gelo); }
+
+    .rules { margin-top: 56px; }
+    .rules h3 { font-size: 20px; margin: 0 0 16px; }
+    .rules ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+    .rules li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .rules .ok, .rules .no {
+      flex: 0 0 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--branco-gelo);
+    }
+    .rules .ok { background: #1f9d55; }
+    .rules .no { background: var(--alizarina); }
+
+    /* ---------- Rodapé ---------- */
+    .footer {
+      background: var(--alizarina);
+      color: var(--branco-gelo);
+      padding: 72px var(--gutter) 56px;
+    }
+    .footer .logo { font-size: clamp(48px, 12vw, 96px); }
+    .footer p { max-width: 44ch; line-height: 1.6; font-size: 15px; }
+    .footer a { font-weight: 700; font-size: 17px; text-decoration: none; border-bottom: 2px solid var(--preto); }
+    .footer a:hover { color: var(--preto); }
+
+    /* ---------- Telas maiores ---------- */
+    @media (min-width: 768px) {
+      :root { --gutter: 40px; }
+      .topbar { padding: 20px var(--gutter); }
+      .topbar .logo { font-size: 34px; }
+      .hero__scroll { display: block; }
+      .brand__grid { grid-template-columns: 1fr 1.2fr; align-items: start; }
+      .swatches { grid-template-columns: repeat(3, 1fr); }
+      .rules ul { grid-template-columns: 1fr 1fr; }
+      .panel__caption { bottom: 48px; }
+    }
+    @media (max-width: 767px) {
+      .hero__scroll { display: none; }
+      .topbar nav a:not(.cta) { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .panel__img { transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="logo" href="#topo" aria-label="Bruno Sant's">Brunosants</a>
+    <nav aria-label="Principal">
+      <a href="#galeria">Galeria</a>
+      <a href="#identidade">Identidade</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="topo">
+      <div class="hero__slash" aria-hidden="true"></div>
+      <div class="hero__content">
+        <h1 class="logo hero__logo" aria-label="Bruno Sant's">Brunosants</h1>
+        <p class="hero__sub">Guia de identidade &amp; galeria</p>
+        <p class="hero__lead">Imagens do que está ao redor: flores, ruas, esculturas e pessoas, vistas de perto e em camadas.</p>
+      </div>
+      <span class="hero__scroll" aria-hidden="true">Role para ver</span>
+    </section>
+
+    <!-- Galeria -->
+    <section class="stack-intro" id="galeria">
+      <span class="eyebrow">Galeria</span>
+      <h2 class="h2">Uma imagem atrás da outra</h2>
+      <p>Role a página: cada foto sobe por cima da anterior, e o fundo se move em outra velocidade para criar profundidade.</p>
+    </section>
+
+    <div class="stack" id="stack">
+      <article class="panel">
+        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-1.jpg" alt="Flores laranja e vermelhas de kalanchoe em vaso"></div>
+        <div class="panel__shade"></div>
+        <div class="panel__caption"><p class="panel__num">01</p><h3 class="panel__title">Kalanchoe em vermelho</h3></div>
+      </article>
+      <article class="panel">
+        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-2.jpg" alt="Buquê de gérberas brancas, amarelas, vermelhas e rosa"></div>
+        <div class="panel__shade"></div>
+        <div class="panel__caption"><p class="panel__num">02</p><h3 class="panel__title">Gérberas coloridas</h3></div>
+      </article>
+      <article class="panel">
+        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-3.jpg" alt="Orquídea cymbidium em tons rosados com detalhes magenta"></div>
+        <div class="panel__shade"></div>
+        <div class="panel__caption"><p class="panel__num">03</p><h3 class="panel__title">Orquídea rosada</h3></div>
+      </article>
+      <article class="panel">
+        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-4.jpg" alt="Rosas em tons de pêssego, amarelo e rosa no mercado de flores"></div>
+        <div class="panel__shade"></div>
+        <div class="panel__caption"><p class="panel__num">04</p><h3 class="panel__title">Rosas do mercado</h3></div>
+      </article>
+      <article class="panel">
+        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-5.jpg" alt="Skatista atravessando uma avenida ao entardecer"></div>
+        <div class="panel__shade"></div>
+        <div class="panel__caption"><p class="panel__num">05</p><h3 class="panel__title">Movimento na cidade</h3></div>
+      </article>
+      <article class="panel">
+        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-6.jpg" alt="Escultura em mármore de um bezerro abraçado por uma figura"></div>
+        <div class="panel__shade"></div>
+        <div class="panel__caption"><p class="panel__num">06</p><h3 class="panel__title">Escultura em mármore</h3></div>
+      </article>
+      <article class="panel">
+        <div class="panel__frame"><img class="panel__img" src="assets/img/foto-7.jpg" alt="Retrato de um jovem de camiseta preta diante de um muro grafitado"></div>
+        <div class="panel__shade"></div>
+        <div class="panel__caption"><p class="panel__num">07</p><h3 class="panel__title">Retrato urbano</h3></div>
+      </article>
+    </div>
+
+    <!-- Identidade -->
+    <section class="brand" id="identidade">
+      <span class="eyebrow">Manual de marca</span>
+      <h2 class="h2">Cores e uso do logotipo</h2>
+      <div class="brand__grid">
+        <div class="brand__text">
+          <p>A identidade Bruno Sant's usa três cores, sempre em alto contraste: o vermelho alizarina como cor de destaque, o branco gelo e o preto absoluto como base.</p>
+          <p>O logotipo precisa de espaço livre ao redor, de 100 a 150% da altura da marca, para não competir com textos e imagens.</p>
+        </div>
+        <div class="swatches" role="list">
+          <div class="swatch swatch--red" role="listitem">Alizarina cor carmesim <small>#EE2A3B</small></div>
+          <div class="swatch swatch--white" role="listitem">Branco Gelo <small>#FFFFFF</small></div>
+          <div class="swatch swatch--black" role="listitem">Preto absoluto <small>#000000</small></div>
+        </div>
+      </div>
+
+      <div class="rules">
+        <h3>Uso do logotipo</h3>
+        <ul>
+          <li><span class="ok" aria-hidden="true">✓</span> Use as versões aprovadas: vermelho, preto ou branco, sobre fundos sólidos.</li>
+          <li><span class="ok" aria-hidden="true">✓</span> Mantenha a zona de exclusão livre de textos e gráficos.</li>
+          <li><span class="no" aria-hidden="true">✕</span> Não adicione sombras, contornos ou gradientes.</li>
+          <li><span class="no" aria-hidden="true">✕</span> Não incline, gire, estique ou altere a orientação.</li>
+          <li><span class="no" aria-hidden="true">✕</span> Não preencha o logotipo com padrões ou troque suas cores.</li>
+          <li><span class="no" aria-hidden="true">✕</span> Não altere a ordem das letras nem adicione objetos.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <footer class="footer" id="contato">
+      <span class="logo" aria-hidden="true">Brunosants</span>
+      <p>Se você está tendo problemas com qualquer coisa neste guia, ou precisa de arquivos da marca, entre em contato.</p>
+      <p><a href="mailto:brunosantsjob@gmail.com">brunosantsjob@gmail.com</a></p>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      var stack = document.getElementById('stack');
+      var panels = Array.prototype.slice.call(stack.querySelectorAll('.panel'));
+      var imgs = panels.map(function (p) { return p.querySelector('.panel__img'); });
+      var shades = panels.map(function (p) { return p.querySelector('.panel__shade'); });
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var ticking = false;
+
+      function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
+
+      function update() {
+        ticking = false;
+        var vh = window.innerHeight;
+
+        panels.forEach(function (panel, i) {
+          var rect = panel.getBoundingClientRect();
+
+          // Parallax interno: a imagem anda mais devagar que a moldura,
+          // criando a sensação de profundidade enquanto a foto entra.
+          if (!reduce) {
+            var enter = clamp(rect.top / vh, -1, 1); // 1 = entrando por baixo, 0 = fixa no topo
+            imgs[i].style.transform = 'translate3d(0,' + (enter * 60).toFixed(1) + 'px,0)';
+          }
+
+          // Cobertura: quanto a próxima foto já cobriu esta.
+          var next = panels[i + 1];
+          if (next) {
+            var covered = clamp((vh - next.getBoundingClientRect().top) / vh, 0, 1);
+            panel.style.transform = 'scale(' + (1 - covered * 0.06).toFixed(4) + ')';
+            shades[i].style.opacity = (covered * 0.75).toFixed(3);
+          }
+        });
+      }
+
+      function requestUpdate() {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(update);
+        }
+      }
+
+      window.addEventListener('scroll', requestUpdate, { passive: true });
+      window.addEventListener('resize', requestUpdate);
+      update();
+    })();
+  </script>
+</body>
+</html>
