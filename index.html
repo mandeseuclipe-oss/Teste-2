@@ -81,7 +81,8 @@
     /* ---------- Hero ---------- */
     .hero { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; }
     .hero__media { position: absolute; inset: -8% 0; }
-    .hero__img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: saturate(.9); }
+    .hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: saturate(.9); }
+    .hero__img:not(:first-child) { opacity: 0; }
     .hero::after {
       content: ""; position: absolute; inset: 0;
       background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.5) 100%);
@@ -222,8 +223,10 @@
     <!-- Hero -->
     <section class="hero" aria-label="Apresentação">
       <div class="hero__media" data-hero>
-        <!-- Imagem de fundo do hero: trocar o src quando a nova foto chegar -->
+        <!-- Fundo do hero: 3 fotos que se alternam com fade. Trocar o src de cada uma quando necessário -->
         <img class="hero__img" src="assets/img/foto-1.jpg" alt="Gérberas e flores em tons vermelhos, amarelos e brancos">
+        <img class="hero__img" src="assets/img/automotivo-1.jpg" alt="Carro de competição número 12 em pista">
+        <img class="hero__img" src="assets/img/foto-7.jpg" alt="Retrato de um jovem de camiseta preta diante de um muro grafitado">
       </div>
       <div class="hero__content">
         <h1 class="display hero__word" aria-label="Bruno Sants">
@@ -424,6 +427,16 @@
         .from('.hero__img', { scale: 1.12, duration: 2.2, ease: 'power2.out' }, 0)
         .from('.hero__meta > *, .hero__hint', { y: 18, opacity: 0, duration: .9, stagger: .1 }, .9)
         .from('.header', { yPercent: -100, duration: .9, ease: 'power3.out' }, 0);
+
+      /* Fundo do hero: fotos alternam com fade (a primeira fica como base) */
+      var heroLayers = gsap.utils.toArray('.hero__img');
+      if (heroLayers.length > 1) {
+        var cycle = gsap.timeline({ repeat: -1, defaults: { ease: 'power1.inOut' } });
+        cycle.to(heroLayers[1], { opacity: 1, duration: 1.4 }, 4)
+             .to(heroLayers[2], { opacity: 1, duration: 1.4 }, 8)
+             .to(heroLayers[2], { opacity: 0, duration: 1.2 }, 12)
+             .to(heroLayers[1], { opacity: 0, duration: 1.2 }, 12.8);
+      }
 
       /* Parallax do hero ao rolar */
       gsap.to('.hero__media', {
