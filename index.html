@@ -5,18 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
   <title>Bruno Sants | Fotografia</title>
-  <meta name="description" content="Portfólio do fotógrafo Bruno Sants: Retratos, Life e Automotivo.">
+  <meta name="description" content="Bruno Sants, fotógrafo. Retratos, cenas do cotidiano e automotivo.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bruno Sants | Fotografia">
+  <meta property="og:description" content="Retratos, cenas do cotidiano e automotivo.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
   <style>
     :root {
       --alizarina: #EE2A3B;   /* Alizarina cor carmesim (manual de marca) */
       --gelo: #FFFFFF;        /* Branco Gelo */
       --preto: #000000;       /* Preto absoluto */
-      --cinza: #8a8a8a;
+      --cinza: #8c8c8c;
+      --linha: rgba(255,255,255,.14);
       --gutter: 16px;
       --ease: cubic-bezier(.2,.7,.1,1);
+      --ease-soft: cubic-bezier(.45,.05,.2,1);
     }
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
@@ -28,190 +34,218 @@
       overflow-x: clip;
       -webkit-font-smoothing: antialiased;
     }
-    img { display: block; max-width: 100%; }
+    img { display: block; max-width: 100%; height: auto; }
     a { color: inherit; }
     button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-    .display { font-family: "Bebas Neue", "Montserrat", sans-serif; letter-spacing: .04em; line-height: .9; text-transform: uppercase; }
-    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--alizarina); }
-    .muted { color: var(--cinza); }
+    .display { font-family: "Bebas Neue", "Montserrat", sans-serif; letter-spacing: .03em; line-height: .88; text-transform: uppercase; font-weight: 400; }
+    .serif { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-weight: 500; }
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--gelo); opacity: .7; }
+    .eyebrow b { color: var(--alizarina); font-weight: 700; margin-right: 10px; }
+    .section { position: relative; padding: clamp(96px, 14vw, 200px) var(--gutter); }
+    .section__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(48px, 8vw, 120px); }
+    .section__title { font-size: clamp(88px, 17vw, 260px); margin: 14px 0 0; }
+    .section__desc { max-width: 34ch; margin: 0; font-size: 15px; line-height: 1.65; color: var(--cinza); }
 
-    /* ---------- Menu ---------- */
+    /* Indicador de progresso */
+    .progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: transparent; z-index: 150; pointer-events: none; }
+    .progress span { display: block; height: 100%; width: 100%; background: var(--alizarina); transform-origin: 0 50%; transform: scaleX(0); }
+
+    /* Cabeçalho e menu */
     .header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: calc(env(safe-area-inset-top) + 16px) var(--gutter) 16px;
+      padding: calc(env(safe-area-inset-top) + 18px) var(--gutter) 18px;
       mix-blend-mode: difference;
     }
-    .brand { font-size: 28px; text-decoration: none; color: var(--gelo); }
-    .nav { display: flex; gap: 28px; }
+    .brand { font-family: "Bebas Neue", sans-serif; font-size: 28px; letter-spacing: .05em; text-decoration: none; color: var(--gelo); }
+    .nav { display: flex; gap: 30px; }
     .nav a {
-      position: relative;
-      font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+      position: relative; padding: 6px 0;
+      font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
       text-decoration: none; color: var(--gelo);
       transition: color .35s var(--ease);
-      padding: 6px 0;
     }
     .nav a::after {
       content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
       background: var(--alizarina);
       transform: scaleX(0); transform-origin: right;
-      transition: transform .45s var(--ease);
+      transition: transform .4s var(--ease);
     }
-    .nav a:hover, .nav a:focus-visible { color: var(--alizarina); outline: none; }
-    .nav a:hover::after, .nav a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+    .nav a:hover, .nav a:focus-visible, .nav a.is-active { color: var(--alizarina); outline: none; }
+    .nav a:hover::after, .nav a:focus-visible::after, .nav a.is-active::after { transform: scaleX(1); transform-origin: left; }
     .burger { display: none; width: 44px; height: 44px; position: relative; }
     .burger span { position: absolute; left: 10px; right: 10px; height: 2px; background: var(--gelo); transition: transform .4s var(--ease), opacity .3s; }
     .burger span:nth-child(1) { top: 16px; }
     .burger span:nth-child(2) { top: 26px; }
     .menu-open .burger span:nth-child(1) { transform: translateY(5px) rotate(45deg); }
     .menu-open .burger span:nth-child(2) { transform: translateY(-5px) rotate(-45deg); }
-
     .overlay {
       position: fixed; inset: 0; z-index: 90; background: var(--preto);
-      display: flex; flex-direction: column; justify-content: center; gap: 8px;
-      padding: 0 var(--gutter);
-      clip-path: circle(0% at calc(100% - 36px) 36px);
-      transition: clip-path .8s var(--ease);
-      pointer-events: none;
+      display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 0 var(--gutter); overflow: hidden;
+      clip-path: circle(0% at calc(100% - 36px) 36px); transition: clip-path .8s var(--ease); pointer-events: none;
     }
     .menu-open .overlay { clip-path: circle(150% at calc(100% - 36px) 36px); pointer-events: auto; }
-    .overlay a { font-family: "Bebas Neue", sans-serif; font-size: clamp(56px, 18vw, 96px); text-decoration: none; line-height: 1; color: var(--gelo); transition: color .3s; }
+    .overlay a { font-family: "Bebas Neue", sans-serif; font-size: clamp(44px, 14vw, 96px); line-height: 1; text-decoration: none; transition: color .3s; }
     .overlay a:hover { color: var(--alizarina); }
 
-    /* ---------- Hero ---------- */
+    /* Hero */
     .hero { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; }
-    .hero__media { position: absolute; inset: -8% 0; }
-    .hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: saturate(.9); }
+    .hero__media { position: absolute; inset: -8% 0; will-change: transform; }
+    .hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
     .hero__img:not(:first-child) { opacity: 0; }
-    .hero::after {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.5) 100%);
-    }
-    .hero__content { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: calc(env(safe-area-inset-bottom) + 40px); }
+    .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.5) 100%); }
+    .hero__content { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: calc(env(safe-area-inset-bottom) + 44px); }
     .hero__word { display: flex; flex-wrap: wrap; font-size: clamp(64px, 17vw, 230px); margin: 0; }
     .hero__word span { display: inline-block; overflow: hidden; }
-    .hero__word span > i { display: inline-block; font-style: normal; }
+    .hero__word i { display: inline-block; font-style: normal; }
     .hero__meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
     .hero__meta p { margin: 0; max-width: 40ch; font-size: 15px; line-height: 1.55; opacity: .9; }
-    .hero__hint { position: absolute; z-index: 2; right: var(--gutter); top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: right center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .7; }
+    .hero__scroll { position: absolute; z-index: 2; right: var(--gutter); bottom: calc(env(safe-area-inset-bottom) + 50px); width: 1px; height: 64px; background: var(--linha); overflow: hidden; }
+    .hero__scroll span { position: absolute; left: 0; top: 0; width: 1px; height: 24px; background: var(--gelo); animation: drop 2.2s var(--ease-soft) infinite; }
+    @keyframes drop { 0% { transform: translateY(-24px); } 100% { transform: translateY(64px); } }
 
-    /* ---------- Seções ---------- */
-    .section { padding: 120px var(--gutter); }
-    .section__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; }
-    .section__title { font-size: clamp(64px, 12vw, 160px); margin: 8px 0 0; }
-    .section__desc { max-width: 40ch; margin: 0; font-size: 15px; line-height: 1.6; color: var(--cinza); }
+    /* Mosaico editorial: colunas de 12 com posições explícitas */
+    .mosaic { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(12px, 2vw, 32px); row-gap: clamp(40px, 6vw, 96px); align-items: start; }
+    .mosaic__item { grid-column: var(--c, 1 / -1); margin-top: var(--m, 0); margin-block: 0; }
+    .mosaic__item--tall { --tall: 1; }
 
-    /* Retratos: foto grande com legenda */
-    .portrait { display: grid; gap: 32px; align-items: center; }
-    .frame { position: relative; overflow: hidden; background: #111; cursor: zoom-in; }
-    .frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
-    .frame:hover img { transform: scale(1.03); }
-    .portrait .frame { aspect-ratio: 4 / 5; }
-    .frame--slot { display: grid; place-items: center; background: transparent; border: 1px dashed rgba(255,255,255,.25); cursor: default; }
-    .frame--slot:hover img { transform: none; }
-    .caption { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cinza); margin-top: 12px; }
-    .portrait__text h3 { font-family: "Bebas Neue", sans-serif; font-size: clamp(48px, 7vw, 96px); margin: 0; line-height: .9; }
-    .portrait__text p { font-size: 16px; line-height: 1.7; color: #cfcfcf; max-width: 44ch; }
-
-    /* Life: grade com parallax */
-    .life { display: grid; grid-template-columns: 1fr; gap: 16px; }
-    .life__item { position: relative; overflow: hidden; }
-    .life__item .frame { aspect-ratio: 4 / 5; }
-    .life__item img { height: 118%; margin-top: -9%; will-change: transform; }
-    .life__item .frame:hover img { transform: scale(1.03); }
-    .life__item--wide .frame { aspect-ratio: 4 / 3; }
-    .life__item .caption { display: flex; justify-content: space-between; }
-
-    /* Automotivo: estado vazio honesto */
-    .empty {
-      border: 1px dashed rgba(255,255,255,.25);
-      padding: clamp(40px, 8vw, 96px) var(--gutter);
-      text-align: center;
-      display: grid; gap: 14px; justify-items: center;
+    /* Moldura de foto: preserva a proporção original */
+    .frame { position: relative; overflow: hidden; cursor: zoom-in; background: #0b0b0b; outline-offset: 6px; }
+    .frame:focus-visible { outline: 1px solid var(--alizarina); }
+    .frame img { width: 100%; height: auto; transition: transform 1.4s var(--ease); }
+    .frame:hover img { transform: scale(1.025); }
+    .frame .pz { will-change: transform; }
+    .frame__hint {
+      position: absolute; top: 14px; right: 14px; z-index: 2;
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,.7);
+      display: grid; place-items: center; font-size: 20px; line-height: 1; color: var(--gelo);
+      opacity: 0; transform: scale(.8) rotate(-45deg);
+      transition: opacity .35s var(--ease), transform .45s var(--ease), background .3s, border-color .3s;
+      pointer-events: none;
     }
-    .empty .display { font-size: clamp(48px, 9vw, 110px); margin: 0; }
-    .empty p { margin: 0; max-width: 46ch; color: var(--cinza); line-height: 1.6; }
-    .empty a { margin-top: 8px; font-weight: 700; color: var(--alizarina); text-decoration: none; border-bottom: 2px solid currentColor; padding-bottom: 2px; }
-    .empty a:hover { color: var(--gelo); }
-    .auto-grid { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
-    .auto-item--wide { grid-column: 1 / -1; }
+    .frame:hover .frame__hint, .frame:focus-visible .frame__hint { opacity: 1; transform: scale(1) rotate(0); }
+    .frame:hover .frame__hint { background: var(--alizarina); border-color: var(--alizarina); }
+    @media (hover: none) { .frame__hint { opacity: .85; transform: none; } }
+
+    /* Espaço reservado para foto ainda não enviada */
+    .slot {
+      aspect-ratio: 4 / 5; display: grid; place-items: center; text-align: center; padding: 24px;
+      border: 1px dashed rgba(255,255,255,.28); background: transparent; color: var(--cinza);
+      font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; line-height: 1.8;
+    }
+    .slot--wide { aspect-ratio: 16 / 9; }
+
+    /* Retratos */
+    .retratos .mosaic__item .frame { background: transparent; }
+    .retratos__text { margin-top: clamp(48px, 7vw, 96px); max-width: 36ch; }
+    .retratos__text p { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.45; margin: 0; }
+
+    /* Life */
+    .life .mosaic__item .frame { background: transparent; }
+
+    /* Automotivo: abertura panorâmica + galeria independente */
+    .auto-open { position: relative; height: 78vh; height: 78svh; min-height: 420px; overflow: hidden; }
+    .auto-open .frame { position: absolute; inset: -8% 0; cursor: zoom-in; }
+    .auto-open .frame img { height: 100%; object-fit: cover; }
+    .auto-open__title { position: absolute; z-index: 2; left: var(--gutter); bottom: 28px; pointer-events: none; }
+    .auto-open__title h2 { font-size: clamp(80px, 16vw, 240px); margin: 10px 0 0; }
+    .auto-band { overflow: hidden; white-space: nowrap; padding: 28px 0; border-top: 1px solid var(--linha); border-bottom: 1px solid var(--linha); }
+    .auto-band__track { display: inline-block; will-change: transform; }
+    .auto-band__track span { display: inline-block; font-family: "Bebas Neue", sans-serif; font-size: clamp(56px, 9vw, 130px); line-height: 1; padding-right: 0.5em; color: var(--gelo); }
+    .auto-band__track em { font-style: normal; color: var(--alizarina); padding-right: 0.5em; }
+    .auto .section__head { margin-top: clamp(64px, 9vw, 120px); }
 
     /* Sobre */
-    .about { background: var(--gelo); color: var(--preto); }
-    .about .section__desc { color: #444; }
-    .about__grid { display: grid; gap: 40px; }
-    .about__grid p { font-size: 17px; line-height: 1.75; margin: 0; max-width: 56ch; }
-    .palette { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 56px; }
-    .palette div { height: 180px; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; font-weight: 700; font-size: 14px; }
-    .palette small { font-weight: 500; opacity: .75; font-size: 12px; }
-    .palette .r { background: var(--alizarina); color: var(--gelo); }
-    .palette .w { background: var(--gelo); color: var(--preto); box-shadow: inset 0 0 0 1px #ddd; }
-    .palette .b { background: var(--preto); color: var(--gelo); }
+    .sobre { background: var(--gelo); color: var(--preto); }
+    .sobre .section__desc { color: #4a4a4a; }
+    .sobre .eyebrow { color: var(--preto); }
+    .sobre__grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; }
+    .sobre__grid .slot { color: #6b6b6b; border-color: rgba(0,0,0,.25); }
+    .sobre__text h2 { font-size: clamp(72px, 12vw, 180px); margin: 14px 0 28px; color: var(--preto); }
+    .sobre__text p { font-size: 17px; line-height: 1.7; margin: 0 0 18px; max-width: 46ch; }
+    .sobre__text p.serif { font-size: clamp(22px, 2.6vw, 30px); line-height: 1.4; }
+    .sobre .serif { color: var(--preto); }
 
     /* Contato */
-    .contact { background: var(--alizarina); padding: 120px var(--gutter) 64px; }
-    .contact h2 { font-size: clamp(72px, 15vw, 220px); margin: 0; line-height: .85; }
-    .contact a.mail { display: inline-block; margin-top: 32px; font-size: clamp(18px, 3vw, 28px); font-weight: 700; color: var(--gelo); text-decoration: none; border-bottom: 2px solid var(--preto); }
-    .contact a.mail:hover { color: var(--preto); }
-    .foot { margin-top: 80px; display: flex; justify-content: space-between; gap: 16px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; flex-wrap: wrap; }
+    .contato { background: var(--preto); padding: clamp(110px, 16vw, 220px) var(--gutter) 48px; border-top: 1px solid var(--linha); }
+    .contato__title { font-size: clamp(80px, 15vw, 230px); margin: 0; }
+    .contato__title .serif { font-size: .7em; text-transform: none; letter-spacing: 0; color: var(--alizarina); line-height: 1; }
+    .contato__list { list-style: none; padding: 0; margin: clamp(48px, 7vw, 96px) 0 0; border-top: 1px solid var(--linha); }
+    .contato__list li { border-bottom: 1px solid var(--linha); }
+    .contato__list a, .contato__list span {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 22px 0; text-decoration: none;
+      font-family: "Bebas Neue", sans-serif; font-size: clamp(26px, 7vw, 84px); line-height: 1; letter-spacing: .02em; min-width: 0; overflow-wrap: anywhere;
+      transition: color .35s var(--ease), padding-left .5s var(--ease);
+    }
+    .contato__list a:hover, .contato__list a:focus-visible { color: var(--alizarina); padding-left: 14px; outline: none; }
+    .contato__list small { font-family: "Montserrat", sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--cinza); }
+    .contato__list .is-pending { color: var(--cinza); }
+    .contato__cta {
+      display: inline-flex; align-items: center; gap: 12px; margin-top: 48px;
+      padding: 18px 28px; border: 1px solid var(--gelo); border-radius: 999px;
+      font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; text-decoration: none;
+      transition: background .35s var(--ease), color .35s var(--ease), border-color .35s;
+    }
+    .contato__cta:hover, .contato__cta:focus-visible { background: var(--alizarina); border-color: var(--alizarina); outline: none; }
+    .foot { margin-top: clamp(80px, 12vw, 160px); display: flex; justify-content: space-between; gap: 16px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--cinza); flex-wrap: wrap; }
 
     /* Lightbox */
-    .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.94); display: none; align-items: center; justify-content: center; padding: 24px; }
+    .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.94); display: none; align-items: center; justify-content: center; padding: 56px 64px; }
     .lightbox.is-open { display: flex; }
-    .lightbox img { max-width: 100%; max-height: 88vh; object-fit: contain; }
-    .lightbox__close { position: absolute; top: 16px; right: var(--gutter); font-size: 36px; line-height: 1; padding: 8px; }
-    .lightbox__close:hover { color: var(--alizarina); }
+    .lightbox img { max-width: 100%; max-height: calc(100svh - 112px); width: auto; height: auto; object-fit: contain; user-select: none; -webkit-user-drag: none; }
+    .lightbox__btn { position: absolute; z-index: 3; width: 48px; height: 48px; display: grid; place-items: center; font-size: 30px; line-height: 1; border-radius: 50%; transition: color .3s, background .3s; }
+    .lightbox__btn:hover, .lightbox__btn:focus-visible { color: var(--alizarina); outline: none; }
+    .lightbox__close { top: 12px; right: 12px; }
+    .lightbox__prev { left: 8px; top: 50%; transform: translateY(-50%); }
+    .lightbox__next { right: 8px; top: 50%; transform: translateY(-50%); }
+    .lightbox__count { position: absolute; left: var(--gutter); bottom: 18px; font-size: 12px; letter-spacing: .18em; color: var(--cinza); }
 
-    /* Fotos em proporção original (sem recorte) */
-    .frame--natural, .portrait .frame--natural, .life__item .frame--natural { aspect-ratio: auto; background: transparent; }
-    .frame--natural img, .life__item--natural img { height: auto; margin-top: 0; }
+    /* Reveal de títulos (máscara) */
+    .mask { display: block; overflow: hidden; }
+    .mask > span { display: inline-block; }
 
-    /* ---------- Telas maiores ---------- */
+    /* Telas maiores */
     @media (min-width: 768px) {
       :root { --gutter: 48px; }
-      .portrait { grid-template-columns: 1.1fr .9fr; }
-      .life { grid-template-columns: repeat(12, 1fr); }
-      .life__item:nth-child(1) { grid-column: span 7; }
-      .life__item:nth-child(2) { grid-column: span 5; margin-top: 120px; }
-      .life__item:nth-child(3) { grid-column: span 5; }
-      .life__item:nth-child(4) { grid-column: span 7; margin-top: 80px; }
-      .life__item:nth-child(5) { grid-column: span 12; }
-      .life__item:nth-child(5) .frame { aspect-ratio: 21 / 9; }
-      .life__item:nth-child(6) { grid-column: span 5; }
-      .life__item:nth-child(7) { grid-column: span 7; margin-top: 120px; }
-      .about__grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 899px) {
-      .nav { display: none; }
-      .burger { display: block; }
+      .sobre__grid { grid-template-columns: 5fr 6fr; gap: clamp(48px, 8vw, 128px); }
     }
     @media (min-width: 900px) {
       .burger { display: none; }
     }
-    @media (min-width: 768px) {
-      .auto-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    @media (max-width: 899px) {
+      .nav { display: none; }
+      .burger { display: block; }
+      .mosaic { grid-template-columns: 1fr; }
+      .mosaic__item { grid-column: 1 / -1 !important; margin-top: 0 !important; }
+      .mosaic__item + .mosaic__item { margin-top: 40px !important; }
+      .hero__scroll { display: none; }
+      .lightbox { padding: 56px 16px; }
+      .lightbox__prev { left: 0; }
+      .lightbox__next { right: 0; }
     }
     @media (max-width: 767px) {
-      .hero__hint { display: none; }
-      .section { padding: 88px var(--gutter); }
-      .palette div { height: 130px; }
+      .slot { aspect-ratio: 4 / 5; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      *, *::before, *::after { transition-duration: .01ms !important; }
+      *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+      .hero__img:not(:first-child) { opacity: 0; }
     }
   </style>
 </head>
 <body>
 
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
   <header class="header" id="header">
-    <a class="brand display" href="#topo" aria-label="Bruno Sants, início">Brunosants</a>
+    <a class="brand" href="#topo" aria-label="Bruno Sants, início">Brunosants</a>
     <nav class="nav" aria-label="Principal">
-      <a href="#retratos">Retratos</a>
-      <a href="#life">Life</a>
-      <a href="#automotivo">Automotivo</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#contato">Contato</a>
+      <a href="#retratos" data-nav="retratos">Retratos</a>
+      <a href="#life" data-nav="life">Life</a>
+      <a href="#automotivo" data-nav="automotivo">Automotivo</a>
+      <a href="#sobre" data-nav="sobre">Sobre</a>
+      <a href="#contato" data-nav="contato">Contato</a>
     </nav>
     <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="overlay">
       <span></span><span></span>
@@ -227,17 +261,18 @@
   </div>
 
   <main id="topo">
-    <!-- Hero -->
+
+    <!-- HERO -->
     <section class="hero" aria-label="Apresentação">
       <div class="hero__media" data-hero>
-        <!-- Fundo do hero: fotos que se alternam com fade lento. Trocar o src de cada uma quando necessário -->
+        <!-- Fundo do hero: fotos que se alternam com fade lento. Trocar o src quando a foto principal for enviada -->
         <img class="hero__img" src="assets/img/foto-1.jpg" alt="Gérberas e flores em tons vermelhos, amarelos e brancos">
-        <img class="hero__img" src="assets/img/automotivo-1.jpg" alt="Carro de competição número 12 em pista">
-        <img class="hero__img" src="assets/img/auto-07.jpg" alt="Mercedes-AMG GT3 amarelo em pista">
-        <img class="hero__img" src="assets/img/foto-2.jpg" alt="Buquê de gérberas coloridas">
-        <img class="hero__img" src="assets/img/auto-08.jpg" alt="Chevrolet Onix de competição em pista">
-        <img class="hero__img" src="assets/img/auto-06.jpg" alt="Honda Civic prateado rebaixado com aerofólio">
-        <img class="hero__img" src="assets/img/life-06.jpg" alt="Flores lilás iluminadas pelo sol">
+        <img class="hero__img" src="assets/img/automotivo-1.jpg" alt="Carro de competição número 12 em pista" loading="lazy">
+        <img class="hero__img" src="assets/img/auto-07.jpg" alt="Mercedes-AMG GT3 amarelo em pista" loading="lazy">
+        <img class="hero__img" src="assets/img/foto-2.jpg" alt="Buquê de gérberas coloridas" loading="lazy">
+        <img class="hero__img" src="assets/img/auto-08.jpg" alt="Chevrolet Onix de competição em pista" loading="lazy">
+        <img class="hero__img" src="assets/img/auto-06.jpg" alt="Honda Civic prateado rebaixado com aerofólio" loading="lazy">
+        <img class="hero__img" src="assets/img/life-06.jpg" alt="Flores lilás iluminadas pelo sol" loading="lazy">
       </div>
       <div class="hero__content">
         <h1 class="display hero__word" aria-label="Bruno Sants">
@@ -245,181 +280,229 @@
         </h1>
         <div class="hero__meta">
           <p>Fotografia autoral entre retratos, cenas do cotidiano e o universo automotivo.</p>
-          <span class="eyebrow">Portfólio 2026</span>
+          <span class="eyebrow"><b>●</b>Portfólio 2026</span>
         </div>
       </div>
-      <span class="hero__hint">Role para explorar</span>
+      <div class="hero__scroll" aria-hidden="true"><span></span></div>
     </section>
 
-    <!-- Retratos -->
-    <section class="section" id="retratos">
-      <div class="section__head" data-reveal>
+    <!-- RETRATOS -->
+    <section class="section retratos" id="retratos">
+      <div class="section__head">
         <div>
-          <span class="eyebrow">01 — Retratos</span>
-          <h2 class="display section__title">Retratos</h2>
+          <span class="eyebrow"><b>01</b>Categoria principal</span>
+          <h2 class="display section__title mask"><span>Retratos</span></h2>
         </div>
         <p class="section__desc">Pessoas diante da câmera, com luz natural e atenção ao olhar e à postura.</p>
       </div>
-      <div class="portrait">
-        <figure data-reveal style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/retrato-01.jpg" data-alt="Retrato em preto e branco de um jovem olhando para cima">
-            <img src="assets/img/retrato-01.jpg" alt="Retrato em preto e branco de um jovem olhando para cima" loading="lazy">
+
+      <div class="mosaic">
+        <figure class="mosaic__item" style="--c: 1 / 8; margin:0" data-reveal>
+          <div class="frame frame--natural" data-lightbox data-gallery="retratos" data-src="assets/img/retrato-01.jpg" data-alt="Retrato em preto e branco de um jovem olhando para cima" tabindex="0" role="button" aria-label="Ampliar foto">
+            <div class="pz" data-speed="0.6"><img src="assets/img/retrato-01.jpg" alt="Retrato em preto e branco de um jovem olhando para cima" loading="lazy"></div>
+            <span class="frame__hint" aria-hidden="true">+</span>
           </div>
         </figure>
-        <div class="portrait__text" data-reveal>
-          <h3>Olhar de rua</h3>
+
+        <!-- Espaços para as próximas fotos de retrato. Substituir pelo <figure> da foto quando enviada -->
+        <div class="mosaic__item" style="--c: 9 / 13; --m: clamp(120px, 18vw, 280px)">
+          <div class="slot" aria-label="Espaço reservado para foto de retrato">Foto de retrato<br>aguardando envio</div>
         </div>
+        <div class="mosaic__item" style="--c: 2 / 6; --m: clamp(40px, 6vw, 96px)">
+          <div class="slot" aria-label="Espaço reservado para foto de retrato">Foto de retrato<br>aguardando envio</div>
+        </div>
+      </div>
+
+      <div class="retratos__text" data-reveal>
+        <p>Enquadramentos próximos, luz que destaca o rosto, fundos simples.</p>
       </div>
     </section>
 
-    <!-- Life -->
-    <section class="section" id="life">
-      <div class="section__head" data-reveal>
+    <!-- LIFE -->
+    <section class="section life" id="life">
+      <div class="section__head">
         <div>
-          <span class="eyebrow">02 — Life</span>
-          <h2 class="display section__title">Life</h2>
+          <span class="eyebrow"><b>02</b>Cotidiano</span>
+          <h2 class="display section__title mask"><span>Life</span></h2>
         </div>
-        <p class="section__desc">O cotidiano da cidade e das coisas pequenas: flores, esculturas, movimento e pausas.</p>
+        <p class="section__desc">Observação de flores, objetos e pequenas cenas da cidade.</p>
       </div>
-      <div class="life">
-        <figure class="life__item" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-4.jpg" data-alt="Rosas em tons de pêssego, amarelo e rosa">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-4.jpg" alt="Rosas em tons de pêssego, amarelo e rosa" loading="lazy"></div>
+
+      <div class="mosaic">
+        <figure class="mosaic__item" style="--c: 1 / 8; margin:0" data-reveal>
+          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-4.jpg" data-alt="Rosas em tons de pêssego, amarelo e rosa" tabindex="0" role="button" aria-label="Ampliar foto">
+            <div class="pz" data-speed="0.5"><img src="assets/img/foto-4.jpg" alt="Rosas em tons de pêssego, amarelo e rosa" loading="lazy"></div>
+            <span class="frame__hint" aria-hidden="true">+</span>
           </div>
         </figure>
-        <figure class="life__item" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-3.jpg" data-alt="Orquídea rosada com detalhes magenta">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-3.jpg" alt="Orquídea rosada com detalhes magenta" loading="lazy"></div>
+
+        <figure class="mosaic__item" style="--c: 9 / 13; --m: clamp(90px, 14vw, 220px)" data-reveal>
+          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/life-06.jpg" data-alt="Flores lilás iluminadas pelo sol, com fundo desfocado" tabindex="0" role="button" aria-label="Ampliar foto">
+            <div class="pz" data-speed="1.1"><img src="assets/img/life-06.jpg" alt="Flores lilás iluminadas pelo sol, com fundo desfocado" loading="lazy"></div>
+            <span class="frame__hint" aria-hidden="true">+</span>
           </div>
         </figure>
-        <figure class="life__item" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-6.jpg" data-alt="Escultura em mármore de um bezerro abraçado por uma figura">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-6.jpg" alt="Escultura em mármore de um bezerro abraçado por uma figura" loading="lazy"></div>
+
+        <figure class="mosaic__item" style="--c: 2 / 6; --m: clamp(40px, 6vw, 96px)" data-reveal>
+          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-1.jpg" data-alt="Flores laranja e vermelhas de kalanchoe em vaso" tabindex="0" role="button" aria-label="Ampliar foto">
+            <div class="pz" data-speed="0.8"><img src="assets/img/foto-1.jpg" alt="Flores laranja e vermelhas de kalanchoe em vaso" loading="lazy"></div>
+            <span class="frame__hint" aria-hidden="true">+</span>
           </div>
         </figure>
-        <figure class="life__item" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-2.jpg" data-alt="Buquê de gérberas coloridas">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-2.jpg" alt="Buquê de gérberas coloridas" loading="lazy"></div>
+
+        <figure class="mosaic__item" style="--c: 7 / 11; --m: clamp(60px, 10vw, 160px)" data-reveal>
+          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-3.jpg" data-alt="Orquídea cymbidium em tons rosados com detalhes magenta" tabindex="0" role="button" aria-label="Ampliar foto">
+            <div class="pz" data-speed="1.3"><img src="assets/img/foto-3.jpg" alt="Orquídea cymbidium em tons rosados com detalhes magenta" loading="lazy"></div>
+            <span class="frame__hint" aria-hidden="true">+</span>
           </div>
         </figure>
-        <figure class="life__item life__item--wide" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-5.jpg" data-alt="Skatista atravessando uma avenida ao entardecer">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-5.jpg" alt="Skatista atravessando uma avenida ao entardecer" loading="lazy"></div>
+
+        <figure class="mosaic__item" style="--c: 1 / 7; --m: clamp(40px, 6vw, 96px)" data-reveal>
+          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-2.jpg" data-alt="Buquê de gérberas coloridas" tabindex="0" role="button" aria-label="Ampliar foto">
+            <div class="pz" data-speed="0.7"><img src="assets/img/foto-2.jpg" alt="Buquê de gérberas coloridas" loading="lazy"></div>
+            <span class="frame__hint" aria-hidden="true">+</span>
           </div>
         </figure>
-        <figure class="life__item life__item--natural" data-reveal style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/life-06.jpg" data-alt="Flores lilás iluminadas pelo sol, com fundo desfocado">
-            <img src="assets/img/life-06.jpg" alt="Flores lilás iluminadas pelo sol, com fundo desfocado" loading="lazy">
+
+        <figure class="mosaic__item" style="--c: 8 / 13; --m: clamp(60px, 10vw, 160px)" data-reveal>
+          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-6.jpg" data-alt="Escultura em mármore de um bezerro abraçado por uma figura" tabindex="0" role="button" aria-label="Ampliar foto">
+            <div class="pz" data-speed="0.9"><img src="assets/img/foto-6.jpg" alt="Escultura em mármore de um bezerro abraçado por uma figura" loading="lazy"></div>
+            <span class="frame__hint" aria-hidden="true">+</span>
           </div>
         </figure>
-        <figure class="life__item life__item--natural" data-reveal style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/life-07.jpg" data-alt="Flor roxa e laranja com abelhas">
-            <img src="assets/img/life-07.jpg" alt="Flor roxa e laranja com abelhas" loading="lazy">
+
+        <figure class="mosaic__item" style="--c: 4 / 10; --m: clamp(60px, 10vw, 160px)" data-reveal>
+          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/life-07.jpg" data-alt="Flor roxa e laranja com abelhas" tabindex="0" role="button" aria-label="Ampliar foto">
+            <div class="pz" data-speed="1.0"><img src="assets/img/life-07.jpg" alt="Flor roxa e laranja com abelhas" loading="lazy"></div>
+            <span class="frame__hint" aria-hidden="true">+</span>
           </div>
         </figure>
       </div>
     </section>
 
-    <!-- Automotivo -->
-    <section class="section" id="automotivo">
-      <div class="section__head" data-reveal>
-        <div>
-          <span class="eyebrow">03 — Automotivo</span>
-          <h2 class="display section__title">Automotivo</h2>
+    <!-- AUTOMOTIVO -->
+    <section class="automotivo" id="automotivo">
+      <div class="auto-open">
+        <figure style="margin:0; position:absolute; inset:0">
+          <div class="frame" data-lightbox data-gallery="automotivo-abertura" data-src="assets/img/auto-07.jpg" data-alt="Mercedes-AMG GT3 amarelo em pista" tabindex="0" role="button" aria-label="Ampliar foto" style="position:absolute; inset:-8% 0; cursor:zoom-in">
+            <div class="pz" data-speed="0.5" style="position:absolute; inset:0"><img src="assets/img/auto-07.jpg" alt="Mercedes-AMG GT3 amarelo em pista" style="width:100%; height:100%; object-fit:cover" loading="lazy"></div>
+          </div>
+        </figure>
+        <div class="auto-open__title">
+          <span class="eyebrow"><b>03</b>Automotivo</span>
+          <h2 class="display mask"><span>Automotivo</span></h2>
         </div>
-        <p class="section__desc">Carros, detalhes mecânicos e a estrada em movimento.</p>
       </div>
-      <div class="auto-grid" data-reveal>
-        <figure class="auto-item" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-01.jpg" data-alt="Carro antigo vermelho em evento, vista frontal">
-            <img src="assets/img/auto-01.jpg" alt="Carro antigo vermelho em evento, vista frontal" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-02.jpg" data-alt="Dodge cinza visto de trás em fila de carros">
-            <img src="assets/img/auto-02.jpg" alt="Dodge cinza visto de trás em fila de carros" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-03.jpg" data-alt="Detalhe do capô de Chevrolet Camaro cinza com emblema">
-            <img src="assets/img/auto-03.jpg" alt="Detalhe do capô de Chevrolet Camaro cinza com emblema" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-04.jpg" data-alt="Chevrolet Camaro cinza visto de trás">
-            <img src="assets/img/auto-04.jpg" alt="Chevrolet Camaro cinza visto de trás" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-05.jpg" data-alt="Carro amarelo de competição com adesivos, capô aberto">
-            <img src="assets/img/auto-05.jpg" alt="Carro amarelo de competição com adesivos, capô aberto" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-09.jpg" data-alt="BMW azul com fumaça saindo do escapamento">
-            <img src="assets/img/auto-09.jpg" alt="BMW azul com fumaça saindo do escapamento" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-10.jpg" data-alt="Chevrolet Corsa prata com faróis azulados">
-            <img src="assets/img/auto-10.jpg" alt="Chevrolet Corsa prata com faróis azulados" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-11.jpg" data-alt="Chevrolet Chevette verde, vista traseira">
-            <img src="assets/img/auto-11.jpg" alt="Chevrolet Chevette verde, vista traseira" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-12.jpg" data-alt="BMW preto em preto e branco">
-            <img src="assets/img/auto-12.jpg" alt="BMW preto em preto e branco" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item auto-item--wide" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-06.jpg" data-alt="Honda Civic prateado rebaixado com aerofólio">
-            <img src="assets/img/auto-06.jpg" alt="Honda Civic prateado rebaixado com aerofólio" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item auto-item--wide" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-07.jpg" data-alt="Mercedes-AMG GT3 amarelo em pista">
-            <img src="assets/img/auto-07.jpg" alt="Mercedes-AMG GT3 amarelo em pista" loading="lazy">
-          </div>
-        </figure>
-        <figure class="auto-item auto-item--wide" style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-08.jpg" data-alt="Chevrolet Onix de competição em pista">
-            <img src="assets/img/auto-08.jpg" alt="Chevrolet Onix de competição em pista" loading="lazy">
-          </div>
-        </figure>
+
+      <div class="auto-band" aria-hidden="true">
+        <div class="auto-band__track" data-band>
+          <span>Carros <em>●</em> Pista <em>●</em> Encontros <em>●</em> Detalhes <em>●</em> Carros <em>●</em> Pista <em>●</em> Encontros <em>●</em> Detalhes <em>●</em></span>
+        </div>
+      </div>
+
+      <div class="section" style="padding-top: clamp(64px, 9vw, 120px)">
+        <div class="section__head">
+          <p class="section__desc">Pista, encontros e detalhes mecânicos, em composições horizontais e verticais.</p>
+        </div>
+
+        <div class="mosaic">
+          <figure class="mosaic__item" style="--c: 1 / 7; margin:0" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-01.jpg" data-alt="Carro antigo vermelho em evento, vista frontal" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="0.6"><img src="assets/img/auto-01.jpg" alt="Carro antigo vermelho em evento, vista frontal" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 7 / 13; --m: clamp(90px, 14vw, 220px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-02.jpg" data-alt="Dodge cinza visto de trás em fila de carros" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="1.1"><img src="assets/img/auto-02.jpg" alt="Dodge cinza visto de trás em fila de carros" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 2 / 13; --m: clamp(60px, 9vw, 140px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-06.jpg" data-alt="Honda Civic prateado rebaixado com aerofólio" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="0.7"><img src="assets/img/auto-06.jpg" alt="Honda Civic prateado rebaixado com aerofólio" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 1 / 5; --m: clamp(60px, 9vw, 140px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-03.jpg" data-alt="Detalhe do capô de Chevrolet Camaro cinza com emblema" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="0.8"><img src="assets/img/auto-03.jpg" alt="Detalhe do capô de Chevrolet Camaro cinza com emblema" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 6 / 10; --m: clamp(90px, 14vw, 220px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-04.jpg" data-alt="Chevrolet Camaro cinza visto de trás" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="1.2"><img src="assets/img/auto-04.jpg" alt="Chevrolet Camaro cinza visto de trás" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 10 / 13; --m: clamp(60px, 9vw, 140px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-05.jpg" data-alt="Carro amarelo de competição com adesivos, capô aberto" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="0.9"><img src="assets/img/auto-05.jpg" alt="Carro amarelo de competição com adesivos, capô aberto" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 1 / 9; --m: clamp(60px, 9vw, 140px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-08.jpg" data-alt="Chevrolet Onix de competição em pista" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="0.6"><img src="assets/img/auto-08.jpg" alt="Chevrolet Onix de competição em pista" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 9 / 13; --m: clamp(90px, 14vw, 220px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-09.jpg" data-alt="BMW azul com fumaça saindo do escapamento" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="1.0"><img src="assets/img/auto-09.jpg" alt="BMW azul com fumaça saindo do escapamento" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 2 / 6; --m: clamp(60px, 9vw, 140px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-10.jpg" data-alt="Chevrolet Corsa prata com faróis azulados" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="0.8"><img src="assets/img/auto-10.jpg" alt="Chevrolet Corsa prata com faróis azulados" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 7 / 11; --m: clamp(90px, 14vw, 220px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-11.jpg" data-alt="Chevrolet Chevette verde, vista traseira" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="1.2"><img src="assets/img/auto-11.jpg" alt="Chevrolet Chevette verde, vista traseira" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+          <figure class="mosaic__item" style="--c: 10 / 13; --m: clamp(60px, 9vw, 140px)" data-reveal>
+            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-12.jpg" data-alt="BMW preto em preto e branco" tabindex="0" role="button" aria-label="Ampliar foto">
+              <div class="pz" data-speed="0.7"><img src="assets/img/auto-12.jpg" alt="BMW preto em preto e branco" loading="lazy"></div>
+              <span class="frame__hint" aria-hidden="true">+</span>
+            </div>
+          </figure>
+        </div>
       </div>
     </section>
 
-    <!-- Sobre -->
-    <section class="section about" id="sobre">
-      <div class="section__head" data-reveal>
-        <div>
-          <span class="eyebrow">Sobre</span>
-          <h2 class="display section__title">Bruno Sants</h2>
+    <!-- SOBRE -->
+    <section class="section sobre" id="sobre">
+      <div class="sobre__grid">
+        <!-- Foto do fotógrafo: substituir este bloco pelo <img> quando for enviada -->
+        <div class="slot" aria-label="Espaço reservado para a foto do fotógrafo">Foto do fotógrafo<br>aguardando envio</div>
+        <div class="sobre__text" data-reveal>
+          <span class="eyebrow"><b>04</b>Sobre</span>
+          <h2 class="display mask"><span>Bruno Sants</span></h2>
+          <p>Fotógrafo de retratos, cenas do cotidiano e automotivo, com luz natural e atenção aos detalhes.</p>
+          <p class="serif">Cada foto é uma observação do que está ao redor.</p>
         </div>
-      </div>
-      <div class="about__grid">
-        <div data-reveal>
-          <p>Fotógrafo que observa a cidade e as pessoas com calma. Trabalha com retratos, cenas do cotidiano e automotivo, sempre com luz natural e um olhar próximo do que acontece.</p>
-        </div>
-        <div data-reveal>
-          <p>Esta página segue o manual de marca: vermelho alizarina como destaque, branco gelo e preto absoluto como base, e o logotipo sempre com espaço livre ao redor.</p>
-        </div>
-      </div>
-      <div class="palette" data-reveal>
-        <div class="r">Alizarina cor carmesim <small>#EE2A3B</small></div>
-        <div class="w">Branco Gelo <small>#FFFFFF</small></div>
-        <div class="b">Preto absoluto <small>#000000</small></div>
       </div>
     </section>
 
-    <!-- Contato -->
-    <footer class="contact" id="contato">
-      <h2 class="display" data-reveal>Vamos<br>fazer uma<br>foto?</h2>
-      <a class="mail" href="mailto:brunosantsjob@gmail.com" data-reveal>brunosantsjob@gmail.com</a>
+    <!-- CONTATO -->
+    <footer class="contato" id="contato">
+      <span class="eyebrow"><b>05</b>Contato</span>
+      <h2 class="display contato__title mask"><span>Vamos fazer<br><span class="serif">uma foto?</span></span></h2>
+
+      <ul class="contato__list">
+        <li><span id="c-instagram"><small>Instagram</small></span></li>
+        <li><span id="c-whatsapp"><small>WhatsApp</small></span></li>
+        <li><a id="c-email" href="#"><small>E-mail</small></a></li>
+      </ul>
+
+      <a class="contato__cta" id="c-orcamento" href="#">Pedir orçamento <span aria-hidden="true">→</span></a>
+
       <div class="foot">
         <span>© 2026 Bruno Sants</span>
         <span>Retratos · Life · Automotivo</span>
@@ -428,18 +511,52 @@
   </main>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
-    <button class="lightbox__close" id="lbClose" aria-label="Fechar">×</button>
+    <button class="lightbox__btn lightbox__close" id="lbClose" aria-label="Fechar">×</button>
+    <button class="lightbox__btn lightbox__prev" id="lbPrev" aria-label="Foto anterior">‹</button>
     <img id="lbImg" alt="">
+    <button class="lightbox__btn lightbox__next" id="lbNext" aria-label="Próxima foto">›</button>
+    <span class="lightbox__count" id="lbCount"></span>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
+    /* ===== Configuração de contato: editar aqui quando os dados estiverem prontos ===== */
+    var CONTATO = {
+      instagramNome: 'Bruno Sants Fotografias',
+      instagramUrl: '',            // ex.: 'https://www.instagram.com/usuario/'
+      whatsappNumero: '',          // somente números com DDI e DDD, ex.: '5511999999999'
+      whatsappMensagem: 'Olá, Bruno! Gostaria de um orçamento.',
+      email: 'brunosantsjob@gmail.com',
+      assunto: 'Orçamento de fotografia'
+    };
+
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var hasGsap = typeof window.gsap !== 'undefined';
 
-      /* Menu: troca de cor no hover (CSS) + menu mobile */
+      /* ----- Contato ----- */
+      var ci = document.getElementById('c-instagram');
+      if (CONTATO.instagramUrl) {
+        ci.innerHTML = '<a href="' + CONTATO.instagramUrl + '" target="_blank" rel="noopener">' + CONTATO.instagramNome + '<small>Instagram</small></a>';
+      } else {
+        ci.innerHTML = CONTATO.instagramNome + '<small>Instagram</small>';
+        ci.classList.add('is-pending');
+      }
+      var cw = document.getElementById('c-whatsapp');
+      if (CONTATO.whatsappNumero) {
+        cw.outerHTML = '<a id="c-whatsapp" href="https://wa.me/' + CONTATO.whatsappNumero + '?text=' + encodeURIComponent(CONTATO.whatsappMensagem) + '" target="_blank" rel="noopener">WhatsApp<small>Chamar</small></a>';
+      } else {
+        cw.innerHTML = 'WhatsApp<small>Em breve</small>';
+        cw.classList.add('is-pending');
+      }
+      var ce = document.getElementById('c-email');
+      ce.href = 'mailto:' + CONTATO.email;
+      ce.innerHTML = CONTATO.email + '<small>E-mail</small>';
+      var cta = document.getElementById('c-orcamento');
+      cta.href = 'mailto:' + CONTATO.email + '?subject=' + encodeURIComponent(CONTATO.assunto);
+
+      /* ----- Menu mobile ----- */
       var burger = document.getElementById('burger');
       var overlay = document.getElementById('overlay');
       function setMenu(open) {
@@ -447,45 +564,109 @@
         burger.setAttribute('aria-expanded', String(open));
         burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
         overlay.setAttribute('aria-hidden', String(!open));
-        if (open && hasGsap && !reduce) {
-          gsap.from('.overlay a', { y: 40, opacity: 0, duration: .7, stagger: .07, ease: 'power3.out', delay: .25 });
-        }
+        if (open && hasGsap && !reduce) gsap.from('.overlay a', { y: 40, opacity: 0, duration: .7, stagger: .07, ease: 'power3.out', delay: .25 });
       }
       burger.addEventListener('click', function () { setMenu(!document.body.classList.contains('menu-open')); });
       overlay.addEventListener('click', function (e) { if (e.target.tagName === 'A') setMenu(false); });
 
-      /* Lightbox */
+      /* ----- Lightbox com navegação ----- */
       var lb = document.getElementById('lightbox');
       var lbImg = document.getElementById('lbImg');
-      function openLb(src, alt) {
-        lbImg.src = src; lbImg.alt = alt;
-        lb.classList.add('is-open');
-        if (hasGsap && !reduce) gsap.fromTo(lbImg, { scale: .96, opacity: 0 }, { scale: 1, opacity: 1, duration: .5, ease: 'power3.out' });
-      }
-      function closeLb() { lb.classList.remove('is-open'); }
-      document.querySelectorAll('[data-lightbox]').forEach(function (el) {
-        el.addEventListener('click', function () { openLb(el.dataset.src, el.dataset.alt); });
+      var lbCount = document.getElementById('lbCount');
+      var galleries = {};
+      var frames = document.querySelectorAll('[data-lightbox]');
+      frames.forEach(function (el) {
+        var g = el.dataset.gallery || 'geral';
+        (galleries[g] = galleries[g] || []).push(el);
       });
-      document.getElementById('lbClose').addEventListener('click', closeLb);
-      lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+      var current = null, index = 0, lastFocus = null;
+
+      function show(i, animate) {
+        var list = galleries[current];
+        index = (i + list.length) % list.length;
+        var el = list[index];
+        lbImg.src = el.dataset.src;
+        lbImg.alt = el.dataset.alt || '';
+        lbCount.textContent = (index + 1) + ' / ' + list.length;
+        if (animate && hasGsap && !reduce) gsap.fromTo(lbImg, { opacity: 0, scale: .97 }, { opacity: 1, scale: 1, duration: .6, ease: 'power3.out' });
+      }
+      function open(el) {
+        var g = el.dataset.gallery || 'geral';
+        current = g; lastFocus = el;
+        var idx = galleries[g].indexOf(el);
+        lb.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        if (hasGsap && !reduce) gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: .45, ease: 'power2.out' });
+        show(idx, true);
+        document.getElementById('lbClose').focus();
+      }
+      function close() {
+        lb.classList.remove('is-open');
+        document.body.style.overflow = '';
+        if (lastFocus) lastFocus.focus({ preventScroll: true });
+      }
+      function step(d) { show(index + d, true); }
+      frames.forEach(function (el) {
+        el.addEventListener('click', function () { open(el); });
+        el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(el); } });
+      });
+      document.getElementById('lbClose').addEventListener('click', close);
+      document.getElementById('lbPrev').addEventListener('click', function () { step(-1); });
+      document.getElementById('lbNext').addEventListener('click', function () { step(1); });
+      lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') { closeLb(); setMenu(false); }
+        if (lb.classList.contains('is-open')) {
+          if (e.key === 'Escape') close();
+          if (e.key === 'ArrowLeft') step(-1);
+          if (e.key === 'ArrowRight') step(1);
+          return;
+        }
+        if (e.key === 'Escape') setMenu(false);
+      });
+      var touchX = null;
+      lb.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', function (e) {
+        if (touchX === null) return;
+        var dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+        touchX = null;
       });
 
-      /* Cabeçalho: menu com links que trocam de cor ao passar o mouse já está no CSS */
+      /* ----- Progresso e menu ativo ----- */
+      var progress = document.getElementById('progress');
+      function onScroll() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0).toFixed(4) + ')';
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      var navLinks = document.querySelectorAll('.nav a[data-nav]');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            navLinks.forEach(function (a) { a.classList.toggle('is-active', a.dataset.nav === en.target.id); });
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        ['retratos', 'life', 'automotivo', 'sobre', 'contato'].forEach(function (id) {
+          var s = document.getElementById(id); if (s) io.observe(s);
+        });
+      }
 
       if (!hasGsap || reduce) return;
 
+      /* ===================== ANIMAÇÕES (GSAP + ScrollTrigger) ===================== */
       gsap.registerPlugin(ScrollTrigger);
 
-      /* Intro do hero: letras sobem, foto recua */
-      var tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-      tl.from('.hero__word i', { yPercent: 110, duration: 1.3, stagger: .05 }, .15)
-        .from('.hero__img', { scale: 1.12, duration: 2.2, ease: 'power2.out' }, 0)
-        .from('.hero__meta > *, .hero__hint', { y: 18, opacity: 0, duration: .9, stagger: .1 }, .9)
+      // Intro do hero: máscara da imagem, letras em sequência, deslocamentos suaves
+      var intro = gsap.timeline({ defaults: { ease: 'power4.out' } });
+      intro.from('.hero__media', { clipPath: 'inset(0 0 100% 0)', duration: 1.6, ease: 'power3.inOut' }, 0)
+        .from('.hero__word i', { yPercent: 110, duration: 1.3, stagger: .05 }, .25)
+        .from('.hero__meta > *, .hero__scroll', { y: 18, opacity: 0, duration: .9, stagger: .1 }, .9)
         .from('.header', { yPercent: -100, duration: .9, ease: 'power3.out' }, 0);
 
-      /* Fundo do hero: fotos alternam com fade lento (a primeira fica como base) */
+      // Ciclo de fotos do hero: fade lento (7s de permanência, 3s de transição)
       var heroLayers = gsap.utils.toArray('.hero__img');
       if (heroLayers.length > 1) {
         var HOLD = 7, FADE = 3, n = heroLayers.length;
@@ -495,34 +676,50 @@
         for (var j = n - 1; j >= 1; j--) cycle.to(heroLayers[j], { opacity: 0, duration: FADE }, out + (n - 1 - j) * 0.8);
       }
 
-      /* Parallax do hero ao rolar */
-      gsap.to('.hero__media', {
-        yPercent: 14, ease: 'none',
-        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+      // Parallax do hero ao rolar
+      gsap.to('.hero__media', { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+      // Títulos de seção: máscara que sobe
+      gsap.utils.toArray('.mask > span').forEach(function (s) {
+        gsap.from(s, { yPercent: 105, duration: 1.1, ease: 'power4.out', scrollTrigger: { trigger: s, start: 'top 90%', once: true } });
       });
 
-      /* Parallax das fotos da seção Life (imagem anda mais devagar que a moldura) */
-      gsap.utils.toArray('[data-parallax] img').forEach(function (img) {
-        gsap.fromTo(img, { yPercent: -8 }, {
-          yPercent: 8, ease: 'none',
-          scrollTrigger: { trigger: img.closest('.life__item'), start: 'top bottom', end: 'bottom top', scrub: true }
+      // Revelação das fotos: máscara animada que abre de baixo para cima
+      gsap.utils.toArray('.mosaic .frame, .auto-open').forEach(function (f) {
+        gsap.fromTo(f, { clipPath: 'inset(100% 0 0 0)' }, {
+          clipPath: 'inset(0% 0 0 0)', duration: 1.3, ease: 'power3.inOut',
+          scrollTrigger: { trigger: f, start: 'top 88%', once: true }
         });
       });
 
-      /* Revelação de blocos com intenção: sobem e aparecem uma vez */
-      gsap.utils.toArray('[data-reveal]').forEach(function (el) {
-        gsap.from(el, {
-          y: 60, opacity: 0, duration: 1.1, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 88%', once: true }
-        });
+      // Blocos de texto e slots: sobem uma vez
+      gsap.utils.toArray('[data-reveal], .slot, .contato__list li, .contato__cta, .eyebrow').forEach(function (el) {
+        gsap.from(el, { y: 50, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
       });
 
-      /* Títulos de seção: letras sobem em sequência */
-      gsap.utils.toArray('.section__title').forEach(function (t) {
-        gsap.from(t, {
-          clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'power4.out',
-          scrollTrigger: { trigger: t, start: 'top 90%', once: true }
+      // Parallax das fotos: cada uma com velocidade própria (data-speed) e deslocamento interno
+      gsap.utils.toArray('.frame .pz').forEach(function (pz) {
+        var s = parseFloat(pz.dataset.speed || '1');
+        var img = pz.querySelector('img');
+        gsap.fromTo(pz, { yPercent: -6 * s }, {
+          yPercent: 6 * s, ease: 'none',
+          scrollTrigger: { trigger: pz.closest('.frame'), start: 'top bottom', end: 'bottom top', scrub: true }
         });
+        if (img) gsap.set(img, { scale: 1.08 });
+      });
+
+      // Abertura panorâmica do Automotivo: imagem anda mais devagar
+      var openPz = document.querySelector('.auto-open .pz');
+      if (openPz) gsap.fromTo(openPz, { yPercent: -10 }, {
+        yPercent: 10, ease: 'none',
+        scrollTrigger: { trigger: '.auto-open', start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+
+      // Faixa horizontal do Automotivo: deslocamento lateral ao rolar
+      var band = document.querySelector('[data-band]');
+      if (band) gsap.fromTo(band, { xPercent: 0 }, {
+        xPercent: -30, ease: 'none',
+        scrollTrigger: { trigger: '.auto-band', start: 'top bottom', end: 'bottom top', scrub: true }
       });
 
       window.addEventListener('load', function () { ScrollTrigger.refresh(); });
