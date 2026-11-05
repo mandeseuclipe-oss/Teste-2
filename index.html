@@ -87,6 +87,8 @@
       content: ""; position: absolute; inset: 0;
       background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.5) 100%);
     }
+    /* Degradê escuro na base do hero, até o preto da seção de Retratos */
+    .hero::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 32vh; background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 100%); z-index: 1; pointer-events: none; }
     .hero__content { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: calc(env(safe-area-inset-bottom) + 22vh); }
     .hero__word { display: flex; flex-wrap: wrap; font-size: clamp(54px, 13.5vw, 180px); margin: 0; }
     .hero__word span { display: inline-block; overflow: hidden; }
