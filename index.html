@@ -231,18 +231,11 @@
     <section class="hero" aria-label="Apresentação">
       <div class="hero__media" data-hero>
         <!-- Fundo do hero: fotos que se alternam com fade lento. Trocar o src de cada uma quando necessário -->
-        <img class="hero__img" src="assets/img/foto-1.jpg" alt="Gérberas e flores em tons vermelhos, amarelos e brancos">
-        <img class="hero__img" src="assets/img/automotivo-1.jpg" alt="Carro de competição número 12 em pista">
-        <img class="hero__img" src="assets/img/auto-07.jpg" alt="Mercedes-AMG GT3 amarelo em pista">
-        <img class="hero__img" src="assets/img/foto-2.jpg" alt="Buquê de gérberas coloridas">
-        <img class="hero__img" src="assets/img/auto-08.jpg" alt="Chevrolet Onix de competição em pista">
-        <img class="hero__img" src="assets/img/auto-06.jpg" alt="Honda Civic prateado rebaixado com aerofólio">
-        <img class="hero__img" src="assets/img/life-06.jpg" alt="Flores lilás iluminadas pelo sol">
+        <img class="hero__img" src="assets/img/home-gaiola.jpg" alt="Pássaro preto e branco atrás de grades de madeira">
         <img class="hero__img" src="assets/img/home-banco.jpg" alt="Homem sentado em banco de concreto em praça, com saco preto no colo" loading="lazy">
+        <img class="hero__img" src="assets/img/home-publiset.jpg" alt="Carro de corrida Publiset em curva de autódromo" loading="lazy">
         <img class="hero__img" src="assets/img/home-dakota.jpg" alt="Pickup amarela Dakota em garagem, vista frontal" loading="lazy">
-        <img class="hero__img" src="assets/img/home-soldado.jpg" alt="Cosplay de soldado com máscara de caveira e rifle, diante de placa de acesso ao shopping" loading="lazy">
-        <img class="hero__img" src="assets/img/home-passaro.jpg" alt="Pássaro preto e branco atrás de grades de madeira" loading="lazy">
-        <img class="hero__img" src="assets/img/home-lancer.jpg" alt="Mitsubishi Lancer verde-limão com faróis acesos em garagem" loading="lazy">
+        <img class="hero__img" src="assets/img/home-flor.jpg" alt="Flores de kalanchoe vermelhas e alaranjadas em vaso, centralizadas" style="object-position: 50% 50%" loading="lazy">
       </div>
       <div class="hero__content">
         <h1 class="display hero__word" aria-label="Bruno Sants">
@@ -499,14 +492,11 @@
         // Movimento por foto da Home: nome do arquivo -> 'none' | 'zoom-in' | 'slide-left' | 'slide-right'
         // Com 'none' a Home fica exatamente como antes.
         var HOME_MOTION = {
-          // Carros: slide-left
-          'automotivo-1.jpg': 'slide-left', 'auto-07.jpg': 'slide-left', 'auto-08.jpg': 'slide-left',
-          'auto-06.jpg': 'slide-left', 'home-dakota.jpg': 'slide-left', 'home-lancer.jpg': 'slide-left',
-          // Retratos: zoom-in
-          'home-soldado.jpg': 'zoom-in',
-          // Sem categoria definida: sem movimento
-          'foto-1.jpg': 'none', 'foto-2.jpg': 'none', 'life-06.jpg': 'none',
-          'home-banco.jpg': 'none', 'home-passaro.jpg': 'none'
+          'home-gaiola.jpg': 'zoom-in',      // passarinho
+          'home-banco.jpg': 'zoom-in',       // homem no banco
+          'home-publiset.jpg': 'slide-left', // carro
+          'home-dakota.jpg': 'slide-left',   // carro
+          'home-flor.jpg': 'zoom-in'         // flor, centralizada
         };
         heroLayers.forEach(function (layer, i) {
           var file = (layer.getAttribute('src') || '').split('/').pop();
