@@ -265,14 +265,7 @@
     <!-- HERO -->
     <section class="hero" aria-label="Apresentação">
       <div class="hero__media" data-hero>
-        <!-- Fundo do hero: fotos que se alternam com fade lento. Trocar o src quando a foto principal for enviada -->
-        <img class="hero__img" src="assets/img/foto-1.jpg" alt="Gérberas e flores em tons vermelhos, amarelos e brancos">
-        <img class="hero__img" src="assets/img/automotivo-1.jpg" alt="Carro de competição número 12 em pista" loading="lazy">
-        <img class="hero__img" src="assets/img/auto-07.jpg" alt="Mercedes-AMG GT3 amarelo em pista" loading="lazy">
-        <img class="hero__img" src="assets/img/foto-2.jpg" alt="Buquê de gérberas coloridas" loading="lazy">
-        <img class="hero__img" src="assets/img/auto-08.jpg" alt="Chevrolet Onix de competição em pista" loading="lazy">
-        <img class="hero__img" src="assets/img/auto-06.jpg" alt="Honda Civic prateado rebaixado com aerofólio" loading="lazy">
-        <img class="hero__img" src="assets/img/life-06.jpg" alt="Flores lilás iluminadas pelo sol" loading="lazy">
+        <!-- Fundo do hero: gerado a partir de GALLERY.hero -->
       </div>
       <div class="hero__content">
         <h1 class="display hero__word" aria-label="Bruno Sants">
@@ -296,22 +289,7 @@
         <p class="section__desc">Pessoas diante da câmera, com luz natural e atenção ao olhar e à postura.</p>
       </div>
 
-      <div class="mosaic">
-        <figure class="mosaic__item" style="--c: 1 / 8; margin:0" data-reveal>
-          <div class="frame frame--natural" data-lightbox data-gallery="retratos" data-src="assets/img/retrato-01.jpg" data-alt="Retrato em preto e branco de um jovem olhando para cima" tabindex="0" role="button" aria-label="Ampliar foto">
-            <div class="pz" data-speed="0.6"><img src="assets/img/retrato-01.jpg" alt="Retrato em preto e branco de um jovem olhando para cima" loading="lazy"></div>
-            <span class="frame__hint" aria-hidden="true">+</span>
-          </div>
-        </figure>
-
-        <!-- Espaços para as próximas fotos de retrato. Substituir pelo <figure> da foto quando enviada -->
-        <div class="mosaic__item" style="--c: 9 / 13; --m: clamp(120px, 18vw, 280px)">
-          <div class="slot" aria-label="Espaço reservado para foto de retrato">Foto de retrato<br>aguardando envio</div>
-        </div>
-        <div class="mosaic__item" style="--c: 2 / 6; --m: clamp(40px, 6vw, 96px)">
-          <div class="slot" aria-label="Espaço reservado para foto de retrato">Foto de retrato<br>aguardando envio</div>
-        </div>
-      </div>
+      <div class="mosaic" id="retratos-mosaic"></div>
 
       <div class="retratos__text" data-reveal>
         <p>Enquadramentos próximos, luz que destaca o rosto, fundos simples.</p>
@@ -328,56 +306,7 @@
         <p class="section__desc">Observação de flores, objetos e pequenas cenas da cidade.</p>
       </div>
 
-      <div class="mosaic">
-        <figure class="mosaic__item" style="--c: 1 / 8; margin:0" data-reveal>
-          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-4.jpg" data-alt="Rosas em tons de pêssego, amarelo e rosa" tabindex="0" role="button" aria-label="Ampliar foto">
-            <div class="pz" data-speed="0.5"><img src="assets/img/foto-4.jpg" alt="Rosas em tons de pêssego, amarelo e rosa" loading="lazy"></div>
-            <span class="frame__hint" aria-hidden="true">+</span>
-          </div>
-        </figure>
-
-        <figure class="mosaic__item" style="--c: 9 / 13; --m: clamp(90px, 14vw, 220px)" data-reveal>
-          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/life-06.jpg" data-alt="Flores lilás iluminadas pelo sol, com fundo desfocado" tabindex="0" role="button" aria-label="Ampliar foto">
-            <div class="pz" data-speed="1.1"><img src="assets/img/life-06.jpg" alt="Flores lilás iluminadas pelo sol, com fundo desfocado" loading="lazy"></div>
-            <span class="frame__hint" aria-hidden="true">+</span>
-          </div>
-        </figure>
-
-        <figure class="mosaic__item" style="--c: 2 / 6; --m: clamp(40px, 6vw, 96px)" data-reveal>
-          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-1.jpg" data-alt="Flores laranja e vermelhas de kalanchoe em vaso" tabindex="0" role="button" aria-label="Ampliar foto">
-            <div class="pz" data-speed="0.8"><img src="assets/img/foto-1.jpg" alt="Flores laranja e vermelhas de kalanchoe em vaso" loading="lazy"></div>
-            <span class="frame__hint" aria-hidden="true">+</span>
-          </div>
-        </figure>
-
-        <figure class="mosaic__item" style="--c: 7 / 11; --m: clamp(60px, 10vw, 160px)" data-reveal>
-          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-3.jpg" data-alt="Orquídea cymbidium em tons rosados com detalhes magenta" tabindex="0" role="button" aria-label="Ampliar foto">
-            <div class="pz" data-speed="1.3"><img src="assets/img/foto-3.jpg" alt="Orquídea cymbidium em tons rosados com detalhes magenta" loading="lazy"></div>
-            <span class="frame__hint" aria-hidden="true">+</span>
-          </div>
-        </figure>
-
-        <figure class="mosaic__item" style="--c: 1 / 7; --m: clamp(40px, 6vw, 96px)" data-reveal>
-          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-2.jpg" data-alt="Buquê de gérberas coloridas" tabindex="0" role="button" aria-label="Ampliar foto">
-            <div class="pz" data-speed="0.7"><img src="assets/img/foto-2.jpg" alt="Buquê de gérberas coloridas" loading="lazy"></div>
-            <span class="frame__hint" aria-hidden="true">+</span>
-          </div>
-        </figure>
-
-        <figure class="mosaic__item" style="--c: 8 / 13; --m: clamp(60px, 10vw, 160px)" data-reveal>
-          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/foto-6.jpg" data-alt="Escultura em mármore de um bezerro abraçado por uma figura" tabindex="0" role="button" aria-label="Ampliar foto">
-            <div class="pz" data-speed="0.9"><img src="assets/img/foto-6.jpg" alt="Escultura em mármore de um bezerro abraçado por uma figura" loading="lazy"></div>
-            <span class="frame__hint" aria-hidden="true">+</span>
-          </div>
-        </figure>
-
-        <figure class="mosaic__item" style="--c: 4 / 10; --m: clamp(60px, 10vw, 160px)" data-reveal>
-          <div class="frame frame--natural" data-lightbox data-gallery="life" data-src="assets/img/life-07.jpg" data-alt="Flor roxa e laranja com abelhas" tabindex="0" role="button" aria-label="Ampliar foto">
-            <div class="pz" data-speed="1.0"><img src="assets/img/life-07.jpg" alt="Flor roxa e laranja com abelhas" loading="lazy"></div>
-            <span class="frame__hint" aria-hidden="true">+</span>
-          </div>
-        </figure>
-      </div>
+      <div class="mosaic" id="life-mosaic"></div>
     </section>
 
     <!-- AUTOMOTIVO -->
@@ -405,74 +334,7 @@
           <p class="section__desc">Pista, encontros e detalhes mecânicos, em composições horizontais e verticais.</p>
         </div>
 
-        <div class="mosaic">
-          <figure class="mosaic__item" style="--c: 1 / 7; margin:0" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-01.jpg" data-alt="Carro antigo vermelho em evento, vista frontal" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="0.6"><img src="assets/img/auto-01.jpg" alt="Carro antigo vermelho em evento, vista frontal" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 7 / 13; --m: clamp(90px, 14vw, 220px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-02.jpg" data-alt="Dodge cinza visto de trás em fila de carros" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="1.1"><img src="assets/img/auto-02.jpg" alt="Dodge cinza visto de trás em fila de carros" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 2 / 13; --m: clamp(60px, 9vw, 140px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-06.jpg" data-alt="Honda Civic prateado rebaixado com aerofólio" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="0.7"><img src="assets/img/auto-06.jpg" alt="Honda Civic prateado rebaixado com aerofólio" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 1 / 5; --m: clamp(60px, 9vw, 140px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-03.jpg" data-alt="Detalhe do capô de Chevrolet Camaro cinza com emblema" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="0.8"><img src="assets/img/auto-03.jpg" alt="Detalhe do capô de Chevrolet Camaro cinza com emblema" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 6 / 10; --m: clamp(90px, 14vw, 220px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-04.jpg" data-alt="Chevrolet Camaro cinza visto de trás" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="1.2"><img src="assets/img/auto-04.jpg" alt="Chevrolet Camaro cinza visto de trás" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 10 / 13; --m: clamp(60px, 9vw, 140px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-05.jpg" data-alt="Carro amarelo de competição com adesivos, capô aberto" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="0.9"><img src="assets/img/auto-05.jpg" alt="Carro amarelo de competição com adesivos, capô aberto" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 1 / 9; --m: clamp(60px, 9vw, 140px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-08.jpg" data-alt="Chevrolet Onix de competição em pista" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="0.6"><img src="assets/img/auto-08.jpg" alt="Chevrolet Onix de competição em pista" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 9 / 13; --m: clamp(90px, 14vw, 220px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-09.jpg" data-alt="BMW azul com fumaça saindo do escapamento" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="1.0"><img src="assets/img/auto-09.jpg" alt="BMW azul com fumaça saindo do escapamento" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 2 / 6; --m: clamp(60px, 9vw, 140px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-10.jpg" data-alt="Chevrolet Corsa prata com faróis azulados" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="0.8"><img src="assets/img/auto-10.jpg" alt="Chevrolet Corsa prata com faróis azulados" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 7 / 11; --m: clamp(90px, 14vw, 220px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-11.jpg" data-alt="Chevrolet Chevette verde, vista traseira" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="1.2"><img src="assets/img/auto-11.jpg" alt="Chevrolet Chevette verde, vista traseira" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-          <figure class="mosaic__item" style="--c: 10 / 13; --m: clamp(60px, 9vw, 140px)" data-reveal>
-            <div class="frame frame--natural" data-lightbox data-gallery="automotivo" data-src="assets/img/auto-12.jpg" data-alt="BMW preto em preto e branco" tabindex="0" role="button" aria-label="Ampliar foto">
-              <div class="pz" data-speed="0.7"><img src="assets/img/auto-12.jpg" alt="BMW preto em preto e branco" loading="lazy"></div>
-              <span class="frame__hint" aria-hidden="true">+</span>
-            </div>
-          </figure>
-        </div>
+        <div class="mosaic" id="auto-mosaic"></div>
       </div>
     </section>
 
@@ -530,6 +392,84 @@
       email: 'brunosantsjob@gmail.com',
       assunto: 'Orçamento de fotografia'
     };
+
+    /* ===== Curadoria central: trocar fotos aqui, sem mexer no HTML ===== */
+    var GALLERY = {
+      // Camadas do fundo da Home (a primeira é a base). Sem legenda.
+      hero: [
+        { src: 'foto-1', alt: 'Gérberas e flores em tons vermelhos, amarelos e brancos' },
+        { src: 'automotivo-1', alt: 'Carro de competição número 12 em pista' },
+        { src: 'auto-07', alt: 'Mercedes-AMG GT3 amarelo em pista' },
+        { src: 'foto-2', alt: 'Buquê de gérberas coloridas' },
+        { src: 'auto-08', alt: 'Chevrolet Onix de competição em pista' },
+        { src: 'auto-06', alt: 'Honda Civic prateado rebaixado com aerofólio' },
+        { src: 'life-06', alt: 'Flores lilás iluminadas pelo sol' }
+      ],
+      // Galeria em destaque (Etapa 3): fotos horizontais primeiro, depois verticais. Ainda não exibida.
+      featured: [
+        // { src: 'auto-07', alt: '...' }, ...
+      ],
+      // Retratos. Entradas com slot = espaço aguardando foto.
+      retratos: [
+        { src: 'retrato-01', alt: 'Retrato em preto e branco de um jovem olhando para cima', cols: '1 / 8', top: '0', speed: 0.6 },
+        { slot: 'Foto de retrato', cols: '9 / 13', top: 'clamp(120px, 18vw, 280px)' },
+        { slot: 'Foto de retrato', cols: '2 / 6', top: 'clamp(40px, 6vw, 96px)' }
+      ],
+      // Olhar de rua / Life. Dúvida: foto-6 (escultura) pode sair se não for da proposta de rua.
+      life: [
+        { src: 'foto-4', alt: 'Rosas em tons de pêssego, amarelo e rosa', cols: '1 / 8', top: '0', speed: 0.5 },
+        { src: 'life-06', alt: 'Flores lilás iluminadas pelo sol, com fundo desfocado', cols: '9 / 13', top: 'clamp(90px, 14vw, 220px)', speed: 1.1 },
+        { src: 'foto-1', alt: 'Flores laranja e vermelhas de kalanchoe em vaso', cols: '2 / 6', top: 'clamp(40px, 6vw, 96px)', speed: 0.8 },
+        { src: 'foto-3', alt: 'Orquídea cymbidium em tons rosados com detalhes magenta', cols: '7 / 11', top: 'clamp(60px, 10vw, 160px)', speed: 1.3 },
+        { src: 'foto-2', alt: 'Buquê de gérberas coloridas', cols: '1 / 7', top: 'clamp(40px, 6vw, 96px)', speed: 0.7 },
+        { src: 'foto-6', alt: 'Escultura em mármore de um bezerro abraçado por uma figura', cols: '8 / 13', top: 'clamp(60px, 10vw, 160px)', speed: 0.9 },
+        { src: 'life-07', alt: 'Flor roxa e laranja com abelhas', cols: '4 / 10', top: 'clamp(60px, 10vw, 160px)', speed: 1.0 }
+      ],
+      // Automotivo (a abertura panorâmica auto-07 fica fora desta lista, no topo da seção)
+      automotivo: [
+        { src: 'auto-01', alt: 'Carro antigo vermelho em evento, vista frontal', cols: '1 / 7', top: '0', speed: 0.6 },
+        { src: 'auto-02', alt: 'Dodge cinza visto de trás em fila de carros', cols: '7 / 13', top: 'clamp(90px, 14vw, 220px)', speed: 1.1 },
+        { src: 'auto-06', alt: 'Honda Civic prateado rebaixado com aerofólio', cols: '2 / 13', top: 'clamp(60px, 9vw, 140px)', speed: 0.7 },
+        { src: 'auto-03', alt: 'Detalhe do capô de Chevrolet Camaro cinza com emblema', cols: '1 / 5', top: 'clamp(60px, 9vw, 140px)', speed: 0.8 },
+        { src: 'auto-04', alt: 'Chevrolet Camaro cinza visto de trás', cols: '6 / 10', top: 'clamp(90px, 14vw, 220px)', speed: 1.2 },
+        { src: 'auto-05', alt: 'Carro amarelo de competição com adesivos, capô aberto', cols: '10 / 13', top: 'clamp(60px, 9vw, 140px)', speed: 0.9 },
+        { src: 'auto-08', alt: 'Chevrolet Onix de competição em pista', cols: '1 / 9', top: 'clamp(60px, 9vw, 140px)', speed: 0.6 },
+        { src: 'auto-09', alt: 'BMW azul com fumaça saindo do escapamento', cols: '9 / 13', top: 'clamp(90px, 14vw, 220px)', speed: 1.0 },
+        { src: 'auto-10', alt: 'Chevrolet Corsa prata com faróis azulados', cols: '2 / 6', top: 'clamp(60px, 9vw, 140px)', speed: 0.8 },
+        { src: 'auto-11', alt: 'Chevrolet Chevette verde, vista traseira', cols: '7 / 11', top: 'clamp(90px, 14vw, 220px)', speed: 1.2 },
+        { src: 'auto-12', alt: 'BMW preto em preto e branco', cols: '10 / 13', top: 'clamp(60px, 9vw, 140px)', speed: 0.7 }
+      ],
+      // Galeria em movimento 3D (Etapa 4): reservada para seleção futura.
+      motion: []
+    };
+
+    function renderGallery() {
+      var base = 'assets/img/';
+      function item(e, group) {
+        var style = '--c: ' + e.cols + '; --m: ' + e.top;
+        if (e.slot) {
+          return '<div class="mosaic__item" style="' + style + '"><div class="slot" aria-label="' + e.slot + '">' + e.slot + '<br>aguardando envio</div></div>';
+        }
+        var s = base + e.src + '.jpg';
+        return '<figure class="mosaic__item" style="' + style + '" data-reveal>' +
+          '<div class="frame frame--natural" data-lightbox data-gallery="' + group + '" data-src="' + s + '" data-alt="' + e.alt + '" tabindex="0" role="button" aria-label="Ampliar foto">' +
+          '<div class="pz" data-speed="' + e.speed + '"><img src="' + s + '" alt="' + e.alt + '" loading="lazy"></div>' +
+          '<span class="frame__hint" aria-hidden="true">+</span></div></figure>';
+      }
+      function fill(id, list, group) {
+        var el = document.getElementById(id);
+        if (el) el.innerHTML = list.map(function (e) { return item(e, group); }).join('');
+      }
+      fill('retratos-mosaic', GALLERY.retratos, 'retratos');
+      fill('life-mosaic', GALLERY.life, 'life');
+      fill('auto-mosaic', GALLERY.automotivo, 'automotivo');
+
+      var hero = document.querySelector('[data-hero]');
+      if (hero) hero.innerHTML = GALLERY.hero.map(function (e, i) {
+        return '<img class="hero__img" src="' + base + e.src + '.jpg" alt="' + e.alt + '"' + (i ? ' loading="lazy"' : '') + '>';
+      }).join('');
+    }
+    renderGallery();
 
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
