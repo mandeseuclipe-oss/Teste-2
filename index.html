@@ -491,6 +491,19 @@
         var HOLD = 7, FADE = 3, n = heroLayers.length;
         var cycle = gsap.timeline({ repeat: -1, defaults: { ease: 'power1.inOut' } });
         for (var i = 1; i < n; i++) cycle.to(heroLayers[i], { opacity: 1, duration: FADE }, i * HOLD);
+        // Movimento por foto da Home: nome do arquivo -> 'none' | 'zoom-in' | 'slide-left' | 'slide-right'
+        // Com 'none' a Home fica exatamente como antes.
+        var HOME_MOTION = {
+          'foto-1.jpg': 'none', 'automotivo-1.jpg': 'none', 'auto-07.jpg': 'none', 'foto-2.jpg': 'none',
+          'auto-08.jpg': 'none', 'auto-06.jpg': 'none', 'life-06.jpg': 'none'
+        };
+        heroLayers.forEach(function (layer, i) {
+          var file = (layer.getAttribute('src') || '').split('/').pop();
+          var m = HOME_MOTION[file] || 'none';
+          if (m === 'zoom-in') cycle.fromTo(layer, { scale: 1.1 }, { scale: 1, duration: HOLD + FADE, ease: 'none' }, i * HOLD);
+          if (m === 'slide-left') cycle.fromTo(layer, { xPercent: 4, scale: 1.08 }, { xPercent: -4, scale: 1.08, duration: HOLD + FADE, ease: 'none' }, i * HOLD);
+          if (m === 'slide-right') cycle.fromTo(layer, { xPercent: -4, scale: 1.08 }, { xPercent: 4, scale: 1.08, duration: HOLD + FADE, ease: 'none' }, i * HOLD);
+        });
         var out = n * HOLD;
         for (var j = n - 1; j >= 1; j--) cycle.to(heroLayers[j], { opacity: 0, duration: FADE }, out + (n - 1 - j) * 0.8);
       }
