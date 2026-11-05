@@ -135,6 +135,17 @@
     }
     .slot--wide { aspect-ratio: 16 / 9; }
 
+    /* Galeria em destaque: horizontal em linha cheia, verticais em pares */
+    .feat { display: grid; gap: clamp(64px, 9vw, 140px); }
+    .feat__row { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
+    .feat__item { margin: 0; }
+    .feat__item .frame { background: transparent; }
+    .feat__cap { display: block; margin-top: 12px; font-size: 10px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--cinza); }
+    .feat__row--pair .feat__item:nth-child(2) { margin-top: clamp(60px, 12vw, 200px); }
+    @media (min-width: 768px) {
+      .feat__row--pair { grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 64px); }
+    }
+
     /* Retratos */
     .retratos .mosaic__item .frame { background: transparent; }
     .retratos__text { margin-top: clamp(48px, 7vw, 96px); max-width: 36ch; }
@@ -279,11 +290,32 @@
       <div class="hero__scroll" aria-hidden="true"><span></span></div>
     </section>
 
+    <!-- DESTAQUE -->
+    <section class="section destaque" id="destaque">
+      <div class="section__head">
+        <div>
+          <span class="eyebrow"><b>01</b>Galeria em destaque</span>
+        </div>
+      </div>
+      <div class="feat" id="destaque-grid"></div>
+    </section>
+
+    <!-- MOVIMENTO (3D: a ser implementado na Etapa 4) -->
+    <section class="section movimento" id="movimento">
+      <div class="section__head">
+        <div>
+          <span class="eyebrow"><b>02</b>Galeria em movimento</span>
+          <h2 class="display section__title mask"><span>Movimento</span></h2>
+        </div>
+      </div>
+      <div class="mosaic" id="movimento-mosaic"></div>
+    </section>
+
     <!-- RETRATOS -->
     <section class="section retratos" id="retratos">
       <div class="section__head">
         <div>
-          <span class="eyebrow"><b>01</b>Categoria principal</span>
+          <span class="eyebrow"><b>03</b>Categoria principal</span>
           <h2 class="display section__title mask"><span>Retratos</span></h2>
         </div>
         <p class="section__desc">Pessoas diante da câmera, com luz natural e atenção ao olhar e à postura.</p>
@@ -300,7 +332,7 @@
     <section class="section life" id="life">
       <div class="section__head">
         <div>
-          <span class="eyebrow"><b>02</b>Cotidiano</span>
+          <span class="eyebrow"><b>04</b>Cotidiano</span>
           <h2 class="display section__title mask"><span>Life</span></h2>
         </div>
         <p class="section__desc">Observação de flores, objetos e pequenas cenas da cidade.</p>
@@ -318,7 +350,7 @@
           </div>
         </figure>
         <div class="auto-open__title">
-          <span class="eyebrow"><b>03</b>Automotivo</span>
+          <span class="eyebrow"><b>05</b>Automotivo</span>
           <h2 class="display mask"><span>Automotivo</span></h2>
         </div>
       </div>
@@ -344,7 +376,7 @@
         <!-- Foto do fotógrafo: substituir este bloco pelo <img> quando for enviada -->
         <div class="slot" aria-label="Espaço reservado para a foto do fotógrafo">Foto do fotógrafo<br>aguardando envio</div>
         <div class="sobre__text" data-reveal>
-          <span class="eyebrow"><b>04</b>Sobre</span>
+          <span class="eyebrow"><b>06</b>Sobre</span>
           <h2 class="display mask"><span>Bruno Sants</span></h2>
           <p>Fotógrafo de retratos, cenas do cotidiano e automotivo, com luz natural e atenção aos detalhes.</p>
           <p class="serif">Cada foto é uma observação do que está ao redor.</p>
@@ -354,7 +386,7 @@
 
     <!-- CONTATO -->
     <footer class="contato" id="contato">
-      <span class="eyebrow"><b>05</b>Contato</span>
+      <span class="eyebrow"><b>07</b>Contato</span>
       <h2 class="display contato__title mask"><span>Vamos fazer<br><span class="serif">uma foto?</span></span></h2>
 
       <ul class="contato__list">
@@ -405,9 +437,15 @@
         { src: 'auto-06', alt: 'Honda Civic prateado rebaixado com aerofólio' },
         { src: 'life-06', alt: 'Flores lilás iluminadas pelo sol' }
       ],
-      // Galeria em destaque (Etapa 3): fotos horizontais primeiro, depois verticais. Ainda não exibida.
+      // Galeria em destaque: cada linha é uma lista. 1 foto = horizontal em linha cheia; 2 fotos = verticais lado a lado.
+      // cat = legenda discreta (apenas o nome da categoria).
       featured: [
-        // { src: 'auto-07', alt: '...' }, ...
+        [ { src: 'auto-07', alt: 'Mercedes-AMG GT3 amarelo em pista', cat: 'Automotivo' } ],
+        [ { src: 'retrato-01', alt: 'Retrato em preto e branco de um jovem olhando para cima', cat: 'Retratos' },
+          { src: 'foto-3', alt: 'Orquídea cymbidium em tons rosados com detalhes magenta', cat: 'Life' } ],
+        [ { src: 'automotivo-1', alt: 'Carro de competição número 12 em pista', cat: 'Automotivo' } ],
+        [ { src: 'auto-03', alt: 'Detalhe do capô de Chevrolet Camaro cinza com emblema', cat: 'Automotivo' },
+          { src: 'life-07', alt: 'Flor roxa e laranja com abelhas', cat: 'Life' } ]
       ],
       // Retratos. Entradas com slot = espaço aguardando foto.
       retratos: [
@@ -439,8 +477,15 @@
         { src: 'auto-11', alt: 'Chevrolet Chevette verde, vista traseira', cols: '7 / 11', top: 'clamp(90px, 14vw, 220px)', speed: 1.2 },
         { src: 'auto-12', alt: 'BMW preto em preto e branco', cols: '10 / 13', top: 'clamp(60px, 9vw, 140px)', speed: 0.7 }
       ],
-      // Galeria em movimento 3D (Etapa 4): reservada para seleção futura.
-      motion: []
+      // Galeria em movimento: provisória, em layout de mosaico. Será substituída pelo mural 3D na Etapa 4.
+      motion: [
+        { src: 'auto-09', alt: 'BMW azul com fumaça saindo do escapamento', cols: '1 / 7', top: '0', speed: 0.8 },
+        { src: 'foto-2', alt: 'Buquê de gérberas coloridas', cols: '8 / 13', top: 'clamp(60px, 10vw, 160px)', speed: 0.9 },
+        { src: 'auto-10', alt: 'Chevrolet Corsa prata com faróis azulados', cols: '2 / 6', top: 'clamp(90px, 14vw, 220px)', speed: 1.1 },
+        { src: 'foto-1', alt: 'Flores laranja e vermelhas de kalanchoe em vaso', cols: '7 / 12', top: 'clamp(60px, 10vw, 160px)', speed: 0.7 },
+        { src: 'auto-12', alt: 'BMW preto em preto e branco', cols: '1 / 5', top: 'clamp(60px, 10vw, 160px)', speed: 1.2 },
+        { src: 'life-07', alt: 'Flor roxa e laranja com abelhas', cols: '6 / 11', top: 'clamp(90px, 14vw, 220px)', speed: 1.0 }
+      ]
     };
 
     function renderGallery() {
@@ -463,6 +508,20 @@
       fill('retratos-mosaic', GALLERY.retratos, 'retratos');
       fill('life-mosaic', GALLERY.life, 'life');
       fill('auto-mosaic', GALLERY.automotivo, 'automotivo');
+      fill('movimento-mosaic', GALLERY.motion, 'movimento');
+
+      var feat = document.getElementById('destaque-grid');
+      if (feat) feat.innerHTML = GALLERY.featured.map(function (row) {
+        var pair = row.length > 1;
+        return '<div class="feat__row' + (pair ? ' feat__row--pair' : '') + '">' + row.map(function (e) {
+          var s = base + e.src + '.jpg';
+          return '<figure class="feat__item">' +
+            '<div class="frame frame--natural" data-lightbox data-gallery="destaque" data-src="' + s + '" data-alt="' + e.alt + '" tabindex="0" role="button" aria-label="Ampliar foto">' +
+            '<div class="pz" data-speed="0.6"><img src="' + s + '" alt="' + e.alt + '" loading="lazy"></div>' +
+            '<span class="frame__hint" aria-hidden="true">+</span></div>' +
+            '<figcaption class="feat__cap">' + e.cat + '</figcaption></figure>';
+        }).join('') + '</div>';
+      }).join('');
 
       var hero = document.querySelector('[data-hero]');
       if (hero) hero.innerHTML = GALLERY.hero.map(function (e, i) {
@@ -625,7 +684,7 @@
       });
 
       // Revelação das fotos: máscara animada que abre de baixo para cima
-      gsap.utils.toArray('.mosaic .frame, .auto-open').forEach(function (f) {
+      gsap.utils.toArray('.mosaic .frame, .feat .frame, .auto-open').forEach(function (f) {
         gsap.fromTo(f, { clipPath: 'inset(100% 0 0 0)' }, {
           clipPath: 'inset(0% 0 0 0)', duration: 1.3, ease: 'power3.inOut',
           scrollTrigger: { trigger: f, start: 'top 88%', once: true }
