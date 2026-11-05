@@ -15,7 +15,7 @@
       --gelo: #FFFFFF;        /* Branco Gelo */
       --preto: #000000;       /* Preto absoluto */
       --cinza: #8a8a8a;
-      --gutter: 16px;
+      --gutter: 24px;
       --ease: cubic-bezier(.2,.7,.1,1);
     }
     *, *::before, *::after { box-sizing: border-box; }
@@ -168,7 +168,7 @@
 
     /* ---------- Telas maiores ---------- */
     @media (min-width: 768px) {
-      :root { --gutter: 48px; }
+      :root { --gutter: 72px; }
       .portrait { grid-template-columns: 1.1fr .9fr; }
       .life { grid-template-columns: repeat(12, 1fr); }
       .life__item:nth-child(1) { grid-column: span 7; }
