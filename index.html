@@ -522,6 +522,21 @@
         scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
       });
 
+      /* Parallax nas fotos de Life: a imagem aumentada em 14% anda dentro da moldura,
+         sem deixar bordas vazias e sem cortar o enquadramento além do necessário. */
+      var lifeAmps = [4, 6, 5, 6, 5];
+      gsap.utils.toArray('.life__item--natural').forEach(function (item, i) {
+        var frame = item.querySelector('.frame');
+        var img = item.querySelector('img');
+        if (!frame || !img) return;
+        var amp = lifeAmps[i % lifeAmps.length];
+        gsap.set(img, { scale: 1.14 });
+        gsap.fromTo(img, { yPercent: -amp }, {
+          yPercent: amp, ease: 'none',
+          scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: 0.6 }
+        });
+      });
+
       /* Parallax das fotos da seção Life (imagem anda mais devagar que a moldura) */
       gsap.utils.toArray('[data-parallax] img').forEach(function (img) {
         gsap.fromTo(img, { yPercent: -8 }, {
