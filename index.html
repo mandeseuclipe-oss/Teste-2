@@ -200,10 +200,10 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition-duration: .01ms !important; }
     }
-    /* Títulos de seção centralizados para facilitar a leitura */
-    .section__head { flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-    .section__head > div { display: flex; flex-direction: column; align-items: center; }
-    .section__desc { margin-left: auto; margin-right: auto; }
+    /* Life e Retratos: fotos em proporção original; texto de Retratos um pouco mais à direita */
+    .life .life__item--natural .frame { aspect-ratio: auto; background: transparent; }
+    .life .life__item--natural img { height: auto; margin-top: 0; }
+    @media (min-width: 900px) { .retratos .section__desc { position: relative; left: 40px; } }
   </style>
 </head>
 <body>
@@ -284,39 +284,29 @@
         <p class="section__desc">O cotidiano da cidade e das coisas pequenas: flores, esculturas, movimento e pausas.</p>
       </div>
       <div class="life">
-        <figure class="life__item" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-4.jpg" data-alt="Rosas em tons de pêssego, amarelo e rosa">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-4.jpg" alt="Rosas em tons de pêssego, amarelo e rosa" loading="lazy"></div>
-          </div>
-        </figure>
-        <figure class="life__item" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-3.jpg" data-alt="Orquídea rosada com detalhes magenta">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-3.jpg" alt="Orquídea rosada com detalhes magenta" loading="lazy"></div>
-          </div>
-        </figure>
-        <figure class="life__item" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-6.jpg" data-alt="Escultura em mármore de um bezerro abraçado por uma figura">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-6.jpg" alt="Escultura em mármore de um bezerro abraçado por uma figura" loading="lazy"></div>
-          </div>
-        </figure>
-        <figure class="life__item" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-2.jpg" data-alt="Buquê de gérberas coloridas">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-2.jpg" alt="Buquê de gérberas coloridas" loading="lazy"></div>
-          </div>
-        </figure>
-        <figure class="life__item life__item--wide" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-src="assets/img/foto-5.jpg" data-alt="Skatista atravessando uma avenida ao entardecer">
-            <div data-parallax style="height:100%"><img src="assets/img/foto-5.jpg" alt="Skatista atravessando uma avenida ao entardecer" loading="lazy"></div>
+        <figure class="life__item life__item--natural" data-reveal style="margin:0">
+          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-passaro.jpg" data-alt="Pássaro preto e branco atrás de grades de madeira" tabindex="0" role="button" aria-label="Ampliar foto">
+            <img src="assets/img/life-passaro.jpg" alt="Pássaro preto e branco atrás de grades de madeira" loading="lazy">
           </div>
         </figure>
         <figure class="life__item life__item--natural" data-reveal style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/life-06.jpg" data-alt="Flores lilás iluminadas pelo sol, com fundo desfocado">
-            <img src="assets/img/life-06.jpg" alt="Flores lilás iluminadas pelo sol, com fundo desfocado" loading="lazy">
+          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-chapeu.jpg" data-alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" tabindex="0" role="button" aria-label="Ampliar foto">
+            <img src="assets/img/life-chapeu.jpg" alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" loading="lazy">
           </div>
         </figure>
         <figure class="life__item life__item--natural" data-reveal style="margin:0">
-          <div class="frame frame--natural" data-lightbox data-src="assets/img/life-07.jpg" data-alt="Flor roxa e laranja com abelhas">
-            <img src="assets/img/life-07.jpg" alt="Flor roxa e laranja com abelhas" loading="lazy">
+          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-banco.jpg" data-alt="Homem sentado em banco de concreto em praça, com saco preto no colo" tabindex="0" role="button" aria-label="Ampliar foto">
+            <img src="assets/img/life-banco.jpg" alt="Homem sentado em banco de concreto em praça, com saco preto no colo" loading="lazy">
+          </div>
+        </figure>
+        <figure class="life__item life__item--natural" data-reveal style="margin:0">
+          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-flor-rosa.jpg" data-alt="Flor rosa iluminada pelo sol, com fundo desfocado" tabindex="0" role="button" aria-label="Ampliar foto">
+            <img src="assets/img/life-flor-rosa.jpg" alt="Flor rosa iluminada pelo sol, com fundo desfocado" loading="lazy">
+          </div>
+        </figure>
+        <figure class="life__item life__item--natural" data-reveal style="margin:0">
+          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-passaro-marrom.jpg" data-alt="Pássaro marrom caminhando sobre uma mureta" tabindex="0" role="button" aria-label="Ampliar foto">
+            <img src="assets/img/life-passaro-marrom.jpg" alt="Pássaro marrom caminhando sobre uma mureta" loading="lazy">
           </div>
         </figure>
       </div>
