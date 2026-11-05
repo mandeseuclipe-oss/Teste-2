@@ -206,6 +206,13 @@
     .life .life__item--natural .frame { aspect-ratio: auto; background: transparent; }
     .life .life__item--natural img { height: auto; margin-top: 0; }
     @media (min-width: 900px) { .retratos .section__desc { position: relative; left: 40px; } }
+    /* Faixa 16:9 do Automotivo, com degradê escuro na base como na Home */
+    .auto-cycle { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #050505; margin-bottom: clamp(56px, 8vw, 120px); }
+    .auto-cycle__slot { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; border: 1px dashed rgba(255,255,255,.28); color: var(--cinza); font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    .auto-cycle__slot:nth-child(2) { display: none; }
+    .auto-cycle__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .auto-cycle__img:not(:first-of-type) { opacity: 0; }
+    .auto-cycle::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 32%; background: linear-gradient(to bottom, rgba(0,0,0,0), #000); pointer-events: none; }
   </style>
 </head>
 <body>
@@ -323,6 +330,12 @@
         </div>
         <p class="section__desc">Carros, detalhes mecânicos e a estrada em movimento.</p>
       </div>
+      <!-- Faixa 16:9 do Automotivo (mesma lógica da Home). Até 2 fotos: substituir os espaços por <img class="auto-cycle__img"> -->
+      <div class="auto-cycle" data-reveal aria-label="Destaques automotivos">
+        <div class="auto-cycle__slot">Foto 16:9 aguardando envio</div>
+        <div class="auto-cycle__slot">Foto 16:9 aguardando envio</div>
+      </div>
+
       <div class="auto-grid" data-reveal>
         <figure class="auto-item" style="margin:0">
           <div class="frame frame--natural" data-lightbox data-src="assets/img/auto-01.jpg" data-alt="Carro antigo vermelho em evento, vista frontal">
@@ -562,6 +575,20 @@
           scrollTrigger: { trigger: t, start: 'top 90%', once: true }
         });
       });
+
+      // Faixa 16:9 do Automotivo: alterna as fotos com fade lento (só ativa com 2 ou mais fotos)
+      var autoImgs = gsap.utils.toArray('.auto-cycle__img');
+      if (autoImgs.length > 1) {
+        var AH = 7, AF = 3, an = autoImgs.length, acur = 0, az = 1;
+        var acycle = function () {
+          var idx = (acur + 1) % an;
+          az++; autoImgs[idx].style.zIndex = az;
+          gsap.fromTo(autoImgs[idx], { opacity: 0 }, { opacity: 1, duration: AF, ease: 'power1.inOut' });
+          acur = idx;
+          gsap.delayedCall(AH + AF, acycle);
+        };
+        gsap.delayedCall(AH, acycle);
+      }
 
       window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     })();
