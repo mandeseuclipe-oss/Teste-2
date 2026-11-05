@@ -206,7 +206,33 @@
     .life .life__item--natural .frame { aspect-ratio: auto; background: transparent; }
     .life .life__item--natural img { height: auto; margin-top: 0; }
     @media (min-width: 900px) { .retratos .section__desc { position: relative; left: 40px; } }
+    /* ---------- Home: abertura, sequência de fotos e navegação ---------- */
+    .hero { display: flex; flex-direction: column; justify-content: center; padding: 0 var(--gutter); background: #000; }
+    .hero .hero__content { position: relative; left: auto; right: auto; bottom: auto; z-index: 2; }
+    .hero .hero__space { width: .28em; }
+    .hero .hero__lead { margin: 28px 0 0; font-size: clamp(16px, 1.9vw, 22px); line-height: 1.5; max-width: 34ch; opacity: .9; }
+    .hero .hero__year { display: block; margin-top: 22px; }
+    .hero .hero__hint { position: absolute; left: 50%; right: auto; top: auto; bottom: calc(env(safe-area-inset-bottom) + 32px); transform: translateX(-50%); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .75; white-space: nowrap; }
+    .hero .hero__hint b { display: inline-block; margin-left: 6px; font-weight: 700; }
+
+    .intro-stack { position: relative; height: 320vh; background: #000; }
+    .intro-stack__sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+    .intro-stack__item { position: absolute; left: 50%; top: 50%; margin: 0; width: max-content; transform: translate(-50%, -50%); opacity: 0; }
+    .intro-stack__item img { display: block; width: auto; height: auto; max-width: 90vw; max-height: 76vh; }
+
+    .home-nav { padding: clamp(96px, 14vw, 200px) var(--gutter) clamp(120px, 16vw, 220px); background: #000; }
+    .home-nav ul { list-style: none; margin: 0; padding: 0; }
+    .home-nav li { border-top: 1px solid var(--linha); }
+    .home-nav li:last-child { border-bottom: 1px solid var(--linha); }
+    .home-nav a { display: block; padding: 0.18em 0; font-family: "Bebas Neue", sans-serif; font-size: clamp(56px, 10vw, 150px); line-height: 1; text-decoration: none; text-transform: uppercase; transition: color .35s var(--ease), padding-left .5s var(--ease); }
+    .home-nav a:hover, .home-nav a:focus-visible { color: var(--alizarina); padding-left: 16px; outline: none; }
+
+    /* Sem movimento (sem JavaScript, ou com "reduzir movimento"): fotos em coluna simples */
+    .no-motion .intro-stack { height: auto; }
+    .no-motion .intro-stack__sticky { position: static; height: auto; display: flex; flex-direction: column; gap: 48px; padding: 48px var(--gutter); }
+    .no-motion .intro-stack__item { position: relative; left: auto; top: auto; transform: none; opacity: 1; width: 100%; text-align: center; }
   </style>
+  <noscript><style>.intro-stack__item { opacity: 1 !important; }</style></noscript>
 </head>
 <body>
 
@@ -234,26 +260,37 @@
 
   <main id="topo">
     <!-- Hero -->
-    <section class="hero" aria-label="Apresentação">
-      <div class="hero__media" data-hero>
-        <!-- Fundo do hero: fotos que se alternam com fade lento. Trocar o src de cada uma quando necessário -->
-        <img class="hero__img" src="assets/img/home-gaiola.jpg" alt="Pássaro preto e branco atrás de grades de madeira">
-        <img class="hero__img" src="assets/img/home-banco.jpg" alt="Homem sentado em banco de concreto em praça, com saco preto no colo" loading="lazy">
-        <img class="hero__img" src="assets/img/home-publiset.jpg" alt="Carro de corrida Publiset em curva de autódromo" loading="lazy">
-        <img class="hero__img" src="assets/img/home-dakota.jpg" alt="Pickup amarela Dakota em garagem, vista frontal" loading="lazy">
-        <img class="hero__img" src="assets/img/home-flor.jpg" alt="Flores de kalanchoe vermelhas e alaranjadas em vaso, centralizadas" style="object-position: 50% 50%" loading="lazy">
-      </div>
+    <!-- Abertura -->
+    <section class="hero" id="topo" aria-label="Apresentação">
       <div class="hero__content">
         <h1 class="display hero__word" aria-label="Bruno Sants">
-          <span><i>B</i></span><span><i>R</i></span><span><i>U</i></span><span><i>N</i></span><span><i>O</i></span><span><i>S</i></span><span><i>A</i></span><span><i>N</i></span><span><i>T</i></span><span><i>S</i></span>
+          <span><i>B</i></span><span><i>R</i></span><span><i>U</i></span><span><i>N</i></span><span><i>O</i></span><span class="hero__space"></span><span><i>S</i></span><span><i>A</i></span><span><i>N</i></span><span><i>T</i></span><span><i>S</i></span>
         </h1>
-        <div class="hero__meta">
-          <p>Fotografia autoral entre retratos, cenas do cotidiano e o universo automotivo.</p>
-          <span class="eyebrow">Portfólio 2026</span>
-        </div>
+        <p class="hero__lead">Fotografia, movimento e histórias em imagens.</p>
+        <span class="eyebrow hero__year">Portfólio 2026</span>
       </div>
-      <span class="hero__hint">Role para explorar</span>
+      <span class="hero__hint">Role para explorar <b aria-hidden="true">↓</b></span>
     </section>
+
+    <!-- Sequência: três fotos existentes, uma por vez, conforme a rolagem -->
+    <section class="intro-stack" aria-label="Fotografias">
+      <div class="intro-stack__sticky">
+        <figure class="intro-stack__item"><img src="assets/img/home-publiset.jpg" alt="Carro de corrida Publiset em curva de autódromo"></figure>
+        <figure class="intro-stack__item"><img src="assets/img/home-flor.jpg" alt="Flores de kalanchoe vermelhas e alaranjadas em vaso"></figure>
+        <figure class="intro-stack__item"><img src="assets/img/home-gaiola.jpg" alt="Pássaro preto e branco atrás de grades de madeira"></figure>
+      </div>
+    </section>
+
+    <!-- Navegação principal -->
+    <nav class="home-nav" aria-label="Categorias">
+      <ul>
+        <li data-reveal><a href="#retratos">Retratos</a></li>
+        <li data-reveal><a href="#automotivo">Automotivo</a></li>
+        <li data-reveal><a href="#life">Life</a></li>
+        <li data-reveal><a href="#sobre">Sobre</a></li>
+        <li data-reveal><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
 
     <!-- Retratos -->
     <section class="section" id="retratos">
@@ -432,6 +469,7 @@
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var hasGsap = typeof window.gsap !== 'undefined';
+      if (!hasGsap || reduce) document.documentElement.classList.add('no-motion');
 
       /* Menu: troca de cor no hover (CSS) + menu mobile */
       var burger = document.getElementById('burger');
@@ -472,56 +510,38 @@
 
       gsap.registerPlugin(ScrollTrigger);
 
-      /* Intro do hero: letras sobem, foto recua */
+      /* Abertura: o nome sobe, depois aparecem o texto, o ano e a orientação */
       var tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
       tl.from('.hero__word i', { yPercent: 110, duration: 1.3, stagger: .05 }, .15)
-        .from('.hero__img', { scale: 1.12, duration: 2.2, ease: 'power2.out' }, 0)
-        .from('.hero__meta > *, .hero__hint', { y: 18, opacity: 0, duration: .9, stagger: .1 }, .9)
+        .from('.hero__lead, .hero__year', { y: 22, opacity: 0, duration: 1, stagger: .15 }, .8)
+        .from('.hero__hint', { opacity: 0, duration: 1 }, 1.2)
         .from('.header', { yPercent: -100, duration: .9, ease: 'power3.out' }, 0);
 
-      /* Fundo do hero: fotos alternam com fade lento (a primeira fica como base) */
-      var heroLayers = gsap.utils.toArray('.hero__img');
-      if (heroLayers.length > 1) {
-        var HOLD = 7, FADE = 3;
-        // Movimento por foto (nome do arquivo -> 'none' | 'zoom-in' | 'slide-left' | 'slide-right')
-        // Definido em HOME_MOTION abaixo. Com 'none', a foto só faz o fade.
-        var HOME_MOTION = {
-          'home-gaiola.jpg': 'zoom-in',      // passarinho
-          'home-banco.jpg': 'zoom-in',       // homem no banco
-          'home-publiset.jpg': 'slide-left', // carro
-          'home-dakota.jpg': 'slide-left',   // carro
-          'home-flor.jpg': 'zoom-in'         // flor, centralizada
-        };
-        var motionOf = function (layer) {
-          return HOME_MOTION[(layer.getAttribute('src') || '').split('/').pop()] || 'none';
-        };
+      /* Ao rolar, nome e textos saem de cena suavemente */
+      gsap.to('.hero__content, .hero__hint', {
+        opacity: 0, y: -60, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: '45% top', scrub: true }
+      });
 
-        // Ciclo de imagens: sempre para frente, na ordem das fotos em hero__media, e recomeça do início.
-        // Cada foto entra por cima da anterior; quando termina de entrar, as outras são escondidas.
-        var cur = 0, zTop = 1, total = HOLD + FADE;
-        function showNext() {
-          var idx = (cur + 1) % heroLayers.length;
-          var layer = heroLayers[idx];
-          var m = motionOf(layer);
-          zTop++;
-          layer.style.zIndex = zTop;
-          gsap.set(layer, { opacity: 0, scale: m === 'slide-left' || m === 'slide-right' ? 1.08 : 1, xPercent: m === 'slide-left' ? 4 : (m === 'slide-right' ? -4 : 0) });
-          gsap.to(layer, { opacity: 1, duration: FADE, ease: 'power1.inOut', onComplete: function () {
-            heroLayers.forEach(function (other, k) { if (k !== idx) gsap.set(other, { opacity: 0 }); });
-          } });
-          if (m === 'zoom-in') gsap.to(layer, { scale: 1.1, duration: total, ease: 'none' });
-          if (m === 'slide-left') gsap.to(layer, { xPercent: -4, duration: total, ease: 'none' });
-          if (m === 'slide-right') gsap.to(layer, { xPercent: 4, duration: total, ease: 'none' });
-          cur = idx;
-          gsap.delayedCall(total, showNext);
-        }
-        gsap.delayedCall(HOLD, showNext);
-      }
+      /* Movimento por foto: nome do arquivo -> 'none' | 'zoom-in' | 'slide-left' | 'slide-right' */
+      var HOME_MOTION = {
+        'home-publiset.jpg': 'slide-left',
+        'home-flor.jpg': 'zoom-in',
+        'home-gaiola.jpg': 'zoom-in'
+      };
 
-      /* Parallax do hero ao rolar */
-      gsap.to('.hero__media', {
-        yPercent: 14, ease: 'none',
-        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+      /* Sequência: uma foto de cada vez, com fade e deslocamento suave; a anterior sai ao entrar a próxima */
+      var stackItems = gsap.utils.toArray('.intro-stack__item');
+      gsap.set(stackItems, { opacity: 0 });
+      var seq = gsap.timeline({ scrollTrigger: { trigger: '.intro-stack', start: 'top top', end: 'bottom bottom', scrub: 0.8 } });
+      stackItems.forEach(function (el, i) {
+        var img = el.querySelector('img');
+        var m = HOME_MOTION[(img.getAttribute('src') || '').split('/').pop()] || 'none';
+        var t = i * 1.2;
+        if (i > 0) seq.to(stackItems[i - 1], { opacity: 0, y: -40, duration: 1, ease: 'power1.inOut' }, t);
+        seq.fromTo(el, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, t);
+        if (m === 'zoom-in') seq.fromTo(img, { scale: 1 }, { scale: 1.05, duration: 2.4, ease: 'none' }, t);
+        if (m === 'slide-left') seq.fromTo(img, { xPercent: 3 }, { xPercent: -3, duration: 2.4, ease: 'none' }, t);
       });
 
       /* Parallax nas fotos de Life: a imagem aumentada em 14% anda dentro da moldura,
