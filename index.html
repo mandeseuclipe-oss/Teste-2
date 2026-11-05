@@ -200,6 +200,10 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition-duration: .01ms !important; }
     }
+    /* Títulos de seção centralizados para facilitar a leitura */
+    .section__head { flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .section__head > div { display: flex; flex-direction: column; align-items: center; }
+    .section__desc { margin-left: auto; margin-right: auto; }
   </style>
 </head>
 <body>
