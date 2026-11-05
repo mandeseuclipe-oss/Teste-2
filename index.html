@@ -146,6 +146,15 @@
       .feat__row--pair { grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 64px); }
     }
 
+    /* Galeria em movimento: mural 3D (desktop). Em telas menores vira coluna simples. */
+    .mural { position: relative; height: 100vh; height: 100svh; perspective: 1400px; perspective-origin: 50% 45%; overflow: hidden; }
+    .mural__wall { position: absolute; inset: 0; transform-style: preserve-3d; }
+    .mural__item { position: absolute; will-change: transform, opacity; }
+    .mural__item .frame { background: transparent; }
+    .mural--flat { height: auto; perspective: none; overflow: visible; }
+    .mural--flat .mural__wall { position: static; transform: none !important; display: grid; grid-template-columns: 1fr; gap: 40px; }
+    .mural--flat .mural__item { position: relative; left: auto !important; top: auto !important; width: 100% !important; transform: none !important; opacity: 1 !important; }
+
     /* Retratos */
     .retratos .mosaic__item .frame { background: transparent; }
     .retratos__text { margin-top: clamp(48px, 7vw, 96px); max-width: 36ch; }
@@ -308,7 +317,7 @@
           <h2 class="display section__title mask"><span>Movimento</span></h2>
         </div>
       </div>
-      <div class="mosaic" id="movimento-mosaic"></div>
+      <div class="mural" id="movimento-mural"><div class="mural__wall" id="movimento-wall"></div></div>
     </section>
 
     <!-- RETRATOS -->
@@ -508,7 +517,19 @@
       fill('retratos-mosaic', GALLERY.retratos, 'retratos');
       fill('life-mosaic', GALLERY.life, 'life');
       fill('auto-mosaic', GALLERY.automotivo, 'automotivo');
-      fill('movimento-mosaic', GALLERY.motion, 'movimento');
+      // Mural 3D: posições (x, y em %; w = largura em %; z = profundidade em px)
+      var MURAL_POS = [
+        { x: 4, y: 8, w: 26, z: -160 }, { x: 37, y: 0, w: 22, z: 60 }, { x: 66, y: 14, w: 28, z: -280 },
+        { x: 10, y: 52, w: 24, z: 120 }, { x: 42, y: 46, w: 28, z: -90 }, { x: 72, y: 60, w: 22, z: 20 }
+      ];
+      var wall = document.getElementById('movimento-wall');
+      if (wall) wall.innerHTML = GALLERY.motion.map(function (e, i) {
+        var p = MURAL_POS[i % MURAL_POS.length];
+        var s = base + e.src + '.jpg';
+        return '<div class="mural__item" data-z="' + p.z + '" style="left:' + p.x + '%;top:' + p.y + '%;width:' + p.w + '%;transform:translate3d(0,0,' + p.z + 'px)">' +
+          '<div class="frame frame--natural" data-lightbox data-gallery="movimento" data-src="' + s + '" data-alt="' + e.alt + '" tabindex="0" role="button" aria-label="Ampliar foto">' +
+          '<img src="' + s + '" alt="' + e.alt + '" loading="lazy"><span class="frame__hint" aria-hidden="true">+</span></div></div>';
+      }).join('');
 
       var feat = document.getElementById('destaque-grid');
       if (feat) feat.innerHTML = GALLERY.featured.map(function (row) {
@@ -533,6 +554,9 @@
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var hasGsap = typeof window.gsap !== 'undefined';
+      var use3d = !reduce && window.matchMedia('(min-width: 900px)').matches;
+      var muralEl = document.getElementById('movimento-mural');
+      if (muralEl && !use3d) muralEl.classList.add('mural--flat');
 
       /* ----- Contato ----- */
       var ci = document.getElementById('c-instagram');
@@ -580,31 +604,46 @@
       });
       var current = null, index = 0, lastFocus = null;
 
-      function show(i, animate) {
+      function show(i, animate, srcRect) {
         var list = galleries[current];
         index = (i + list.length) % list.length;
         var el = list[index];
         lbImg.src = el.dataset.src;
         lbImg.alt = el.dataset.alt || '';
         lbCount.textContent = (index + 1) + ' / ' + list.length;
-        if (animate && hasGsap && !reduce) gsap.fromTo(lbImg, { opacity: 0, scale: .97 }, { opacity: 1, scale: 1, duration: .6, ease: 'power3.out' });
+        if (!(animate && hasGsap && !reduce)) return;
+        lbImg.onload = function () {
+          lbImg.onload = null;
+          if (srcRect) {
+            // Transição a partir da foto clicada: a imagem parte da posição e do tamanho originais
+            var r = lbImg.getBoundingClientRect();
+            var sc = srcRect.width / r.width;
+            var dx = (srcRect.left + srcRect.width / 2) - (r.left + r.width / 2);
+            var dy = (srcRect.top + srcRect.height / 2) - (r.top + r.height / 2);
+            gsap.fromTo(lbImg, { x: dx, y: dy, scale: sc }, { x: 0, y: 0, scale: 1, duration: .8, ease: 'power3.out', clearProps: 'transform' });
+          } else {
+            gsap.fromTo(lbImg, { opacity: 0, scale: .97 }, { opacity: 1, scale: 1, duration: .6, ease: 'power3.out', clearProps: 'transform' });
+          }
+        };
       }
       function open(el) {
         var g = el.dataset.gallery || 'geral';
         current = g; lastFocus = el;
         var idx = galleries[g].indexOf(el);
+        var src = el.querySelector('img');
+        var srcRect = src ? src.getBoundingClientRect() : null;
         lb.classList.add('is-open');
         document.body.style.overflow = 'hidden';
         if (hasGsap && !reduce) gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: .45, ease: 'power2.out' });
-        show(idx, true);
-        document.getElementById('lbClose').focus();
+        show(idx, true, srcRect);
+        document.getElementById('lbClose').focus({ preventScroll: true });
       }
       function close() {
         lb.classList.remove('is-open');
         document.body.style.overflow = '';
         if (lastFocus) lastFocus.focus({ preventScroll: true });
       }
-      function step(d) { show(index + d, true); }
+      function step(d) { show(index + d, true, null); }
       frames.forEach(function (el) {
         el.addEventListener('click', function () { open(el); });
         el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(el); } });
@@ -683,12 +722,27 @@
         gsap.from(s, { yPercent: 105, duration: 1.1, ease: 'power4.out', scrollTrigger: { trigger: s, start: 'top 90%', once: true } });
       });
 
-      // Revelação das fotos: máscara animada que abre de baixo para cima
-      gsap.utils.toArray('.mosaic .frame, .feat .frame, .auto-open').forEach(function (f) {
-        gsap.fromTo(f, { clipPath: 'inset(100% 0 0 0)' }, {
-          clipPath: 'inset(0% 0 0 0)', duration: 1.3, ease: 'power3.inOut',
-          scrollTrigger: { trigger: f, start: 'top 88%', once: true }
-        });
+      // Fotos: horizontais entram deslizando de um lado (alternando); verticais recebem zoom quase imperceptível.
+      gsap.utils.toArray('.mosaic .frame, .feat .frame').forEach(function (f, i) {
+        var img = f.querySelector('img');
+        if (!img) return;
+        var side = i % 2 ? 1 : -1;
+        var go = function () {
+          var horizontal = img.naturalWidth > img.naturalHeight;
+          // Imagem carregada depois de a foto já ter passado pela tela: aparece direto, sem animação
+          if (f.getBoundingClientRect().top < window.innerHeight * 0.88) return;
+          gsap.fromTo(f,
+            { opacity: 0, x: horizontal ? side * 40 : 0, scale: horizontal ? 1 : .97 },
+            { opacity: 1, x: 0, scale: 1, duration: 1.2, ease: 'power3.out',
+              scrollTrigger: { trigger: f, start: 'top 88%', once: true } });
+        };
+        if (img.complete && img.naturalWidth) go(); else img.addEventListener('load', go, { once: true });
+      });
+
+      // Abertura panorâmica do Automotivo: revelação por máscara
+      gsap.fromTo('.auto-open', { clipPath: 'inset(100% 0 0 0)' }, {
+        clipPath: 'inset(0% 0 0 0)', duration: 1.3, ease: 'power3.inOut',
+        scrollTrigger: { trigger: '.auto-open', start: 'top 88%', once: true }
       });
 
       // Blocos de texto e slots: sobem uma vez
@@ -721,6 +775,31 @@
         scrollTrigger: { trigger: '.auto-band', start: 'top bottom', end: 'bottom top', scrub: true }
       });
 
+      // Mural 3D: as fotos avançam da profundidade para o plano conforme o scroll; a parede gira suavemente
+      var wallEl = document.getElementById('movimento-wall');
+      if (use3d && wallEl && muralEl) {
+        var mtl = gsap.timeline();
+        mtl.fromTo(wallEl, { rotateX: -10, rotateY: 8 }, { rotateX: 0, rotateY: 0, ease: 'none', duration: 1 }, 0);
+        // Estado inicial explícito: as fotos começam escondidas em profundidade (timelines não aplicam o estado inicial sozinhas)
+        gsap.utils.toArray('.mural__item').forEach(function (it) {
+          gsap.set(it, { z: (parseFloat(it.dataset.z) || 0) - 420, opacity: 0, y: 70 });
+        });
+        gsap.utils.toArray('.mural__item').forEach(function (it, i) {
+          var z = parseFloat(it.dataset.z) || 0;
+          mtl.fromTo(it, { z: z - 420, opacity: 0, y: 70 }, { z: z, opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, i * 0.22);
+        });
+        ScrollTrigger.create({ trigger: muralEl, start: 'top top', end: '+=150%', pin: true, scrub: 0.8, animation: mtl });
+      }
+
+      // Imagens lazy mudam a altura da página ao carregar: recalcula os pontos de disparo (com debounce)
+      var refreshTimer = null;
+      function scheduleRefresh() {
+        clearTimeout(refreshTimer);
+        refreshTimer = setTimeout(function () { ScrollTrigger.refresh(); }, 150);
+      }
+      document.querySelectorAll('img').forEach(function (img) {
+        if (!img.complete) img.addEventListener('load', scheduleRefresh, { once: true });
+      });
       window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     })();
   </script>
