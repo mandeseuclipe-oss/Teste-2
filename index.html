@@ -486,11 +486,9 @@
       /* Fundo do hero: fotos alternam com fade lento (a primeira fica como base) */
       var heroLayers = gsap.utils.toArray('.hero__img');
       if (heroLayers.length > 1) {
-        var HOLD = 7, FADE = 3, n = heroLayers.length;
-        var cycle = gsap.timeline({ repeat: -1, defaults: { ease: 'power1.inOut' } });
-        for (var i = 1; i < n; i++) cycle.to(heroLayers[i], { opacity: 1, duration: FADE }, i * HOLD);
-        // Movimento por foto da Home: nome do arquivo -> 'none' | 'zoom-in' | 'slide-left' | 'slide-right'
-        // Com 'none' a Home fica exatamente como antes.
+        var HOLD = 7, FADE = 3;
+        // Movimento por foto (nome do arquivo -> 'none' | 'zoom-in' | 'slide-left' | 'slide-right')
+        // Definido em HOME_MOTION abaixo. Com 'none', a foto só faz o fade.
         var HOME_MOTION = {
           'home-gaiola.jpg': 'zoom-in',      // passarinho
           'home-banco.jpg': 'zoom-in',       // homem no banco
@@ -498,15 +496,45 @@
           'home-dakota.jpg': 'slide-left',   // carro
           'home-flor.jpg': 'zoom-in'         // flor, centralizada
         };
-        heroLayers.forEach(function (layer, i) {
-          var file = (layer.getAttribute('src') || '').split('/').pop();
-          var m = HOME_MOTION[file] || 'none';
-          if (m === 'zoom-in') cycle.fromTo(layer, { scale: 1 }, { scale: 1.1, duration: HOLD + FADE, ease: 'none' }, i * HOLD);
-          if (m === 'slide-left') cycle.fromTo(layer, { xPercent: 4, scale: 1.08 }, { xPercent: -4, scale: 1.08, duration: HOLD + FADE, ease: 'none' }, i * HOLD);
-          if (m === 'slide-right') cycle.fromTo(layer, { xPercent: -4, scale: 1.08 }, { xPercent: 4, scale: 1.08, duration: HOLD + FADE, ease: 'none' }, i * HOLD);
-        });
-        var out = n * HOLD;
-        for (var j = n - 1; j >= 1; j--) cycle.to(heroLayers[j], { opacity: 0, duration: FADE }, out + (n - 1 - j) * 0.8);
+        var motionOf = function (layer) {
+          return HOME_MOTION[(layer.getAttribute('src') || '').split('/').pop()] || 'none';
+        };
+
+        // Rotação aleatória: um "baralho" com todas as fotos, embaralhado a cada rodada.
+        // Nunca repete a foto atual, e não existe ordem fixa nem retorno foto a foto.
+        var deck = [], cur = 0, zTop = 1;
+        function shuffle(a) {
+          for (var k = a.length - 1; k > 0; k--) {
+            var r = Math.floor(Math.random() * (k + 1)); var t = a[k]; a[k] = a[r]; a[r] = t;
+          }
+          return a;
+        }
+        function nextIndex() {
+          if (!deck.length) {
+            deck = shuffle(heroLayers.map(function (_, i) { return i; }).filter(function (i) { return i !== cur; }));
+          }
+          return deck.pop();
+        }
+        function showNext() {
+          var idx = nextIndex();
+          var layer = heroLayers[idx];
+          var m = motionOf(layer);
+          var total = HOLD + FADE;
+          zTop++;
+          layer.style.zIndex = zTop;
+          // Estado inicial: invisível, na posição de início do movimento
+          gsap.set(layer, { opacity: 0, scale: m === 'zoom-in' ? 1 : (m === 'none' ? 1 : 1.08), xPercent: m === 'slide-left' ? 4 : (m === 'slide-right' ? -4 : 0) });
+          // Fade de entrada por cima da foto atual
+          gsap.to(layer, { opacity: 1, duration: FADE, ease: 'power1.inOut' });
+          // Movimento durante toda a permanência da foto
+          if (m === 'zoom-in') gsap.to(layer, { scale: 1.1, duration: total, ease: 'none' });
+          if (m === 'slide-left') gsap.to(layer, { xPercent: -4, scale: 1.08, duration: total, ease: 'none' });
+          if (m === 'slide-right') gsap.to(layer, { xPercent: 4, scale: 1.08, duration: total, ease: 'none' });
+          cur = idx;
+          gsap.delayedCall(total, showNext);
+        }
+        // A primeira foto já está visível; a rotação começa depois da permanência inicial
+        gsap.delayedCall(HOLD, showNext);
       }
 
       /* Parallax do hero ao rolar */
