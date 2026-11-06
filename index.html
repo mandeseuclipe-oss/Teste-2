@@ -206,6 +206,29 @@
     .life .life__item--natural .frame { aspect-ratio: auto; background: transparent; }
     .life .life__item--natural img { height: auto; margin-top: 0; }
     @media (min-width: 900px) { .retratos .section__desc { position: relative; left: 40px; } }
+    /* ---------- Página Life: abertura, destaque por vez, cursor ---------- */
+    .life-page { background: #000; }
+    .life-open { position: relative; height: 100vh; height: 100svh; min-height: 520px; overflow: hidden; }
+    .life-open__media { position: absolute; inset: 0; }
+    .life-open__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+    .life-open__img:not(:first-child) { opacity: 0; }
+    .life-open__shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,.25), rgba(0,0,0,.55)); }
+    .life-open__cat { position: absolute; z-index: 2; left: var(--gutter); top: calc(env(safe-area-inset-top) + 96px); font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; opacity: .8; }
+    .life-open__content { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: calc(env(safe-area-inset-bottom) + 12vh); }
+    .life-open__title { margin: 0; font-family: "Playfair Display", Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(72px, 13vw, 200px); line-height: .9; }
+    .life-open__lead { margin: 22px 0 0; font-size: clamp(15px, 1.6vw, 20px); line-height: 1.5; opacity: .9; }
+
+    .life-feature-list { padding: clamp(96px, 14vw, 200px) var(--gutter) clamp(120px, 16vw, 220px); }
+    .life-feature { margin: 0 0 clamp(140px, 20vw, 280px); }
+    .life-feature:last-child { margin-bottom: 0; }
+    .life-feature__frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #0b0b0b; }
+    .life-feature__pz { position: absolute; inset: -3%; will-change: transform; }
+    .life-feature__pz img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform-origin: 50% 50%; will-change: transform; }
+    .life-feature__shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 45%); pointer-events: none; }
+    .life-feature__cap { display: flex; justify-content: space-between; gap: 16px; margin-top: 16px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--cinza); }
+    @media (max-width: 767px) {
+      .life-feature__cap { flex-direction: column; gap: 4px; }
+    }
   </style>
 </head>
 <body>
@@ -277,39 +300,60 @@
     </section>
 
     <!-- Life -->
-    <section class="section" id="life">
-      <div class="section__head" data-reveal>
-        <div>
-          <span class="eyebrow">02 — Life</span>
-          <h2 class="display section__title">Life</h2>
+    <section class="life-page" id="life" aria-label="Life">
+      <!-- Abertura em tela cheia. Para alternar várias fotos, acrescente <img class="life-open__img"> -->
+      <header class="life-open">
+        <div class="life-open__media">
+          <img class="life-open__img" src="assets/img/life-passaro.jpg" alt="Pássaro atrás de grades de madeira, com fundo desfocado">
         </div>
-        <p class="section__desc">O cotidiano da cidade e das coisas pequenas: flores, esculturas, movimento e pausas.</p>
-      </div>
-      <div class="life">
-        <figure class="life__item life__item--natural" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-passaro.jpg" data-alt="Pássaro preto e branco atrás de grades de madeira" tabindex="0" role="button" aria-label="Ampliar foto">
-            <img src="assets/img/life-passaro.jpg" alt="Pássaro preto e branco atrás de grades de madeira" loading="lazy">
+        <div class="life-open__shade" aria-hidden="true"></div>
+        <p class="life-open__cat">Bruno Sants · Portfólio 2026</p>
+        <div class="life-open__content">
+          <h2 class="life-open__title">Life.</h2>
+          <p class="life-open__lead">Um olhar sobre o cotidiano.</p>
+        </div>
+      </header>
+
+      <!-- Uma fotografia em destaque por vez (16:9). Legenda discreta abaixo de cada imagem -->
+      <div class="life-feature-list">
+        <figure class="life-feature">
+          <div class="life-feature__frame" data-cursor>
+            <div class="life-feature__pz">
+              <img src="assets/img/life-banco.jpg" alt="Homem sentado em banco de concreto em praça, com saco preto no colo" loading="lazy">
+            </div>
+            <span class="life-feature__shade" aria-hidden="true"></span>
           </div>
+          <figcaption class="life-feature__cap"><span>Sem pressa</span><span>Fotografia de rua · 2026</span></figcaption>
         </figure>
-        <figure class="life__item life__item--natural" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-chapeu.jpg" data-alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" tabindex="0" role="button" aria-label="Ampliar foto">
-            <img src="assets/img/life-chapeu.jpg" alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" loading="lazy">
+
+        <figure class="life-feature">
+          <div class="life-feature__frame" data-cursor>
+            <div class="life-feature__pz">
+              <img src="assets/img/life-passaro-marrom.jpg" alt="Pássaro marrom caminhando sobre uma mureta" loading="lazy">
+            </div>
+            <span class="life-feature__shade" aria-hidden="true"></span>
           </div>
+          <figcaption class="life-feature__cap"><span>Fotografia de rua · 2026</span></figcaption>
         </figure>
-        <figure class="life__item life__item--natural" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-banco.jpg" data-alt="Homem sentado em banco de concreto em praça, com saco preto no colo" tabindex="0" role="button" aria-label="Ampliar foto">
-            <img src="assets/img/life-banco.jpg" alt="Homem sentado em banco de concreto em praça, com saco preto no colo" loading="lazy">
+
+        <figure class="life-feature">
+          <div class="life-feature__frame" data-cursor>
+            <div class="life-feature__pz">
+              <img src="assets/img/life-chapeu.jpg" alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" loading="lazy">
+            </div>
+            <span class="life-feature__shade" aria-hidden="true"></span>
           </div>
+          <figcaption class="life-feature__cap"><span>Fotografia de rua · 2026</span></figcaption>
         </figure>
-        <figure class="life__item life__item--natural" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-flor-rosa.jpg" data-alt="Flor rosa iluminada pelo sol, com fundo desfocado" tabindex="0" role="button" aria-label="Ampliar foto">
-            <img src="assets/img/life-flor-rosa.jpg" alt="Flor rosa iluminada pelo sol, com fundo desfocado" loading="lazy">
+
+        <figure class="life-feature">
+          <div class="life-feature__frame" data-cursor>
+            <div class="life-feature__pz">
+              <img src="assets/img/life-flor-rosa.jpg" alt="Flor rosa iluminada pelo sol, com fundo desfocado" loading="lazy">
+            </div>
+            <span class="life-feature__shade" aria-hidden="true"></span>
           </div>
-        </figure>
-        <figure class="life__item life__item--natural" data-reveal style="margin:0">
-          <div class="frame" data-lightbox data-gallery="life" data-src="assets/img/life-passaro-marrom.jpg" data-alt="Pássaro marrom caminhando sobre uma mureta" tabindex="0" role="button" aria-label="Ampliar foto">
-            <img src="assets/img/life-passaro-marrom.jpg" alt="Pássaro marrom caminhando sobre uma mureta" loading="lazy">
-          </div>
+          <figcaption class="life-feature__cap"><span>Fotografia de rua · 2026</span></figcaption>
         </figure>
       </div>
     </section>
@@ -516,6 +560,52 @@
           gsap.delayedCall(total, showNext);
         }
         gsap.delayedCall(HOLD, showNext);
+      }
+
+      /* ----- Página Life: destaque por vez ----- */
+      var lifeOpenImgs = gsap.utils.toArray('.life-open__img');
+      if (lifeOpenImgs.length > 1) {
+        var LH = 8, LF = 3, ln = lifeOpenImgs.length, lcur = 0, lz = 1;
+        var lifeCycle = function () {
+          var idx = (lcur + 1) % ln;
+          lz++; lifeOpenImgs[idx].style.zIndex = lz;
+          gsap.fromTo(lifeOpenImgs[idx], { opacity: 0 }, { opacity: 1, duration: LF, ease: 'power1.inOut' });
+          lcur = idx;
+          gsap.delayedCall(LH + LF, lifeCycle);
+        };
+        gsap.delayedCall(LH, lifeCycle);
+      }
+
+      gsap.utils.toArray('.life-feature').forEach(function (fig) {
+        var frame = fig.querySelector('.life-feature__frame');
+        var img = fig.querySelector('.life-feature__pz img');
+        var shade = fig.querySelector('.life-feature__shade');
+        var cap = fig.querySelector('.life-feature__cap');
+        // Revelação de baixo para cima com deslocamento e opacidade; o degradê inferior some na entrada
+        var enter = gsap.timeline({ scrollTrigger: { trigger: fig, start: 'top 82%', once: true } });
+        enter.fromTo(frame, { clipPath: 'inset(100% 0% 0% 0%)', y: 40, opacity: 0 },
+                            { clipPath: 'inset(0% 0% 0% 0%)', y: 0, opacity: 1, duration: 1.6, ease: 'power3.inOut' }, 0)
+             .fromTo(shade, { opacity: 1 }, { opacity: 0, duration: 1.6, ease: 'power2.out' }, 0)
+             .fromTo(cap, { opacity: 0 }, { opacity: 1, duration: 1, ease: 'power1.out' }, .6);
+        // Zoom muito discreto: de 1.05 para 1.0, enquanto a imagem está em destaque
+        gsap.fromTo(img, { scale: 1.05 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: fig, start: 'top bottom', end: 'bottom top', scrub: true } });
+      });
+
+      // Cursor: parallax sutil e limitado, só em telas com mouse e sem "reduzir movimento"
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        gsap.utils.toArray('.life-feature__frame').forEach(function (frame) {
+          var pz = frame.querySelector('.life-feature__pz');
+          var maxX = 12, maxY = 8;
+          frame.addEventListener('mousemove', function (e) {
+            var r = frame.getBoundingClientRect();
+            var nx = ((e.clientX - r.left) / r.width) * 2 - 1;
+            var ny = ((e.clientY - r.top) / r.height) * 2 - 1;
+            gsap.to(pz, { x: -nx * maxX, y: -ny * maxY, duration: 1.2, ease: 'power3.out', overwrite: 'auto' });
+          });
+          frame.addEventListener('mouseleave', function () {
+            gsap.to(pz, { x: 0, y: 0, duration: 1.4, ease: 'power3.out', overwrite: 'auto' });
+          });
+        });
       }
 
       /* Parallax do hero ao rolar */
