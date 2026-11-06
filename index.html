@@ -98,13 +98,13 @@
     .hero__hint { position: absolute; z-index: 2; right: var(--gutter); top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: right center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .7; }
 
     /* ---------- Seções ---------- */
-    .section { padding: 120px var(--gutter); }
+    .section { padding: 168px var(--gutter); }
     .section__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; }
     .section__title { font-size: clamp(64px, 12vw, 160px); margin: 8px 0 0; }
     .section__desc { max-width: 40ch; margin: 0; font-size: 15px; line-height: 1.6; color: var(--cinza); }
 
     /* Retratos: foto grande com legenda */
-    .portrait { display: grid; gap: 32px; align-items: center; }
+    .portrait { display: grid; gap: 72px; align-items: center; }
     .frame { position: relative; overflow: hidden; background: #111; cursor: zoom-in; }
     .frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
     .frame:hover img { transform: scale(1.03); }
@@ -197,7 +197,7 @@
     }
     @media (max-width: 767px) {
       .hero__hint { display: none; }
-      .section { padding: 88px var(--gutter); }
+      .section { padding: 120px var(--gutter); }
       .palette div { height: 130px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -253,6 +253,9 @@
 
     <!-- Retratos -->
     <section class="section" id="retratos">
+      <div class="about__head" data-reveal>
+        <span class="eyebrow about__eyebrow">Quem é Bruno Sants?</span>
+      </div>
       <div class="portrait">
         <figure data-reveal style="margin:0">
           <div class="frame frame--natural" data-lightbox data-src="assets/img/retrato-01.jpg" data-alt="Retrato em preto e branco de um jovem olhando para cima">
