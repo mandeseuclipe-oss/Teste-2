@@ -629,7 +629,8 @@
       var galFrames = galItems.map(function (it) { return it.querySelector('.gal-item__frame'); });
       var blurObj = { v: 0 }, blurTarget = 0, lastSY = window.scrollY;
       function applyGalBlur() {
-        var f = blurObj.v > .05 ? 'blur(' + blurObj.v.toFixed(2) + 'px)' : 'none';
+        var v = blurObj.v, c = Math.min(1.2, v * .3).toFixed(2);
+        var f = v > .05 ? 'blur(' + v.toFixed(2) + 'px) drop-shadow(' + c + 'px 0 0 rgba(255,40,60,.4)) drop-shadow(-' + c + 'px 0 0 rgba(0,190,255,.4))' : 'none';
         galFrames.forEach(function (fr) { fr.style.filter = f; });
       }
       gsap.ticker.add(function () {
@@ -643,7 +644,7 @@
       });
 
       /* Parallax vertical independente: cada foto tem amplitude e velocidade próprias, sem exagero */
-      var galAmps = [32, 46, 24, 40, 34, 50, 28, 44, 36, 22, 46, 30];
+      var galAmps = [42, 60, 32, 52, 44, 64, 36, 56, 46, 30, 60, 40];
       galItems.forEach(function (it, i) {
         var frame = it.querySelector('.gal-item__frame');
         gsap.fromTo(frame, { y: -galAmps[i % galAmps.length] }, {
