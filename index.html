@@ -141,8 +141,9 @@
     /* Sobre */
     .about { background: var(--gelo); color: var(--preto); }
     .about .section__desc { color: #444; }
-    .about .section__head { margin-bottom: 72px; }
-    .about__photo { width: min(560px, 100%); margin: 0 0 112px !important; }
+    .about__head { text-align: center; margin: 0 auto 112px; }
+    .about__eyebrow { display: inline-block; font-size: clamp(20px, 2.8vw, 32px); letter-spacing: .14em; line-height: 1.3; }
+    .about__photo { width: min(560px, 100%); margin: 0 auto 112px !important; }
     .about__grid { display: grid; gap: 72px; }
     .about__grid p { font-size: 17px; line-height: 1.9; margin: 0; max-width: 52ch; }
     .palette { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 112px; }
@@ -378,11 +379,8 @@
 
     <!-- Sobre -->
     <section class="section about" id="sobre">
-      <div class="section__head" data-reveal>
-        <div>
-          <span class="eyebrow">Quem é Bruno Sants?</span>
-          <h2 class="display section__title">Bruno Sants</h2>
-        </div>
+      <div class="about__head" data-reveal>
+        <span class="eyebrow about__eyebrow">Quem é Bruno Sants?</span>
       </div>
       <figure class="about__photo" data-reveal style="margin:0">
         <div class="frame frame--natural" data-lightbox data-src="assets/img/artista-01.jpg" data-alt="Retrato gráfico em vermelho e preto com textura de impressão">
