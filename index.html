@@ -162,6 +162,33 @@
     .contact a.mail:hover { color: var(--preto); }
     .foot { margin-top: 80px; display: flex; justify-content: space-between; gap: 16px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; flex-wrap: wrap; }
 
+    /* Galeria */
+    .gal { columns: 3; column-gap: clamp(24px, 3vw, 48px); }
+    .gal-item { break-inside: avoid; margin: 0 0 clamp(56px, 6vw, 104px); cursor: zoom-in; outline: none; }
+    .gal-item__frame { position: relative; overflow: hidden; background: #111; }
+    .gal-item__frame img { display: block; width: 100%; height: auto; will-change: transform; }
+    .gal-item__shade { position: absolute; inset: 0; background: rgba(0,0,0,.35); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
+    .gal-item:hover .gal-item__shade, .gal-item:focus-visible .gal-item__shade { opacity: 1; }
+    .gal-item__cap { margin-top: 14px; font-size: 12px; line-height: 1.5; letter-spacing: .06em; color: var(--cinza); opacity: 0; transition: opacity .6s var(--ease); }
+    .gal-item:hover .gal-item__cap, .gal-item:focus-visible .gal-item__cap { opacity: 1; }
+    .gal-item:focus-visible { box-shadow: 0 0 0 2px var(--alizarina); }
+    @media (max-width: 899px) { .gal { columns: 2; } }
+    @media (max-width: 560px) { .gal { columns: 1; } }
+
+    /* Visualizador da galeria */
+    .gv { position: fixed; inset: 0; z-index: 300; background: #000; display: none; align-items: center; justify-content: center; padding: 56px 72px; touch-action: pan-y; }
+    .gv.is-open { display: flex; }
+    .gv__stage { margin: 0; display: grid; justify-items: center; gap: 16px; max-width: 100%; }
+    .gv__stage img { display: block; max-width: 100%; max-height: calc(100vh - 150px); width: auto; height: auto; object-fit: contain; }
+    .gv__cap { font-size: 12px; letter-spacing: .06em; color: var(--cinza); text-align: center; max-width: 60ch; }
+    .gv__close { position: absolute; top: 14px; right: 18px; font-size: 40px; line-height: 1; padding: 8px 12px; }
+    .gv__close:hover { color: var(--alizarina); }
+    .gv__nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 56px; line-height: 1; padding: 12px; }
+    .gv__prev { left: 8px; }
+    .gv__next { right: 8px; }
+    .gv__nav:hover { color: var(--alizarina); }
+    @media (max-width: 640px) { .gv { padding: 56px 16px; } .gv__nav { display: none; } }
+
     /* Lightbox */
     .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.94); display: none; align-items: center; justify-content: center; padding: 24px; }
     .lightbox.is-open { display: flex; }
@@ -272,6 +299,99 @@
       </div>
     </section>
 
+    <!-- Galeria -->
+    <section class="section" id="galeria" aria-label="Galeria">
+      <div class="about__head" data-reveal>
+        <span class="eyebrow about__eyebrow">Galeria</span>
+      </div>
+      <div class="gal">
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Retrato em preto e branco de um jovem olhando para cima" data-src="assets/img/retrato-01.jpg" data-alt="Retrato em preto e branco de um jovem olhando para cima">
+          <div class="gal-item__frame">
+            <img src="assets/img/retrato-01.jpg" alt="Retrato em preto e branco de um jovem olhando para cima" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Retrato em preto e branco de um jovem olhando para cima</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pássaro preto e branco atrás de grades de madeira" data-src="assets/img/life-passaro.jpg" data-alt="Pássaro preto e branco atrás de grades de madeira">
+          <div class="gal-item__frame">
+            <img src="assets/img/life-passaro.jpg" alt="Pássaro preto e branco atrás de grades de madeira" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Pássaro preto e branco atrás de grades de madeira</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Homem sentado em banco de concreto em praça, com saco preto no colo" data-src="assets/img/life-banco.jpg" data-alt="Homem sentado em banco de concreto em praça, com saco preto no colo">
+          <div class="gal-item__frame">
+            <img src="assets/img/life-banco.jpg" alt="Homem sentado em banco de concreto em praça, com saco preto no colo" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Homem sentado em banco de concreto em praça, com saco preto no colo</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" data-src="assets/img/life-chapeu.jpg" data-alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado">
+          <div class="gal-item__frame">
+            <img src="assets/img/life-chapeu.jpg" alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pássaro marrom caminhando sobre uma mureta" data-src="assets/img/life-passaro-marrom.jpg" data-alt="Pássaro marrom caminhando sobre uma mureta">
+          <div class="gal-item__frame">
+            <img src="assets/img/life-passaro-marrom.jpg" alt="Pássaro marrom caminhando sobre uma mureta" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Pássaro marrom caminhando sobre uma mureta</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Flor rosa iluminada pelo sol, com fundo desfocado" data-src="assets/img/life-flor-rosa.jpg" data-alt="Flor rosa iluminada pelo sol, com fundo desfocado">
+          <div class="gal-item__frame">
+            <img src="assets/img/life-flor-rosa.jpg" alt="Flor rosa iluminada pelo sol, com fundo desfocado" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Flor rosa iluminada pelo sol, com fundo desfocado</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pássaro preto e branco atrás de grades de madeira, em outra foto" data-src="assets/img/home-gaiola.jpg" data-alt="Pássaro preto e branco atrás de grades de madeira, em outra foto">
+          <div class="gal-item__frame">
+            <img src="assets/img/home-gaiola.jpg" alt="Pássaro preto e branco atrás de grades de madeira, em outra foto" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Pássaro preto e branco atrás de grades de madeira, em outra foto</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Carro de corrida Publiset em curva de autódromo" data-src="assets/img/home-publiset.jpg" data-alt="Carro de corrida Publiset em curva de autódromo">
+          <div class="gal-item__frame">
+            <img src="assets/img/home-publiset.jpg" alt="Carro de corrida Publiset em curva de autódromo" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Carro de corrida Publiset em curva de autódromo</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pickup amarela Dakota em garagem, vista frontal" data-src="assets/img/home-dakota.jpg" data-alt="Pickup amarela Dakota em garagem, vista frontal">
+          <div class="gal-item__frame">
+            <img src="assets/img/home-dakota.jpg" alt="Pickup amarela Dakota em garagem, vista frontal" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Pickup amarela Dakota em garagem, vista frontal</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Flores de kalanchoe vermelhas e alaranjadas em vaso" data-src="assets/img/home-flor.jpg" data-alt="Flores de kalanchoe vermelhas e alaranjadas em vaso">
+          <div class="gal-item__frame">
+            <img src="assets/img/home-flor.jpg" alt="Flores de kalanchoe vermelhas e alaranjadas em vaso" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Flores de kalanchoe vermelhas e alaranjadas em vaso</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Mercedes-AMG GT3 amarelo em pista" data-src="assets/img/auto-07.jpg" data-alt="Mercedes-AMG GT3 amarelo em pista">
+          <div class="gal-item__frame">
+            <img src="assets/img/auto-07.jpg" alt="Mercedes-AMG GT3 amarelo em pista" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">Mercedes-AMG GT3 amarelo em pista</figcaption>
+        </figure>
+        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: BMW preto em preto e branco" data-src="assets/img/auto-12.jpg" data-alt="BMW preto em preto e branco">
+          <div class="gal-item__frame">
+            <img src="assets/img/auto-12.jpg" alt="BMW preto em preto e branco" loading="lazy">
+            <span class="gal-item__shade" aria-hidden="true"></span>
+          </div>
+          <figcaption class="gal-item__cap">BMW preto em preto e branco</figcaption>
+        </figure>
+      </div>
+    </section>
+
     <!-- Contato -->
     <footer class="contact" id="contato">
       <h2 class="display" data-reveal>Vamos<br>fazer uma<br>foto?</h2>
@@ -286,6 +406,16 @@
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
     <button class="lightbox__close" id="lbClose" aria-label="Fechar">×</button>
     <img id="lbImg" alt="">
+  </div>
+
+  <div class="gv" id="gv" role="dialog" aria-modal="true" aria-label="Galeria ampliada">
+    <button class="gv__close" id="gvClose" aria-label="Fechar">×</button>
+    <button class="gv__nav gv__prev" id="gvPrev" aria-label="Foto anterior">‹</button>
+    <figure class="gv__stage">
+      <img id="gvImg" alt="">
+      <figcaption class="gv__cap" id="gvCap"></figcaption>
+    </figure>
+    <button class="gv__nav gv__next" id="gvNext" aria-label="Próxima foto">›</button>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -329,6 +459,47 @@
       });
 
       /* Cabeçalho: menu com links que trocam de cor ao passar o mouse já está no CSS */
+
+      /* Galeria: visualizador com setas, ESC, teclado e gestos de deslizar */
+      var gv = document.getElementById('gv');
+      var gvImg = document.getElementById('gvImg');
+      var gvCap = document.getElementById('gvCap');
+      var gItems = Array.prototype.slice.call(document.querySelectorAll('.gal-item'));
+      var gIdx = 0;
+      function gvShow(i) {
+        gIdx = (i + gItems.length) % gItems.length;
+        var it = gItems[gIdx];
+        var apply = function () { gvImg.src = it.dataset.src; gvImg.alt = it.dataset.alt; gvCap.textContent = it.dataset.alt; };
+        if (hasGsap && !reduce) {
+          gsap.to(gvImg, { opacity: 0, duration: .25, ease: 'power1.in', onComplete: function () {
+            apply();
+            gsap.to(gvImg, { opacity: 1, duration: .6, ease: 'power2.out' });
+          } });
+        } else { apply(); }
+      }
+      function gvOpen(i) { gv.classList.add('is-open'); gvShow(i); }
+      function gvClose() { gv.classList.remove('is-open'); }
+      gItems.forEach(function (it, i) {
+        it.addEventListener('click', function () { gvOpen(i); });
+        it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gvOpen(i); } });
+      });
+      document.getElementById('gvClose').addEventListener('click', gvClose);
+      document.getElementById('gvPrev').addEventListener('click', function () { gvShow(gIdx - 1); });
+      document.getElementById('gvNext').addEventListener('click', function () { gvShow(gIdx + 1); });
+      document.addEventListener('keydown', function (e) {
+        if (!gv.classList.contains('is-open')) return;
+        if (e.key === 'Escape') gvClose();
+        if (e.key === 'ArrowLeft') gvShow(gIdx - 1);
+        if (e.key === 'ArrowRight') gvShow(gIdx + 1);
+      });
+      var touchX = null;
+      gv.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+      gv.addEventListener('touchend', function (e) {
+        if (touchX === null) return;
+        var dx = e.changedTouches[0].clientX - touchX;
+        touchX = null;
+        if (Math.abs(dx) > 40) gvShow(dx < 0 ? gIdx + 1 : gIdx - 1);
+      });
 
       if (!hasGsap || reduce) return;
 
@@ -406,6 +577,33 @@
         gsap.fromTo(img, { yPercent: -8 }, {
           yPercent: 8, ease: 'none',
           scrollTrigger: { trigger: img.closest('.life__item'), start: 'top bottom', end: 'bottom top', scrub: true }
+        });
+      });
+
+      /* Galeria: entrada progressiva com stagger, zoom sutil e parallax com o cursor */
+      var galItems = gsap.utils.toArray('.gal-item');
+      gsap.set(galItems, { opacity: 0, y: 40 });
+      ScrollTrigger.batch(galItems, {
+        start: 'top 88%', once: true,
+        onEnter: function (batch) {
+          gsap.to(batch, { opacity: 1, y: 0, duration: 1.3, ease: 'power3.out', stagger: .14, overwrite: true });
+        }
+      });
+      var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      galItems.forEach(function (it) {
+        var img = it.querySelector('.gal-item__frame img');
+        it.addEventListener('mouseenter', function () {
+          gsap.to(img, { scale: 1.04, duration: 1, ease: 'power2.out', overwrite: 'auto' });
+        });
+        it.addEventListener('mousemove', function (e) {
+          if (!canHover) return;
+          var r = it.getBoundingClientRect();
+          var nx = (e.clientX - r.left) / r.width - .5;
+          var ny = (e.clientY - r.top) / r.height - .5;
+          gsap.to(img, { x: -nx * 10, y: -ny * 8, scale: 1.04, duration: .9, ease: 'power3.out', overwrite: 'auto' });
+        });
+        it.addEventListener('mouseleave', function () {
+          gsap.to(img, { x: 0, y: 0, scale: 1, duration: 1, ease: 'power3.out', overwrite: 'auto' });
         });
       });
 
