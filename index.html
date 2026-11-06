@@ -225,8 +225,6 @@
     .home-nav li { border-top: 1px solid var(--linha); }
     .home-nav li:last-child { border-bottom: 1px solid var(--linha); }
     .home-nav a { display: block; padding: 0.18em 0; font-family: "Bebas Neue", sans-serif; font-size: clamp(56px, 10vw, 150px); line-height: 1; text-decoration: none; text-transform: uppercase; transition: color .35s var(--ease), padding-left .5s var(--ease); }
-    .home-nav li { overflow: hidden; }
-    .home-nav a { will-change: transform; }
     .home-nav a:hover, .home-nav a:focus-visible { color: var(--alizarina); padding-left: 16px; outline: none; }
 
     /* Sem movimento (sem JavaScript, ou com "reduzir movimento"): fotos em coluna simples */
@@ -235,9 +233,6 @@
     .no-motion .intro-stack__item { position: relative; left: auto; top: auto; transform: none; opacity: 1; width: 100%; text-align: center; }
   </style>
   <noscript><style>.intro-stack__item { opacity: 1 !important; }</style></noscript>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Person","name":"Bruno Sants","jobTitle":"Fotógrafo","description":"Fotografia de retratos, cenas do cotidiano e automotivo.","url":"https://mandeseuclipe-oss.github.io/Teste-2/"}
-  </script>
 </head>
 <body>
 
@@ -518,13 +513,9 @@
       /* Abertura: o nome sobe, depois aparecem o texto, o ano e a orientação */
       var tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
       tl.from('.hero__word i', { yPercent: 110, duration: 1.3, stagger: .05 }, .15)
-        .from('.hero__lead', { clipPath: 'inset(0 0 100% 0)', duration: 1.3, ease: 'power3.inOut' }, .8)
-        .from('.hero__year', { opacity: 0, duration: 1 }, 1.1)
+        .from('.hero__lead, .hero__year', { y: 22, opacity: 0, duration: 1, stagger: .15 }, .8)
         .from('.hero__hint', { opacity: 0, duration: 1 }, 1.2)
         .from('.header', { yPercent: -100, duration: .9, ease: 'power3.out' }, 0);
-
-      /* Categorias: cada nome sobe de dentro de uma máscara, ao entrar na tela */
-      gsap.from('.home-nav a', { yPercent: 105, duration: 1.1, ease: 'power4.out', stagger: .08, scrollTrigger: { trigger: '.home-nav', start: 'top 80%', once: true } });
 
       /* Ao rolar, nome e textos saem de cena suavemente */
       gsap.to('.hero__content, .hero__hint', {
