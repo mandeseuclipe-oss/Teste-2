@@ -409,6 +409,17 @@
         });
       });
 
+      /* O Artista: parallax simples na foto enquanto a página rola */
+      gsap.utils.toArray('.portrait .frame--natural').forEach(function (frame) {
+        var img = frame.querySelector('img');
+        if (!img) return;
+        gsap.set(img, { scale: 1.1 });
+        gsap.fromTo(img, { y: -24 }, {
+          y: 24, ease: 'none',
+          scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: true }
+        });
+      });
+
       /* Revelação de blocos com intenção: sobem e aparecem uma vez */
       gsap.utils.toArray('[data-reveal]').forEach(function (el) {
         gsap.from(el, {
