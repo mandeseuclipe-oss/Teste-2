@@ -265,7 +265,7 @@
           </div>
         </figure>
         <div class="portrait__text" data-reveal>
-          <p>A fotografia me permite explorar o que existe de único em cada pessoa, lugar e instante.</p>
+          <p class="intro-split intro-para">A fotografia me permite explorar o que existe de único em cada pessoa, lugar e instante.</p>
           <p>Hoje, na era digital, fica muito vago simplesmente "Tirar uma foto". Gosto de levar a emoção que estou sentindo naquele momento da fotografia adiante, para quem está visualizando minhas obras.</p>
           <p>Não tenho nicho formado. As únicas coisas que me interessam são registrar o momento e, quanto mais natural, melhor!</p>
         </div>
@@ -433,24 +433,25 @@
         }
       }
 
-      /* Quem é Bruno Sants?: letras sobem uma a uma ao aparecer */
-      var intro = document.querySelector('.intro-split');
-      if (intro) {
-        var txt = intro.textContent;
-        intro.textContent = '';
+      /* Introduções com letras que sobem uma a uma ao aparecer (heading e primeiro parágrafo de O Artista) */
+      document.querySelectorAll('.intro-split').forEach(function (el) {
+        var keepSpaces = el.classList.contains('intro-para');
+        var txt = el.textContent;
+        el.textContent = '';
         txt.split('').forEach(function (c) {
+          if (c === ' ' && keepSpaces) { el.appendChild(document.createTextNode(' ')); return; }
           var ch = document.createElement('span');
           ch.className = 'ch';
           var i = document.createElement('i');
           i.textContent = c === ' ' ? '\u00a0' : c;
           ch.appendChild(i);
-          intro.appendChild(ch);
+          el.appendChild(ch);
         });
-        gsap.from('.intro-split .ch i', {
-          yPercent: 110, duration: 1, stagger: .035, ease: 'power4.out',
-          scrollTrigger: { trigger: intro, start: 'top 88%', toggleActions: 'play none none reset' }
+        gsap.from(el.querySelectorAll('.ch i'), {
+          yPercent: 110, duration: 1, stagger: .025, ease: 'power4.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none reset' }
         });
-      }
+      });
 
       /* Títulos de seção: letras sobem em sequência */
       gsap.utils.toArray('.section__title').forEach(function (t) {
