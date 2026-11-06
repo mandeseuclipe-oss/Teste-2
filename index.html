@@ -542,10 +542,20 @@
         });
       });
 
-      /* Retratos: foto com movimento flutuante lento e contínuo */
-      gsap.fromTo('.portrait .frame--natural', { y: 0 }, {
-        y: -14, duration: 4.5, ease: 'sine.inOut', repeat: -1, yoyo: true
-      });
+      /* Retratos: a foto flutua enquanto o mouse está sobre ela (só dispositivos com mouse) */
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        var portraitFrame = document.querySelector('.portrait .frame--natural');
+        if (portraitFrame) {
+          var floatTween = null;
+          portraitFrame.addEventListener('mouseenter', function () {
+            floatTween = gsap.to(portraitFrame, { y: -14, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+          });
+          portraitFrame.addEventListener('mouseleave', function () {
+            if (floatTween) floatTween.kill();
+            gsap.to(portraitFrame, { y: 0, duration: .8, ease: 'power3.out', overwrite: 'auto' });
+          });
+        }
+      }
 
       /* Títulos de seção: letras sobem em sequência */
       gsap.utils.toArray('.section__title').forEach(function (t) {
