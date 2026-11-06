@@ -144,6 +144,10 @@
     .about__head { text-align: center; margin: 0 auto 168px; }
     .about__eyebrow { display: inline-block; font-size: clamp(20px, 2.8vw, 32px); letter-spacing: .14em; line-height: 1.3; }
     .about__photo { width: min(560px, 100%); margin: 0 auto 168px !important; }
+    .artista-hero { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; display: flex; align-items: flex-end; }
+    .artista-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+    .artista-hero__shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.2) 60%, rgba(0,0,0,.35) 100%); }
+    .artista-hero__title { position: relative; z-index: 1; margin: 0 var(--gutter) 14vh; font-family: "Bebas Neue", "Montserrat", sans-serif; font-weight: 400; font-size: clamp(64px, 12vw, 180px); line-height: .9; letter-spacing: .04em; text-transform: uppercase; color: var(--gelo); }
     .intro-split .ch { display: inline-block; overflow: hidden; vertical-align: top; }
     .intro-split .ch i { display: inline-block; font-style: normal; }
     .about__text { max-width: 60ch; margin: 0 auto 168px; display: grid; gap: 32px; }
@@ -254,10 +258,13 @@
     </section>
 
     <!-- Retratos -->
-    <section class="section" id="retratos">
-      <div class="about__head" data-reveal>
-        <span class="eyebrow about__eyebrow intro-split" aria-label="Quem é Bruno Sants?">Quem é Bruno Sants?</span>
-      </div>
+    <!-- O Artista: hero -->
+    <section class="artista-hero" id="retratos" aria-label="Quem é Bruno Sants">
+      <img class="artista-hero__img" src="assets/img/retrato-01.jpg" alt="Retrato em preto e branco de um jovem olhando para cima">
+      <div class="artista-hero__shade" aria-hidden="true"></div>
+      <h1 class="artista-hero__title intro-split">Quem é Bruno Sants?</h1>
+    </section>
+    <section class="section" id="retratos-conteudo">
       <div class="portrait">
         <figure data-reveal style="margin:0">
           <div class="frame frame--natural" data-lightbox data-src="assets/img/retrato-01.jpg" data-alt="Retrato em preto e branco de um jovem olhando para cima">
