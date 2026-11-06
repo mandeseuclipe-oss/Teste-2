@@ -558,14 +558,6 @@
         }
       }
 
-      /* Transição entre páginas: cada seção some ao sair pelo topo e volta ao rolar para cima */
-      gsap.utils.toArray('main > section').forEach(function (sec) {
-        gsap.fromTo(sec, { opacity: 1 }, {
-          opacity: 0, ease: 'none',
-          scrollTrigger: { trigger: sec, start: 'bottom 45%', end: 'bottom top', scrub: true }
-        });
-      });
-
       /* Títulos de seção: letras sobem em sequência */
       gsap.utils.toArray('.section__title').forEach(function (t) {
         gsap.from(t, {
