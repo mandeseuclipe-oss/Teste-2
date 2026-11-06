@@ -538,7 +538,7 @@
       gsap.utils.toArray('[data-reveal]').forEach(function (el) {
         gsap.from(el, {
           y: 60, opacity: 0, duration: 1.1, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none reset' }
         });
       });
 
@@ -562,7 +562,7 @@
       gsap.utils.toArray('.section__title').forEach(function (t) {
         gsap.from(t, {
           clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'power4.out',
-          scrollTrigger: { trigger: t, start: 'top 90%', once: true }
+          scrollTrigger: { trigger: t, start: 'top 90%', toggleActions: 'play none none reset' }
         });
       });
 
