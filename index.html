@@ -162,18 +162,22 @@
     .contact a.mail:hover { color: var(--preto); }
     .foot { margin-top: 80px; display: flex; justify-content: space-between; gap: 16px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; flex-wrap: wrap; }
 
-    /* Galeria */
-    .gal { columns: 3; column-gap: clamp(24px, 3vw, 48px); }
-    .gal-item { break-inside: avoid; margin: 0 0 clamp(56px, 6vw, 104px); cursor: zoom-in; outline: none; }
+    /* Galeria editorial: fotos em linhas assimétricas, proporções originais, espaço negativo */
+    .gal { display: grid; gap: clamp(140px, 16vw, 260px); }
+    .gal-row { display: flex; align-items: flex-start; }
+    .gal-item { margin: 0; cursor: zoom-in; outline: none; }
     .gal-item__frame { position: relative; overflow: hidden; background: #111; }
     .gal-item__frame img { display: block; width: 100%; height: auto; will-change: transform; }
-    .gal-item__shade { position: absolute; inset: 0; background: rgba(0,0,0,.35); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
+    .gal-item__shade { position: absolute; inset: 0; background: rgba(0,0,0,.3); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
     .gal-item:hover .gal-item__shade, .gal-item:focus-visible .gal-item__shade { opacity: 1; }
     .gal-item__cap { margin-top: 14px; font-size: 12px; line-height: 1.5; letter-spacing: .06em; color: var(--cinza); opacity: 0; transition: opacity .6s var(--ease); }
     .gal-item:hover .gal-item__cap, .gal-item:focus-visible .gal-item__cap { opacity: 1; }
     .gal-item:focus-visible { box-shadow: 0 0 0 2px var(--alizarina); }
-    @media (max-width: 899px) { .gal { columns: 2; } }
-    @media (max-width: 560px) { .gal { columns: 1; } }
+    @media (max-width: 640px) {
+      .gal { gap: 96px; }
+      .gal-row { flex-direction: column; }
+      .gal-item { width: 100% !important; margin-left: 0 !important; margin-top: 0 !important; }
+    }
 
     /* Visualizador da galeria */
     .gv { position: fixed; inset: 0; z-index: 300; background: #000; display: none; align-items: center; justify-content: center; padding: 56px 72px; touch-action: pan-y; }
@@ -305,90 +309,102 @@
         <span class="eyebrow about__eyebrow">Galeria</span>
       </div>
       <div class="gal">
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Retrato em preto e branco de um jovem olhando para cima" data-src="assets/img/retrato-01.jpg" data-alt="Retrato em preto e branco de um jovem olhando para cima">
-          <div class="gal-item__frame">
-            <img src="assets/img/retrato-01.jpg" alt="Retrato em preto e branco de um jovem olhando para cima" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Retrato em preto e branco de um jovem olhando para cima</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pássaro preto e branco atrás de grades de madeira" data-src="assets/img/life-passaro.jpg" data-alt="Pássaro preto e branco atrás de grades de madeira">
-          <div class="gal-item__frame">
-            <img src="assets/img/life-passaro.jpg" alt="Pássaro preto e branco atrás de grades de madeira" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Pássaro preto e branco atrás de grades de madeira</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Homem sentado em banco de concreto em praça, com saco preto no colo" data-src="assets/img/life-banco.jpg" data-alt="Homem sentado em banco de concreto em praça, com saco preto no colo">
-          <div class="gal-item__frame">
-            <img src="assets/img/life-banco.jpg" alt="Homem sentado em banco de concreto em praça, com saco preto no colo" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Homem sentado em banco de concreto em praça, com saco preto no colo</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" data-src="assets/img/life-chapeu.jpg" data-alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado">
-          <div class="gal-item__frame">
-            <img src="assets/img/life-chapeu.jpg" alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pássaro marrom caminhando sobre uma mureta" data-src="assets/img/life-passaro-marrom.jpg" data-alt="Pássaro marrom caminhando sobre uma mureta">
-          <div class="gal-item__frame">
-            <img src="assets/img/life-passaro-marrom.jpg" alt="Pássaro marrom caminhando sobre uma mureta" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Pássaro marrom caminhando sobre uma mureta</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Flor rosa iluminada pelo sol, com fundo desfocado" data-src="assets/img/life-flor-rosa.jpg" data-alt="Flor rosa iluminada pelo sol, com fundo desfocado">
-          <div class="gal-item__frame">
-            <img src="assets/img/life-flor-rosa.jpg" alt="Flor rosa iluminada pelo sol, com fundo desfocado" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Flor rosa iluminada pelo sol, com fundo desfocado</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pássaro preto e branco atrás de grades de madeira, em outra foto" data-src="assets/img/home-gaiola.jpg" data-alt="Pássaro preto e branco atrás de grades de madeira, em outra foto">
-          <div class="gal-item__frame">
-            <img src="assets/img/home-gaiola.jpg" alt="Pássaro preto e branco atrás de grades de madeira, em outra foto" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Pássaro preto e branco atrás de grades de madeira, em outra foto</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Carro de corrida Publiset em curva de autódromo" data-src="assets/img/home-publiset.jpg" data-alt="Carro de corrida Publiset em curva de autódromo">
-          <div class="gal-item__frame">
-            <img src="assets/img/home-publiset.jpg" alt="Carro de corrida Publiset em curva de autódromo" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Carro de corrida Publiset em curva de autódromo</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pickup amarela Dakota em garagem, vista frontal" data-src="assets/img/home-dakota.jpg" data-alt="Pickup amarela Dakota em garagem, vista frontal">
-          <div class="gal-item__frame">
-            <img src="assets/img/home-dakota.jpg" alt="Pickup amarela Dakota em garagem, vista frontal" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Pickup amarela Dakota em garagem, vista frontal</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Flores de kalanchoe vermelhas e alaranjadas em vaso" data-src="assets/img/home-flor.jpg" data-alt="Flores de kalanchoe vermelhas e alaranjadas em vaso">
-          <div class="gal-item__frame">
-            <img src="assets/img/home-flor.jpg" alt="Flores de kalanchoe vermelhas e alaranjadas em vaso" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Flores de kalanchoe vermelhas e alaranjadas em vaso</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Mercedes-AMG GT3 amarelo em pista" data-src="assets/img/auto-07.jpg" data-alt="Mercedes-AMG GT3 amarelo em pista">
-          <div class="gal-item__frame">
-            <img src="assets/img/auto-07.jpg" alt="Mercedes-AMG GT3 amarelo em pista" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">Mercedes-AMG GT3 amarelo em pista</figcaption>
-        </figure>
-        <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: BMW preto em preto e branco" data-src="assets/img/auto-12.jpg" data-alt="BMW preto em preto e branco">
-          <div class="gal-item__frame">
-            <img src="assets/img/auto-12.jpg" alt="BMW preto em preto e branco" loading="lazy">
-            <span class="gal-item__shade" aria-hidden="true"></span>
-          </div>
-          <figcaption class="gal-item__cap">BMW preto em preto e branco</figcaption>
-        </figure>
+        <div class="gal-row">
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Retrato em preto e branco de um jovem olhando para cima" data-src="assets/img/retrato-01.jpg" data-alt="Retrato em preto e branco de um jovem olhando para cima" style="width:36%;margin-left:0;margin-top:0;">
+            <div class="gal-item__frame">
+              <img src="assets/img/retrato-01.jpg" alt="Retrato em preto e branco de um jovem olhando para cima" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Retrato em preto e branco de um jovem olhando para cima</figcaption>
+          </figure>
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pássaro preto e branco atrás de grades de madeira" data-src="assets/img/life-passaro.jpg" data-alt="Pássaro preto e branco atrás de grades de madeira" style="width:44%;margin-left:0;margin-top:22%;">
+            <div class="gal-item__frame">
+              <img src="assets/img/life-passaro.jpg" alt="Pássaro preto e branco atrás de grades de madeira" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Pássaro preto e branco atrás de grades de madeira</figcaption>
+          </figure>
+        </div>
+        <div class="gal-row">
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pássaro marrom caminhando sobre uma mureta" data-src="assets/img/life-passaro-marrom.jpg" data-alt="Pássaro marrom caminhando sobre uma mureta" style="width:26%;margin-left:8%;margin-top:0;">
+            <div class="gal-item__frame">
+              <img src="assets/img/life-passaro-marrom.jpg" alt="Pássaro marrom caminhando sobre uma mureta" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Pássaro marrom caminhando sobre uma mureta</figcaption>
+          </figure>
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Homem sentado em banco de concreto em praça, com saco preto no colo" data-src="assets/img/life-banco.jpg" data-alt="Homem sentado em banco de concreto em praça, com saco preto no colo" style="width:52%;margin-left:0;margin-top:14%;">
+            <div class="gal-item__frame">
+              <img src="assets/img/life-banco.jpg" alt="Homem sentado em banco de concreto em praça, com saco preto no colo" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Homem sentado em banco de concreto em praça, com saco preto no colo</figcaption>
+          </figure>
+        </div>
+        <div class="gal-row">
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" data-src="assets/img/life-chapeu.jpg" data-alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" style="width:30%;margin-left:14%;margin-top:0;">
+            <div class="gal-item__frame">
+              <img src="assets/img/life-chapeu.jpg" alt="Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Homem de chapéu de palha de costas, diante de uma kombi azul e portão grafitado</figcaption>
+          </figure>
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pickup amarela Dakota em garagem, vista frontal" data-src="assets/img/home-dakota.jpg" data-alt="Pickup amarela Dakota em garagem, vista frontal" style="width:40%;margin-left:0;margin-top:30%;">
+            <div class="gal-item__frame">
+              <img src="assets/img/home-dakota.jpg" alt="Pickup amarela Dakota em garagem, vista frontal" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Pickup amarela Dakota em garagem, vista frontal</figcaption>
+          </figure>
+        </div>
+        <div class="gal-row">
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Carro de corrida Publiset em curva de autódromo" data-src="assets/img/home-publiset.jpg" data-alt="Carro de corrida Publiset em curva de autódromo" style="width:58%;margin-left:0;margin-top:0;">
+            <div class="gal-item__frame">
+              <img src="assets/img/home-publiset.jpg" alt="Carro de corrida Publiset em curva de autódromo" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Carro de corrida Publiset em curva de autódromo</figcaption>
+          </figure>
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Flores de kalanchoe vermelhas e alaranjadas em vaso" data-src="assets/img/home-flor.jpg" data-alt="Flores de kalanchoe vermelhas e alaranjadas em vaso" style="width:22%;margin-left:0;margin-top:18%;">
+            <div class="gal-item__frame">
+              <img src="assets/img/home-flor.jpg" alt="Flores de kalanchoe vermelhas e alaranjadas em vaso" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Flores de kalanchoe vermelhas e alaranjadas em vaso</figcaption>
+          </figure>
+        </div>
+        <div class="gal-row">
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: BMW preto em preto e branco" data-src="assets/img/auto-12.jpg" data-alt="BMW preto em preto e branco" style="width:24%;margin-left:10%;margin-top:0;">
+            <div class="gal-item__frame">
+              <img src="assets/img/auto-12.jpg" alt="BMW preto em preto e branco" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">BMW preto em preto e branco</figcaption>
+          </figure>
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Pássaro preto e branco atrás de grades de madeira, em outra foto" data-src="assets/img/home-gaiola.jpg" data-alt="Pássaro preto e branco atrás de grades de madeira, em outra foto" style="width:48%;margin-left:0;margin-top:24%;">
+            <div class="gal-item__frame">
+              <img src="assets/img/home-gaiola.jpg" alt="Pássaro preto e branco atrás de grades de madeira, em outra foto" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Pássaro preto e branco atrás de grades de madeira, em outra foto</figcaption>
+          </figure>
+        </div>
+        <div class="gal-row">
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Flor rosa iluminada pelo sol, com fundo desfocado" data-src="assets/img/life-flor-rosa.jpg" data-alt="Flor rosa iluminada pelo sol, com fundo desfocado" style="width:28%;margin-left:0;margin-top:0;">
+            <div class="gal-item__frame">
+              <img src="assets/img/life-flor-rosa.jpg" alt="Flor rosa iluminada pelo sol, com fundo desfocado" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Flor rosa iluminada pelo sol, com fundo desfocado</figcaption>
+          </figure>
+          <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Mercedes-AMG GT3 amarelo em pista" data-src="assets/img/auto-07.jpg" data-alt="Mercedes-AMG GT3 amarelo em pista" style="width:46%;margin-left:0;margin-top:35%;">
+            <div class="gal-item__frame">
+              <img src="assets/img/auto-07.jpg" alt="Mercedes-AMG GT3 amarelo em pista" loading="lazy">
+              <span class="gal-item__shade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="gal-item__cap">Mercedes-AMG GT3 amarelo em pista</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -582,11 +598,11 @@
 
       /* Galeria: entrada progressiva com stagger, zoom sutil e parallax com o cursor */
       var galItems = gsap.utils.toArray('.gal-item');
-      gsap.set(galItems, { opacity: 0, y: 40 });
+      gsap.set(galItems, { opacity: 0, y: 50 });
       ScrollTrigger.batch(galItems, {
         start: 'top 88%', once: true,
         onEnter: function (batch) {
-          gsap.to(batch, { opacity: 1, y: 0, duration: 1.3, ease: 'power3.out', stagger: .14, overwrite: true });
+          gsap.to(batch, { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', stagger: .16, overwrite: true });
         }
       });
       var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
