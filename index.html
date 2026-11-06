@@ -144,8 +144,7 @@
     .about__head { text-align: center; margin: 0 auto 112px; }
     .about__eyebrow { display: inline-block; font-size: clamp(20px, 2.8vw, 32px); letter-spacing: .14em; line-height: 1.3; }
     .about__photo { width: min(560px, 100%); margin: 0 auto 112px !important; }
-    .about__grid { display: grid; gap: 72px; }
-    .about__grid p { font-size: 17px; line-height: 1.9; margin: 0; max-width: 52ch; }
+    .about__box { width: 100%; min-height: 240px; border: 1px solid #000; margin-bottom: 112px; }
     .palette { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 112px; }
     .palette div { height: 180px; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; font-weight: 700; font-size: 14px; }
     .palette small { font-weight: 500; opacity: .75; font-size: 12px; }
@@ -184,7 +183,6 @@
       .life__item:nth-child(5) .frame { aspect-ratio: 21 / 9; }
       .life__item:nth-child(6) { grid-column: span 5; }
       .life__item:nth-child(7) { grid-column: span 7; margin-top: 120px; }
-      .about__grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 899px) {
       .nav { display: none; }
@@ -387,14 +385,7 @@
           <img src="assets/img/artista-01.jpg" alt="Retrato gráfico em vermelho e preto com textura de impressão" loading="lazy">
         </div>
       </figure>
-      <div class="about__grid">
-        <div data-reveal>
-          <p>Fotógrafo que observa a cidade e as pessoas com calma. Trabalha com retratos, cenas do cotidiano e automotivo, sempre com luz natural e um olhar próximo do que acontece.</p>
-        </div>
-        <div data-reveal>
-          <p>Amo fotografia porque ela congela o instante e revela o que passaria despercebido. Cada foto é uma forma de olhar com mais atenção para as pessoas e para a cidade.</p>
-        </div>
-      </div>
+      <div class="about__box" data-reveal aria-hidden="true"></div>
       <div class="palette" data-reveal>
         <div class="r">Alizarina cor carmesim <small>#EE2A3B</small></div>
         <div class="w">Branco Gelo <small>#FFFFFF</small></div>
