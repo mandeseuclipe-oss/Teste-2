@@ -598,28 +598,40 @@
 
       /* Galeria: entrada progressiva com stagger, zoom sutil e parallax com o cursor */
       var galItems = gsap.utils.toArray('.gal-item');
-      gsap.set(galItems, { opacity: 0, y: 50 });
+      gsap.set(galItems, { opacity: 0, y: 60 });
       ScrollTrigger.batch(galItems, {
         start: 'top 88%', once: true,
         onEnter: function (batch) {
           gsap.to(batch, { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', stagger: .16, overwrite: true });
         }
       });
+      /* Hover e parallax do cursor só com mouse (dispositivos touch não recebem esses efeitos) */
       var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-      galItems.forEach(function (it) {
-        var img = it.querySelector('.gal-item__frame img');
-        it.addEventListener('mouseenter', function () {
-          gsap.to(img, { scale: 1.04, duration: 1, ease: 'power2.out', overwrite: 'auto' });
+      if (canHover) {
+        galItems.forEach(function (it) {
+          var img = it.querySelector('.gal-item__frame img');
+          it.addEventListener('mouseenter', function () {
+            gsap.to(img, { scale: 1.04, duration: 1, ease: 'power2.out', overwrite: 'auto' });
+          });
+          it.addEventListener('mousemove', function (e) {
+            var r = it.getBoundingClientRect();
+            var nx = (e.clientX - r.left) / r.width - .5;
+            var ny = (e.clientY - r.top) / r.height - .5;
+            gsap.to(img, { x: -nx * 10, y: -ny * 8, scale: 1.04, duration: .9, ease: 'power3.out', overwrite: 'auto' });
+          });
+          it.addEventListener('mouseleave', function () {
+            gsap.to(img, { x: 0, y: 0, scale: 1, duration: 1, ease: 'power3.out', overwrite: 'auto' });
+          });
         });
-        it.addEventListener('mousemove', function (e) {
-          if (!canHover) return;
-          var r = it.getBoundingClientRect();
-          var nx = (e.clientX - r.left) / r.width - .5;
-          var ny = (e.clientY - r.top) / r.height - .5;
-          gsap.to(img, { x: -nx * 10, y: -ny * 8, scale: 1.04, duration: .9, ease: 'power3.out', overwrite: 'auto' });
-        });
-        it.addEventListener('mouseleave', function () {
-          gsap.to(img, { x: 0, y: 0, scale: 1, duration: 1, ease: 'power3.out', overwrite: 'auto' });
+      }
+
+      /* Parallax vertical independente: cada foto tem amplitude e velocidade próprias, sem exagero */
+      var galAmps = [18, 28, 14, 24, 20, 30, 16, 26, 22, 12, 28, 18];
+      galItems.forEach(function (it, i) {
+        var frame = it.querySelector('.gal-item__frame');
+        gsap.fromTo(frame, { y: -galAmps[i % galAmps.length] }, {
+          y: galAmps[i % galAmps.length], ease: 'none',
+          scrollTrigger: { trigger: it, start: 'top bottom', end: 'bottom top', scrub: 0.6 }
         });
       });
 
