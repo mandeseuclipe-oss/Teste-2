@@ -546,13 +546,14 @@
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         var portraitFrame = document.querySelector('.portrait .frame--natural');
         if (portraitFrame) {
-          var floatTween = null;
-          portraitFrame.addEventListener('mouseenter', function () {
-            floatTween = gsap.to(portraitFrame, { y: -14, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+          portraitFrame.addEventListener('mousemove', function (e) {
+            var r = portraitFrame.getBoundingClientRect();
+            var nx = (e.clientX - r.left) / r.width - 0.5;
+            var ny = (e.clientY - r.top) / r.height - 0.5;
+            gsap.to(portraitFrame, { x: nx * 22, y: ny * 14, duration: 0.7, ease: 'power3.out', overwrite: 'auto' });
           });
           portraitFrame.addEventListener('mouseleave', function () {
-            if (floatTween) floatTween.kill();
-            gsap.to(portraitFrame, { y: 0, duration: .8, ease: 'power3.out', overwrite: 'auto' });
+            gsap.to(portraitFrame, { x: 0, y: 0, duration: 0.9, ease: 'power3.out', overwrite: 'auto' });
           });
         }
       }
