@@ -98,13 +98,13 @@
     .hero__hint { position: absolute; z-index: 2; right: var(--gutter); top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: right center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .7; }
 
     /* ---------- Seções ---------- */
-    .section { padding: 168px var(--gutter); }
+    .section { padding: 240px var(--gutter); }
     .section__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; }
     .section__title { font-size: clamp(64px, 12vw, 160px); margin: 8px 0 0; }
     .section__desc { max-width: 40ch; margin: 0; font-size: 15px; line-height: 1.6; color: var(--cinza); }
 
     /* Retratos: foto grande com legenda */
-    .portrait { display: grid; gap: 72px; align-items: center; }
+    .portrait { display: grid; gap: 120px; align-items: center; }
     .frame { position: relative; overflow: hidden; background: #111; cursor: zoom-in; }
     .frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
     .frame:hover img { transform: scale(1.03); }
@@ -141,12 +141,12 @@
     /* Sobre */
     .about { background: var(--gelo); color: var(--preto); }
     .about .section__desc { color: #444; }
-    .about__head { text-align: center; margin: 0 auto 112px; }
+    .about__head { text-align: center; margin: 0 auto 168px; }
     .about__eyebrow { display: inline-block; font-size: clamp(20px, 2.8vw, 32px); letter-spacing: .14em; line-height: 1.3; }
-    .about__photo { width: min(560px, 100%); margin: 0 auto 112px !important; }
-    .about__text { max-width: 60ch; margin: 0 auto 112px; display: grid; gap: 24px; }
-    .about__text p { font-size: 17px; line-height: 1.9; margin: 0; }
-    .palette { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 112px; }
+    .about__photo { width: min(560px, 100%); margin: 0 auto 168px !important; }
+    .about__text { max-width: 60ch; margin: 0 auto 168px; display: grid; gap: 32px; }
+    .about__text p { font-size: 17px; line-height: 2; margin: 0; }
+    .palette { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 168px; }
     .palette div { height: 180px; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; font-weight: 700; font-size: 14px; }
     .palette small { font-weight: 500; opacity: .75; font-size: 12px; }
     .palette .r { background: var(--alizarina); color: var(--gelo); }
@@ -154,7 +154,7 @@
     .palette .b { background: var(--preto); color: var(--gelo); }
 
     /* Contato */
-    .contact { background: var(--alizarina); padding: 120px var(--gutter) 64px; }
+    .contact { background: var(--alizarina); padding: 200px var(--gutter) 96px; }
     .contact h2 { font-size: clamp(72px, 15vw, 220px); margin: 0; line-height: .85; }
     .contact a.mail { display: inline-block; margin-top: 32px; font-size: clamp(18px, 3vw, 28px); font-weight: 700; color: var(--gelo); text-decoration: none; border-bottom: 2px solid var(--preto); }
     .contact a.mail:hover { color: var(--preto); }
@@ -197,7 +197,7 @@
     }
     @media (max-width: 767px) {
       .hero__hint { display: none; }
-      .section { padding: 120px var(--gutter); }
+      .section { padding: 160px var(--gutter); }
       .palette div { height: 130px; }
     }
     @media (prefers-reduced-motion: reduce) {
