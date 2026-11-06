@@ -464,13 +464,7 @@
       tl.from('.hero__word i', { yPercent: 110, duration: 1.3, stagger: .05 }, .15)
         .from('.hero__img', { scale: 1.12, duration: 2.2, ease: 'power2.out' }, 0)
         .from('.hero__meta > *, .hero__hint', { y: 18, opacity: 0, duration: .9, stagger: .1 }, .9)
-        .from('.header', { yPercent: -100, duration: .9, ease: 'power3.out' }, 0);
-
-      /* Ao voltar ao topo, a intro do hero toca de novo */
-      ScrollTrigger.create({
-        trigger: '.hero', start: 'top top',
-        onEnterBack: function () { tl.restart(); }
-      });
+        .from('.header', { yPercent: -100, duration: .9, ease: 'power3.out' }, 0)
 
       /* Fundo do hero: fotos alternam com fade lento (a primeira fica como base) */
       var heroLayers = gsap.utils.toArray('.hero__img');
