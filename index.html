@@ -92,7 +92,6 @@
     .hero__content { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: calc(env(safe-area-inset-bottom) + 22vh); }
     .hero__word { display: flex; flex-wrap: wrap; font-size: clamp(54px, 13.5vw, 180px); margin: 0; }
     .hero__word span { display: inline-block; overflow: hidden; }
-    .hero__word.is-ready span { overflow: visible; }
     .hero__word span > i { display: inline-block; font-style: normal; }
     .hero__meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
     .hero__meta p { margin: 0; max-width: 40ch; font-size: 15px; line-height: 1.55; opacity: .9; }
@@ -479,7 +478,6 @@
         .from('.hero__img', { scale: 1.12, duration: 2.2, ease: 'power2.out' }, 0)
         .from('.hero__meta > *, .hero__hint', { y: 18, opacity: 0, duration: .9, stagger: .1 }, .9)
         .from('.header', { yPercent: -100, duration: .9, ease: 'power3.out' }, 0)
-      tl.call(function () { document.querySelector('.hero__word').classList.add('is-ready'); });
 
       /* Fundo do hero: fotos alternam com fade lento (a primeira fica como base) */
       var heroLayers = gsap.utils.toArray('.hero__img');
@@ -518,18 +516,6 @@
           gsap.delayedCall(total, showNext);
         }
         gsap.delayedCall(HOLD, showNext);
-      }
-
-      /* Ao passar o mouse, as letras do nome sobem um pouco, uma após a outra, e voltam ao sair */
-      var wordLetters = gsap.utils.toArray('.hero__word i');
-      var titleEl = document.querySelector('.hero__word');
-      if (titleEl) {
-        titleEl.addEventListener('mouseenter', function () {
-          gsap.to(wordLetters, { yPercent: -8, duration: .9, ease: 'power2.inOut', stagger: .06, overwrite: true });
-        });
-        titleEl.addEventListener('mouseleave', function () {
-          gsap.to(wordLetters, { yPercent: 0, duration: 1, ease: 'power2.inOut', stagger: .05, overwrite: true });
-        });
       }
 
       /* Parallax do hero ao rolar */
