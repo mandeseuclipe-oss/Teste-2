@@ -542,6 +542,11 @@
         });
       });
 
+      /* Retratos: foto com movimento flutuante lento e contínuo */
+      gsap.fromTo('.portrait .frame--natural', { y: 0 }, {
+        y: -14, duration: 4.5, ease: 'sine.inOut', repeat: -1, yoyo: true
+      });
+
       /* Títulos de seção: letras sobem em sequência */
       gsap.utils.toArray('.section__title').forEach(function (t) {
         gsap.from(t, {
