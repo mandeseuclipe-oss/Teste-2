@@ -446,6 +446,10 @@
   <script>
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      /* Cada carregamento começa no topo, para que a intro e as animações de entrada toquem sempre */
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+      [0, 60, 300].forEach(function (t) { window.addEventListener('load', function () { setTimeout(function () { window.scrollTo(0, 0); }, t); }); });
       var hasGsap = typeof window.gsap !== 'undefined';
 
       /* Menu: troca de cor no hover (CSS) + menu mobile */
