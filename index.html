@@ -609,12 +609,13 @@
 
       /* Galeria: entrada progressiva com stagger, zoom sutil e parallax com o cursor */
       var galItems = gsap.utils.toArray('.gal-item');
-      gsap.set(galItems, { opacity: 0, y: 60 });
-      ScrollTrigger.batch(galItems, {
-        start: 'top 88%', once: true,
-        onEnter: function (batch) {
-          gsap.to(batch, { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', stagger: .16, overwrite: true });
-        }
+      /* Entrada das fotos: sobem e aparecem em sequência dentro de cada linha; tocam ao descer e voltam ao estado inicial ao subir */
+      galItems.forEach(function (it) {
+        var k = Array.prototype.indexOf.call(it.parentElement.children, it);
+        gsap.fromTo(it, { opacity: 0, y: 60 }, {
+          opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', delay: k * .16,
+          scrollTrigger: { trigger: it, start: 'top 88%', toggleActions: 'play none none reset' }
+        });
       });
       /* Hover e parallax do cursor só com mouse (dispositivos touch não recebem esses efeitos) */
       var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
