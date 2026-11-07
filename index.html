@@ -261,6 +261,15 @@
     @keyframes slideR { from { opacity: 0; transform: translateX(36px); } to { opacity: 1; transform: none; } }
     @keyframes introOut { to { opacity: 0; visibility: hidden; } }
     @media (prefers-reduced-motion: reduce) { .intro-load, .intro-load__half { animation: none; } .intro-load__half { opacity: 1; } }
+    /* Estilos alternativos de loading (prévia com ?intro=b, ?intro=c ou ?intro=d) */
+    .intro-load--b .intro-load__r, .intro-load--c .intro-load__r, .intro-load--d .intro-load__r { display: none; }
+    .intro-load--b .intro-load__l { clip-path: none; animation: wipeUp 1.6s cubic-bezier(.6,0,.2,1) .1s forwards; }
+    @keyframes wipeUp { from { opacity: 1; clip-path: inset(100% 0 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+    .intro-load--c .intro-load__l { clip-path: none; animation: zoomFocus 1.4s cubic-bezier(.2,.7,.1,1) .1s forwards; }
+    @keyframes zoomFocus { from { opacity: 0; transform: scale(.7); filter: blur(14px); } 60% { opacity: 1; filter: blur(0); } to { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 18px rgba(238,42,59,.45)); } }
+    .intro-load--d .intro-load__l { clip-path: none; animation: rgbIn 1.4s ease-out .1s forwards; }
+    @keyframes rgbIn { 0% { opacity: 0; filter: drop-shadow(-22px 0 0 rgba(255,40,60,.9)) drop-shadow(22px 0 0 rgba(0,190,255,.9)); } 60% { opacity: 1; } 100% { opacity: 1; filter: drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent); } }
+    @media (prefers-reduced-motion: reduce) { .intro-load--b .intro-load__l, .intro-load--c .intro-load__l, .intro-load--d .intro-load__l { animation: none; opacity: 1; clip-path: none; filter: none; transform: none; } }
   </style>
 </head>
 <body>
@@ -457,6 +466,11 @@
   <script>
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* Prévia de estilos alternativos: ?intro=b, ?intro=c ou ?intro=d */
+      var introKey = new URLSearchParams(window.location.search).get('intro');
+      var introEl = document.getElementById('introLoad');
+      if (introEl && ['b', 'c', 'd'].indexOf(introKey) > -1) introEl.classList.add('intro-load--' + introKey);
 
       /* Tela de loading: 3 segundos com a logo; a rolagem fica travada até ela sair */
       document.documentElement.style.overflow = 'hidden';
