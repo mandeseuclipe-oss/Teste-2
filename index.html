@@ -644,10 +644,10 @@
       });
 
       /* Parallax vertical independente: cada foto tem amplitude e velocidade próprias, sem exagero */
-      var galAmps = [42, 60, 32, 52, 44, 64, 36, 56, 46, 30, 60, 40];
+      var galAmps = [64, 90, 48, 78, 66, 96, 54, 84, 70, 46, 90, 60];
       galItems.forEach(function (it, i) {
         var frame = it.querySelector('.gal-item__frame');
-        var amp = galAmps[i % galAmps.length] * (window.innerWidth <= 640 ? .6 : 1);
+        var amp = galAmps[i % galAmps.length] * (window.innerWidth <= 640 ? .4 : 1);
         gsap.fromTo(frame, { y: -amp }, {
           y: amp, ease: 'none',
           scrollTrigger: { trigger: it, start: 'top bottom', end: 'bottom top', scrub: 0.6 }
