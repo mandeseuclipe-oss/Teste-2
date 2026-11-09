@@ -930,22 +930,23 @@
       window.addEventListener('load', placeGalTitles);
       window.addEventListener('resize', placeGalTitles);
 
-      /* Dakota: ao passar o cursor, a foto troca em transição para o BMW e o Fiat, e volta para a Dakota */
+      /* Dakota: ao passar o cursor, a foto troca em transição por uma sequência aleatória das outras fotos, e volta para a Dakota ao sair */
       if (canHover && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         var dakotaFig = document.querySelector('[data-src="assets/img/home-dakota.jpg"]');
         if (dakotaFig) {
           var swaps = [].slice.call(dakotaFig.querySelectorAll('.gal-item__swap'));
           var step = 0, timer = null;
+          function pickStep() { var n = swaps.length + 1, k; do { k = Math.floor(Math.random() * n); } while (n > 1 && k === step); return k; }
           var setStep = function () {
             swaps.forEach(function (im, k) { im.classList.toggle('on', k === step - 1); });
           };
           dakotaFig.addEventListener('mouseenter', function () {
             clearInterval(timer);
             /* a primeira troca acontece na hora, sem esperar o intervalo */
-            step = 1 % (swaps.length + 1);
+            step = pickStep();
             setStep();
             timer = setInterval(function () {
-              step = (step + 1) % (swaps.length + 1);
+              step = pickStep();
               setStep();
             }, 2200);
           });
