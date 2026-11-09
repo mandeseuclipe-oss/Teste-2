@@ -190,7 +190,7 @@
     }
 
     /* Visualizador da galeria */
-    .gv { position: fixed; inset: 0; z-index: 300; background: #000; display: none; align-items: center; justify-content: center; padding: 56px 72px; touch-action: pan-y; }
+    .gv { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,.5); -webkit-backdrop-filter: blur(16px) saturate(120%); backdrop-filter: blur(16px) saturate(120%); display: none; align-items: center; justify-content: center; padding: 56px 72px; touch-action: pan-y; }
     .gv.is-open { display: flex; }
     .gv__stage { margin: 0; display: grid; justify-items: center; gap: 16px; max-width: 100%; }
     .gv__stage img { display: block; max-width: 100%; max-height: calc(100vh - 150px); width: auto; height: auto; object-fit: contain; }
@@ -574,7 +574,28 @@
           } });
         } else { apply(); }
       }
-      function gvOpen(i) { gv.classList.add('is-open'); gvShow(i); }
+      function gvOpen(i) {
+        var it = gItems[i];
+        var src = it.querySelector('img');
+        gv.classList.add('is-open');
+        gIdx = i;
+        gvImg.style.opacity = '1';
+        gvImg.src = it.dataset.src; gvImg.alt = it.dataset.alt; gvCap.textContent = it.dataset.alt;
+        gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
+        moreT = setTimeout(function () { gvMore.hidden = false; gv.classList.add('more-on'); }, 1200 + 900);
+        if (!(typeof gsap !== 'undefined') || reduce) return;
+        var fromRect = src.getBoundingClientRect();
+        var run = function () {
+          var to = gvImg.getBoundingClientRect();
+          if (!to.width || !fromRect.width) return;
+          gsap.fromTo(gvImg, {
+            x: (fromRect.left + fromRect.width / 2) - (to.left + to.width / 2),
+            y: (fromRect.top + fromRect.height / 2) - (to.top + to.height / 2),
+            scale: fromRect.width / to.width
+          }, { x: 0, y: 0, scale: 1, duration: .9, ease: 'power3.out', clearProps: 'transform' });
+        };
+        if (gvImg.decode) gvImg.decode().then(run, run); else run();
+      }
       function albOpen() {
         var it = gItems[gIdx];
         var list = ALBUMS[it.dataset.src] || [];
