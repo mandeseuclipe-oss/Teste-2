@@ -203,6 +203,19 @@
     .gv__nav:hover { color: var(--alizarina); }
     @media (max-width: 640px) { .gv { padding: 56px 16px; } .gv__nav { display: none; } }
 
+    /* Botão "Veja mais" e álbum da foto */
+    .gv__more { margin-top: 8px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 10px 18px; border: 1px solid rgba(245,239,226,.5); color: var(--gelo); transition: background .3s, color .3s; }
+    .gv__more:hover { background: var(--gelo); color: #000; }
+    .gv__more[hidden] { display: none; }
+    .alb { position: fixed; inset: 0; z-index: 310; background: #000; display: none; flex-direction: column; padding: 72px var(--gutter) 56px; overflow-y: auto; }
+    .alb.is-open { display: flex; }
+    .alb__close { position: absolute; top: 14px; right: 18px; font-size: 40px; line-height: 1; padding: 8px 12px; }
+    .alb__close:hover { color: var(--alizarina); }
+    .alb__title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: .9; text-transform: uppercase; margin: 0 0 40px; }
+    .alb__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+    .alb__grid img { display: block; width: 100%; height: auto; }
+    .alb__empty { color: var(--cinza); font-size: 14px; letter-spacing: .06em; }
+
     /* Lightbox */
     .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.94); display: none; align-items: center; justify-content: center; padding: 24px; }
     .lightbox.is-open { display: flex; }
@@ -457,8 +470,15 @@
     <figure class="gv__stage">
       <img id="gvImg" alt="">
       <figcaption class="gv__cap" id="gvCap"></figcaption>
+      <button class="gv__more" id="gvMore" hidden>Veja mais</button>
     </figure>
     <button class="gv__nav gv__next" id="gvNext" aria-label="Próxima foto">›</button>
+  </div>
+
+  <div class="alb" id="alb" role="dialog" aria-modal="true" aria-label="Álbum">
+    <button class="alb__close" id="albClose" aria-label="Fechar álbum">×</button>
+    <h2 class="alb__title" id="albTitle"></h2>
+    <div class="alb__grid" id="albGrid"></div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -527,9 +547,18 @@
       var gvCap = document.getElementById('gvCap');
       var gItems = Array.prototype.slice.call(document.querySelectorAll('.gal-item'));
       var gIdx = 0;
+      /* Álbuns por foto: chave = arquivo da foto; lista de imagens a preencher quando as fotos chegarem */
+      var ALBUMS = {};
+      var gvMore = document.getElementById('gvMore');
+      var albEl = document.getElementById('alb');
+      var albGrid = document.getElementById('albGrid');
+      var albTitle = document.getElementById('albTitle');
+      var moreT = null;
       function gvShow(i) {
         gIdx = (i + gItems.length) % gItems.length;
         var it = gItems[gIdx];
+        gvMore.hidden = true; clearTimeout(moreT);
+        moreT = setTimeout(function () { gvMore.hidden = false; }, 1200);
         var apply = function () { gvImg.src = it.dataset.src; gvImg.alt = it.dataset.alt; gvCap.textContent = it.dataset.alt; };
         if (hasGsap && !reduce) {
           gsap.to(gvImg, { opacity: 0, duration: .25, ease: 'power1.in', onComplete: function () {
@@ -539,6 +568,21 @@
         } else { apply(); }
       }
       function gvOpen(i) { gv.classList.add('is-open'); gvShow(i); }
+      function albOpen() {
+        var it = gItems[gIdx];
+        var list = ALBUMS[it.dataset.src] || [];
+        albTitle.textContent = it.dataset.alt;
+        albGrid.innerHTML = '';
+        if (!list.length) {
+          var e = document.createElement('p'); e.className = 'alb__empty'; e.textContent = 'Fotos do álbum em breve.'; albGrid.appendChild(e);
+        } else {
+          list.forEach(function (src) { var im = document.createElement('img'); im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
+        }
+        albEl.classList.add('is-open');
+      }
+      function albClose() { albEl.classList.remove('is-open'); }
+      gvMore.addEventListener('click', albOpen);
+      document.getElementById('albClose').addEventListener('click', albClose);
       function gvClose() { gv.classList.remove('is-open'); }
       gItems.forEach(function (it, i) {
         it.addEventListener('click', function () { gvOpen(i); });
@@ -549,7 +593,7 @@
       document.getElementById('gvNext').addEventListener('click', function () { gvShow(gIdx + 1); });
       document.addEventListener('keydown', function (e) {
         if (!gv.classList.contains('is-open')) return;
-        if (e.key === 'Escape') gvClose();
+        if (e.key === 'Escape') { if (albEl.classList.contains('is-open')) albClose(); else gvClose(); }
         if (e.key === 'ArrowLeft') gvShow(gIdx - 1);
         if (e.key === 'ArrowRight') gvShow(gIdx + 1);
       });
