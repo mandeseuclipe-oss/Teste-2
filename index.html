@@ -169,7 +169,6 @@
     .gal-row { display: flex; align-items: flex-start; }
     .gal-item { margin: 0; position: relative; cursor: zoom-in; outline: none; }
     .gal-item__frame { position: relative; overflow: hidden; background: #111; transition: box-shadow 1s var(--ease); }
-    .gal-item.is-lift .gal-item__frame { box-shadow: 0 34px 64px -22px rgba(0,0,0,.92), 0 10px 24px -10px rgba(0,0,0,.6); }
     .gal-item__frame img { display: block; width: 100%; height: auto; will-change: transform; }
     .gal-item__shade { position: absolute; inset: 0; background: rgba(0,0,0,.3); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
     .gal-item:hover .gal-item__shade, .gal-item:focus-visible .gal-item__shade { opacity: 1; }
@@ -896,7 +895,7 @@
 
       /* Sobreposição: ao passar o cursor numa foto que está por baixo, ela vai um pouco para a esquerda e a de cima vai para a direita, como cards; ao sair, tudo volta */
       if (canHover && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        var SLIDE = 30;
+        var SLIDE = 18;
         /* posição de layout (sem os deslocamentos da animação) */
         function baseRect(el) {
           var r = el.getBoundingClientRect(), x = gsap.getProperty(el, 'x') || 0;
@@ -912,15 +911,13 @@
             var above = galItems.slice(i + 1).filter(function (o) { return covers(it, o); });
             if (!above.length) return;
             it.style.zIndex = '5';
-            it.classList.add('is-lift');
-            gsap.to(it, { x: -SLIDE, duration: .9, ease: 'power3.out', overwrite: 'auto' });
-            above.forEach(function (o) { gsap.to(o, { x: SLIDE, duration: .9, ease: 'power3.out', overwrite: 'auto' }); });
+            gsap.to(it, { x: -SLIDE, duration: 1.1, ease: 'power2.out', overwrite: 'auto' });
+            above.forEach(function (o) { gsap.to(o, { x: SLIDE, duration: 1.1, ease: 'power2.out', overwrite: 'auto' }); });
             it._above = above;
           });
           it.addEventListener('mouseleave', function () {
-            it.classList.remove('is-lift');
-            gsap.to(it, { x: 0, duration: 1, ease: 'power3.out', overwrite: 'auto', onComplete: function () { it.style.zIndex = ''; } });
-            (it._above || []).forEach(function (o) { gsap.to(o, { x: 0, duration: 1, ease: 'power3.out', overwrite: 'auto' }); });
+            gsap.to(it, { x: 0, duration: 1.1, ease: 'power2.out', overwrite: 'auto', onComplete: function () { it.style.zIndex = ''; } });
+            (it._above || []).forEach(function (o) { gsap.to(o, { x: 0, duration: 1.1, ease: 'power2.out', overwrite: 'auto' }); });
             it._above = null;
           });
         });
