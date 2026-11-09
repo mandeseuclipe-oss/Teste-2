@@ -207,8 +207,8 @@
     .gv__stage { position: relative; }
     .gv__stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 52%; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.55) 45%, rgba(0,0,0,0) 100%); pointer-events: none; opacity: 0; transition: opacity .9s ease; z-index: 1; }
     .gv.more-on .gv__stage::after { opacity: 1; }
-    .gv__more { position: relative; z-index: 2; margin-top: 18px; font-family: Montserrat, system-ui, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #fff; padding: 14px 30px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 30px rgba(0,0,0,.35); transition: background .35s ease, transform .35s ease; }
-    .gv__more:hover, .gv__more:focus-visible { background: rgba(255,255,255,.26); transform: translateY(-1px); }
+    .gv__more { position: absolute; z-index: 2; left: 0; right: 0; margin: 0 auto; width: max-content; bottom: 72px; --mx: 50%; --my: 50%; font-family: Montserrat, system-ui, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #fff; padding: 14px 30px; border-radius: 999px; background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 55%), rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 30px rgba(0,0,0,.35); transition: transform .35s ease, background-color .35s ease; }
+    .gv__more:hover, .gv__more:focus-visible { transform: translateY(-1px); }
     .gv__more:not([hidden]) { animation: glassIn 1s cubic-bezier(.2,.7,.1,1) .15s both; }
     @keyframes glassIn { from { opacity: 0; transform: translateY(18px) scale(.94); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
     .gv__more[hidden] { display: none; }
@@ -587,6 +587,15 @@
       }
       function albClose() { albEl.classList.remove('is-open'); }
       gvMore.addEventListener('click', albOpen);
+      /* Brilho que segue o cursor dentro do botão de vidro */
+      gvMore.addEventListener('pointermove', function (e) {
+        var r = gvMore.getBoundingClientRect();
+        gvMore.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        gvMore.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+      gvMore.addEventListener('pointerleave', function () {
+        gvMore.style.setProperty('--mx', '50%'); gvMore.style.setProperty('--my', '50%');
+      });
       document.getElementById('albClose').addEventListener('click', albClose);
       function gvClose() { gv.classList.remove('is-open'); }
       gItems.forEach(function (it, i) {
