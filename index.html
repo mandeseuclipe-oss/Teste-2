@@ -940,6 +940,9 @@
           };
           dakotaFig.addEventListener('mouseenter', function () {
             clearInterval(timer);
+            /* a primeira troca acontece na hora, sem esperar o intervalo */
+            step = 1 % (swaps.length + 1);
+            setStep();
             timer = setInterval(function () {
               step = (step + 1) % (swaps.length + 1);
               setStep();
