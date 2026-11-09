@@ -778,6 +778,15 @@
         }
       });
 
+      /* Fotos que ficam por baixo de outra: deslizam um pouco para o lado ao passar o mouse e voltam ao centro, como um card */
+      if (canHover) {
+        galItems.filter(function (it) { return it.classList.contains('gal-item--over'); }).forEach(function (it) {
+          var fr = it.querySelector('.gal-item__frame');
+          it.addEventListener('mouseenter', function () { gsap.to(fr, { x: 26, duration: .9, ease: 'power3.out', overwrite: 'auto' }); });
+          it.addEventListener('mouseleave', function () { gsap.to(fr, { x: 0, duration: 1, ease: 'power3.out', overwrite: 'auto' }); });
+        });
+      }
+
       /* Parallax vertical independente: cada foto tem amplitude e velocidade próprias, sem exagero */
       var galAmps = [64, 90, 48, 78, 66, 96, 54, 84, 70, 46, 90, 60];
       galItems.forEach(function (it, i) {
