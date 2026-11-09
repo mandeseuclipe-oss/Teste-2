@@ -589,13 +589,14 @@
           } });
         } else { apply(); }
       }
-      function gvOpen(i) {
+      function gvOpen(i, src) {
         var it = gItems[i];
         var from = it.querySelector('img').getBoundingClientRect();
         gv.classList.add('is-open');
         document.documentElement.style.overflow = 'hidden';
         gIdx = i;
-        gvImg.src = it.dataset.src; gvImg.alt = it.dataset.alt; gvCap.textContent = it.dataset.alt;
+        /* se a galeria estiver trocando de foto (ex.: Forza Meeting 1), abre a que está aparecendo */
+        gvImg.src = src || it.dataset.src; gvImg.alt = it.dataset.alt; gvCap.textContent = it.dataset.alt;
         gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
         moreT = setTimeout(function () { gvMore.hidden = false; gv.classList.add('more-on'); }, 1100);
         if (!(typeof gsap !== 'undefined') || reduce) return;
@@ -738,9 +739,15 @@
           scale: from.width / to.width, opacity: 0, duration: .7, ease: 'power3.inOut', overwrite: 'auto', onComplete: finish
         });
       }
+      /* foto que está aparecendo agora no cartão (base ou uma das trocas) */
+      function visibleSrc(it) {
+        var top = null;
+        it.querySelectorAll('.gal-item__swap.on').forEach(function (im) { if (im.style.zIndex === '2') top = im; });
+        return top ? top.getAttribute('src') : null;
+      }
       gItems.forEach(function (it, i) {
-        it.addEventListener('click', function () { gvOpen(i); });
-        it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gvOpen(i); } });
+        it.addEventListener('click', function () { gvOpen(i, visibleSrc(it)); });
+        it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gvOpen(i, visibleSrc(it)); } });
       });
       document.getElementById('gvClose').addEventListener('click', gvClose);
       /* Clicar fora da foto também fecha o visualizador */
