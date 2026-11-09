@@ -204,8 +204,13 @@
     @media (max-width: 640px) { .gv { padding: 56px 16px; } .gv__nav { display: none; } }
 
     /* Botão "Veja mais" e álbum da foto */
-    .gv__more { margin-top: 8px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 10px 18px; border: 1px solid rgba(245,239,226,.5); color: var(--gelo); transition: background .3s, color .3s; }
-    .gv__more:hover { background: var(--gelo); color: #000; }
+    .gv__stage { position: relative; }
+    .gv__stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 52%; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.55) 45%, rgba(0,0,0,0) 100%); pointer-events: none; opacity: 0; transition: opacity .9s ease; z-index: 1; }
+    .gv.more-on .gv__stage::after { opacity: 1; }
+    .gv__more { position: relative; z-index: 2; margin-top: 18px; font-family: Montserrat, system-ui, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #fff; padding: 14px 30px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 30px rgba(0,0,0,.35); transition: background .35s ease, transform .35s ease; }
+    .gv__more:hover, .gv__more:focus-visible { background: rgba(255,255,255,.26); transform: translateY(-1px); }
+    .gv__more:not([hidden]) { animation: glassIn 1s cubic-bezier(.2,.7,.1,1) .15s both; }
+    @keyframes glassIn { from { opacity: 0; transform: translateY(18px) scale(.94); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
     .gv__more[hidden] { display: none; }
     .alb { position: fixed; inset: 0; z-index: 310; background: #000; display: none; flex-direction: column; padding: 72px var(--gutter) 56px; overflow-y: auto; }
     .alb.is-open { display: flex; }
@@ -557,8 +562,8 @@
       function gvShow(i) {
         gIdx = (i + gItems.length) % gItems.length;
         var it = gItems[gIdx];
-        gvMore.hidden = true; clearTimeout(moreT);
-        moreT = setTimeout(function () { gvMore.hidden = false; }, 1200);
+        gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
+        moreT = setTimeout(function () { gvMore.hidden = false; gv.classList.add('more-on'); }, 1200);
         var apply = function () { gvImg.src = it.dataset.src; gvImg.alt = it.dataset.alt; gvCap.textContent = it.dataset.alt; };
         if (hasGsap && !reduce) {
           gsap.to(gvImg, { opacity: 0, duration: .25, ease: 'power1.in', onComplete: function () {
