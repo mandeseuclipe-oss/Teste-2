@@ -576,15 +576,25 @@
       }
       function gvOpen(i) {
         var it = gItems[i];
+        var from = it.querySelector('img').getBoundingClientRect();
         gv.classList.add('is-open');
+        document.documentElement.style.overflow = 'hidden';
         gIdx = i;
-        gvImg.style.opacity = '1';
         gvImg.src = it.dataset.src; gvImg.alt = it.dataset.alt; gvCap.textContent = it.dataset.alt;
         gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
-        moreT = setTimeout(function () { gvMore.hidden = false; gv.classList.add('more-on'); }, 1200 + 900);
+        moreT = setTimeout(function () { gvMore.hidden = false; gv.classList.add('more-on'); }, 2100);
         if (!(typeof gsap !== 'undefined') || reduce) return;
-        /* A foto cresce no centro da tela, com o fundo desfocado */
-        gsap.fromTo(gvImg, { scale: .86, opacity: 0 }, { scale: 1, opacity: 1, duration: .9, ease: 'power3.out', overwrite: 'auto' });
+        /* A foto sai do lugar onde está na galeria e cresce até tomar conta da tela */
+        var run = function () {
+          var to = gvImg.getBoundingClientRect();
+          if (!to.width || !from.width) return;
+          gsap.fromTo(gvImg, {
+            x: (from.left + from.width / 2) - (to.left + to.width / 2),
+            y: (from.top + from.height / 2) - (to.top + to.height / 2),
+            scale: from.width / to.width, opacity: 1
+          }, { x: 0, y: 0, scale: 1, duration: 1, ease: 'power3.inOut', overwrite: 'auto', clearProps: 'transform' });
+        };
+        if (gvImg.decode) gvImg.decode().then(run, run); else run();
       }
       function albOpen() {
         var it = gItems[gIdx];
@@ -608,7 +618,7 @@
       });
 
       document.getElementById('albClose').addEventListener('click', albClose);
-      function gvClose() { gv.classList.remove('is-open'); }
+      function gvClose() { gv.classList.remove('is-open'); document.documentElement.style.overflow = ''; }
       gItems.forEach(function (it, i) {
         it.addEventListener('click', function () { gvOpen(i); });
         it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gvOpen(i); } });
