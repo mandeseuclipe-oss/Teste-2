@@ -524,6 +524,8 @@
         gvImg.src = src || it.dataset.src; gvImg.alt = it.dataset.alt; setCap(it);
         gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
         moreT = setTimeout(function () { gvMore.hidden = false; gv.classList.add('more-on'); }, 1100);
+        /* título e legenda entram junto com a ampliação da foto */
+        if (hasGsap && !reduce) gsap.fromTo(gvCap, { opacity: 0 }, { opacity: 1, duration: .8, delay: .45, ease: 'power2.out', overwrite: 'auto' });
         if (!(typeof gsap !== 'undefined') || reduce) return;
         /* A foto sai do lugar onde está na galeria e cresce até tomar conta da tela */
         var run = function () {
