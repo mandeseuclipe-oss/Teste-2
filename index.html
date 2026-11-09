@@ -897,8 +897,15 @@
       if (canHover) {
         galItems.filter(function (it) { return it.classList.contains('gal-item--over'); }).forEach(function (it) {
           var fr = it.querySelector('.gal-item__frame');
-          it.addEventListener('mouseenter', function () { gsap.to(fr, { x: 26, duration: .9, ease: 'power3.out', overwrite: 'auto' }); });
-          it.addEventListener('mouseleave', function () { gsap.to(fr, { x: 0, duration: 1, ease: 'power3.out', overwrite: 'auto' }); });
+          it.addEventListener('mouseenter', function () {
+            /* a foto de baixo sobe para a frente; a de cima recua enquanto o cursor estiver sobre ela */
+            it.style.zIndex = '5';
+            gsap.to(fr, { x: 26, duration: .9, ease: 'power3.out', overwrite: 'auto' });
+          });
+          it.addEventListener('mouseleave', function () {
+            it.style.zIndex = '';
+            gsap.to(fr, { x: 0, duration: 1, ease: 'power3.out', overwrite: 'auto' });
+          });
         });
       }
 
