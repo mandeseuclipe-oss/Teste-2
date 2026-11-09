@@ -894,26 +894,35 @@
         }
       });
 
-      /* Fotos que ficam por baixo de outra: deslizam um pouco para o lado ao passar o mouse e voltam ao centro, como um card */
-      if (canHover) {
-        galItems.forEach(function (it) {
-          /* qualquer foto sob o cursor passa para a frente das vizinhas enquanto o cursor estiver sobre ela */
-          var lift = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      /* Sobreposição: ao passar o cursor numa foto que está por baixo, ela vai um pouco para a esquerda e a de cima vai para a direita, como cards; ao sair, tudo volta */
+      if (canHover && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var SLIDE = 30;
+        /* posição de layout (sem os deslocamentos da animação) */
+        function baseRect(el) {
+          var r = el.getBoundingClientRect(), x = gsap.getProperty(el, 'x') || 0;
+          return { l: r.left - x, r: r.right - x, t: r.top, b: r.bottom };
+        }
+        function covers(under, over) {
+          var a = baseRect(under), c = baseRect(over);
+          return Math.min(a.r, c.r) - Math.max(a.l, c.l) > 10 && Math.min(a.b, c.b) - Math.max(a.t, c.t) > 10;
+        }
+        galItems.forEach(function (it, i) {
           it.addEventListener('mouseenter', function () {
+            /* só age se a foto estiver por baixo de alguma vizinha (vizinhas posteriores no HTML ficam por cima) */
+            var above = galItems.slice(i + 1).filter(function (o) { return covers(it, o); });
+            if (!above.length) return;
             it.style.zIndex = '5';
             it.classList.add('is-lift');
-            if (lift) gsap.to(it, { scale: 1.025, duration: 1, ease: 'power3.out', overwrite: 'auto' });
+            gsap.to(it, { x: -SLIDE, duration: .9, ease: 'power3.out', overwrite: 'auto' });
+            above.forEach(function (o) { gsap.to(o, { x: SLIDE, duration: .9, ease: 'power3.out', overwrite: 'auto' }); });
+            it._above = above;
           });
           it.addEventListener('mouseleave', function () {
             it.classList.remove('is-lift');
-            /* a foto só volta para trás depois de encolher, para não "estalar" sob a vizinha */
-            gsap.to(it, { scale: 1, duration: 1, ease: 'power3.inOut', overwrite: 'auto', onComplete: function () { it.style.zIndex = ''; } });
+            gsap.to(it, { x: 0, duration: 1, ease: 'power3.out', overwrite: 'auto', onComplete: function () { it.style.zIndex = ''; } });
+            (it._above || []).forEach(function (o) { gsap.to(o, { x: 0, duration: 1, ease: 'power3.out', overwrite: 'auto' }); });
+            it._above = null;
           });
-        });
-        galItems.filter(function (it) { return it.classList.contains('gal-item--over'); }).forEach(function (it) {
-          var fr = it.querySelector('.gal-item__frame');
-          it.addEventListener('mouseenter', function () { gsap.to(fr, { x: 26, duration: .9, ease: 'power3.out', overwrite: 'auto' }); });
-          it.addEventListener('mouseleave', function () { gsap.to(fr, { x: 0, duration: 1, ease: 'power3.out', overwrite: 'auto' }); });
         });
       }
 
