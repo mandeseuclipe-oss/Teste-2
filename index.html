@@ -213,6 +213,8 @@
     .gv__more:hover, .gv__more:focus-visible { transform: translateY(-1px); }
     .gv__more:not([hidden]) { animation: glassIn 1s cubic-bezier(.2,.7,.1,1) .15s both; }
     @keyframes glassIn { from { opacity: 0; transform: translateY(18px) scale(.94); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
+    .gv__more.is-out { animation: glassOut .5s cubic-bezier(.4,0,.6,1) forwards; }
+    @keyframes glassOut { to { opacity: 0; transform: translateY(18px) scale(.94); filter: blur(8px); } }
     .gv__more[hidden] { display: none; }
     .alb { position: fixed; inset: 0; z-index: 310; background: #000; display: none; flex-direction: column; padding: 72px var(--gutter) 56px; overflow-y: auto; }
     .alb.is-open { display: flex; }
@@ -641,7 +643,11 @@
       document.getElementById('albClose').addEventListener('click', albClose);
       function gvClose() {
         if (!gv.classList.contains('is-open')) return;
-        gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
+        clearTimeout(moreT); gv.classList.remove('more-on');
+        if (!gvMore.hidden) {
+          gvMore.classList.add('is-out');
+          setTimeout(function () { gvMore.hidden = true; gvMore.classList.remove('is-out'); }, 500);
+        }
         var finish = function () {
           gv.classList.remove('is-open');
           document.documentElement.style.overflow = '';
