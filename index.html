@@ -172,6 +172,8 @@
     .gal-item__frame img { display: block; width: 100%; height: auto; will-change: transform; }
     .gal-item__shade { position: absolute; inset: 0; background: rgba(0,0,0,.3); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
     .gal-item:hover .gal-item__shade, .gal-item:focus-visible .gal-item__shade { opacity: 1; }
+    .gal-item__swap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s var(--ease); pointer-events: none; }
+    .gal-item__swap.on { opacity: 1; }
     .gal-item__title { position: absolute; right: 18px; bottom: 14px; z-index: 2; font-family: "Bebas Neue", sans-serif; font-size: clamp(22px, 2.4vw, 34px); letter-spacing: .06em; line-height: 1; color: var(--gelo); text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,.55); pointer-events: none; }
     .gal-item__title.is-left { right: auto; left: 18px; text-align: left; }
     .gal-item__cap { margin-top: 14px; font-size: 12px; line-height: 1.5; letter-spacing: .06em; color: var(--cinza); opacity: 0; transition: opacity .6s var(--ease); }
@@ -387,6 +389,8 @@
           <figure class="gal-item gal-item--over" tabindex="0" role="button" aria-label="Ampliar foto: Pickup amarela Dakota em garagem, vista frontal" data-src="assets/img/home-dakota.jpg" data-alt="Pickup amarela Dakota em garagem, vista frontal" style="width:62%;margin-left:-6%;margin-top:10%;">
             <div class="gal-item__frame">
               <img src="assets/img/home-dakota.jpg" width="2000" height="1333" decoding="async" alt="Pickup amarela Dakota em garagem, vista frontal">
+              <img class="gal-item__swap" src="assets/img/auto-bmw-preto.jpg" width="2000" height="1333" decoding="async" alt="" aria-hidden="true">
+              <img class="gal-item__swap" src="assets/img/auto-fiat-prata.jpg" width="2000" height="1125" decoding="async" alt="" aria-hidden="true">
               <span class="gal-item__shade" aria-hidden="true"></span>
               <span class="gal-item__title">Dakota</span>
             </div>
@@ -923,6 +927,30 @@
       placeGalTitles();
       window.addEventListener('load', placeGalTitles);
       window.addEventListener('resize', placeGalTitles);
+
+      /* Dakota: ao passar o cursor, a foto troca em transição para o BMW e o Fiat, e volta para a Dakota */
+      if (canHover && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var dakotaFig = document.querySelector('[data-src="assets/img/home-dakota.jpg"]');
+        if (dakotaFig) {
+          var swaps = [].slice.call(dakotaFig.querySelectorAll('.gal-item__swap'));
+          var step = 0, timer = null;
+          var setStep = function () {
+            swaps.forEach(function (im, k) { im.classList.toggle('on', k === step - 1); });
+          };
+          dakotaFig.addEventListener('mouseenter', function () {
+            clearInterval(timer);
+            timer = setInterval(function () {
+              step = (step + 1) % (swaps.length + 1);
+              setStep();
+            }, 2200);
+          });
+          dakotaFig.addEventListener('mouseleave', function () {
+            clearInterval(timer);
+            step = 0;
+            setStep();
+          });
+        }
+      }
 
       /* Parallax vertical independente: cada foto tem amplitude e velocidade próprias, sem exagero */
       var galAmps = [64, 90, 48, 78, 66, 96, 54, 84, 70, 46, 90, 60];
