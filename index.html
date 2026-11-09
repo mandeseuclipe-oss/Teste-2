@@ -168,8 +168,7 @@
     .gal { display: grid; gap: clamp(48px, 5vw, 84px); }
     .gal-row { display: flex; align-items: flex-start; }
     .gal-item { margin: 0; position: relative; cursor: zoom-in; outline: none; }
-    .gal-item__frame { position: relative; overflow: hidden; background: #111; transition: box-shadow 1s var(--ease); }
-    .gal-item.is-lift .gal-item__frame { box-shadow: 0 34px 64px -22px rgba(0,0,0,.92), 0 10px 24px -10px rgba(0,0,0,.6); }
+    .gal-item__frame { position: relative; overflow: hidden; background: #111; }
     .gal-item__frame img { display: block; width: 100%; height: auto; will-change: transform; }
     .gal-item__shade { position: absolute; inset: 0; background: rgba(0,0,0,.3); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
     .gal-item:hover .gal-item__shade, .gal-item:focus-visible .gal-item__shade { opacity: 1; }
@@ -898,17 +897,8 @@
       if (canHover) {
         galItems.forEach(function (it) {
           /* qualquer foto sob o cursor passa para a frente das vizinhas enquanto o cursor estiver sobre ela */
-          var lift = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          it.addEventListener('mouseenter', function () {
-            it.style.zIndex = '5';
-            it.classList.add('is-lift');
-            if (lift) gsap.to(it, { scale: 1.025, duration: 1, ease: 'power3.out', overwrite: 'auto' });
-          });
-          it.addEventListener('mouseleave', function () {
-            it.classList.remove('is-lift');
-            /* a foto só volta para trás depois de encolher, para não "estalar" sob a vizinha */
-            gsap.to(it, { scale: 1, duration: 1, ease: 'power3.inOut', overwrite: 'auto', onComplete: function () { it.style.zIndex = ''; } });
-          });
+          it.addEventListener('mouseenter', function () { it.style.zIndex = '5'; });
+          it.addEventListener('mouseleave', function () { it.style.zIndex = ''; });
         });
         galItems.filter(function (it) { return it.classList.contains('gal-item--over'); }).forEach(function (it) {
           var fr = it.querySelector('.gal-item__frame');
