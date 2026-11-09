@@ -618,7 +618,25 @@
       });
 
       document.getElementById('albClose').addEventListener('click', albClose);
-      function gvClose() { gv.classList.remove('is-open'); document.documentElement.style.overflow = ''; }
+      function gvClose() {
+        if (!gv.classList.contains('is-open')) return;
+        gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
+        var finish = function () {
+          gv.classList.remove('is-open');
+          document.documentElement.style.overflow = '';
+          gsap.set(gvImg, { clearProps: 'transform,opacity' });
+        };
+        if (!(typeof gsap !== 'undefined') || reduce) return finish();
+        /* Só desfaz o zoom: a foto volta para o lugar dela na galeria e então o visualizador fecha */
+        var from = gItems[gIdx].querySelector('img').getBoundingClientRect();
+        var to = gvImg.getBoundingClientRect();
+        if (!to.width || !from.width) return finish();
+        gsap.to(gvImg, {
+          x: (from.left + from.width / 2) - (to.left + to.width / 2),
+          y: (from.top + from.height / 2) - (to.top + to.height / 2),
+          scale: from.width / to.width, opacity: 0, duration: .7, ease: 'power3.inOut', overwrite: 'auto', onComplete: finish
+        });
+      }
       gItems.forEach(function (it, i) {
         it.addEventListener('click', function () { gvOpen(i); });
         it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gvOpen(i); } });
