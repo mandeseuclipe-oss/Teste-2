@@ -173,7 +173,9 @@
     .gal-item__shade { position: absolute; inset: 0; background: rgba(0,0,0,.3); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
     .gal-item:hover .gal-item__shade, .gal-item:focus-visible .gal-item__shade { opacity: 1; }
     .gal-item__title { position: absolute; right: 18px; bottom: 14px; z-index: 2; font-family: "Bebas Neue", sans-serif; font-size: clamp(22px, 2.4vw, 34px); letter-spacing: .06em; line-height: 1; color: var(--gelo); text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,.55); pointer-events: none; }
-    .gal-item__title.is-left { right: auto; left: 18px; text-align: left; }
+    .gal-item__title.pos-bl { right: auto; left: 18px; }
+    .gal-item__title.pos-tr { bottom: auto; top: 14px; }
+    .gal-item__title.pos-tl { right: auto; left: 18px; bottom: auto; top: 14px; }
     .gal-item__cap { margin-top: 14px; font-size: 12px; line-height: 1.5; letter-spacing: .06em; color: var(--cinza); opacity: 0; transition: opacity .6s var(--ease); }
     .gal-item:hover .gal-item__cap, .gal-item:focus-visible .gal-item__cap { opacity: 1; }
     .gal-item:focus-visible { box-shadow: 0 0 0 2px var(--alizarina); }
@@ -916,7 +918,7 @@
         });
       }
 
-      /* Títulos: ficam do lado que está livre; se o canto inferior direito estiver coberto por outra foto, o título vai para a esquerda */
+      /* Títulos: ficam no canto mais fácil de ler; se uma foto por cima cobrir um canto, o texto vai para o outro */
       function placeGalTitles() {
         galItems.forEach(function (it, i) {
           var t = it.querySelector('.gal-item__title');
@@ -928,8 +930,15 @@
               return x >= q.left && x <= q.right && y >= q.top && y <= q.bottom;
             });
           };
-          var y = r.bottom - 40;
-          t.classList.toggle('is-left', covered(r.right - 60, y) && !covered(r.left + 60, y));
+          var corners = [
+            { cls: '',        x: r.right - 60, y: r.bottom - 40 }, /* inferior direito (padrão) */
+            { cls: 'pos-bl', x: r.left + 60,  y: r.bottom - 40 }, /* inferior esquerdo */
+            { cls: 'pos-tr', x: r.right - 60, y: r.top + 40 },    /* superior direito */
+            { cls: 'pos-tl', x: r.left + 60,  y: r.top + 40 }     /* superior esquerdo */
+          ];
+          var pick = corners.filter(function (c) { return !covered(c.x, c.y); })[0] || corners[0];
+          t.classList.remove('pos-bl', 'pos-tr', 'pos-tl');
+          if (pick.cls) t.classList.add(pick.cls);
         });
       }
       placeGalTitles();
