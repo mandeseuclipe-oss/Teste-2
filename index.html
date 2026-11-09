@@ -644,6 +644,72 @@
       function gvClose() {
         if (!gv.classList.contains('is-open')) return;
         clearTimeout(moreT); gv.classList.remove('more-on');
+        var finish = function () {
+          gv.classList.remove('is-open');
+          document.documentElement.style.overflow = '';
+          gsap.set(gvImg, { clearProps: 'transform,opacity' });
+        };
+        var backToGallery = function () {
+          if (!(typeof gsap !== 'undefined') || reduce) return finish();
+          /* Só desfaz o zoom: a foto volta para o lugar dela na galeria e então o visualizador fecha */
+          var from = gItems[gIdx].querySelector('img').getBoundingClientRect();
+          var to = gvImg.getBoundingClientRect();
+          if (!to.width || !from.width) return finish();
+          gsap.to(gvImg, {
+            x: (from.left + from.width / 2) - (to.left + to.width / 2),
+            y: (from.top + from.height / 2) - (to.top + to.height / 2),
+            scale: from.width / to.width, opacity: 0, duration: .7, ease: 'power3.inOut', overwrite: 'auto', onComplete: finish
+          });
+        };
+        /* Primeiro o botão "Veja mais" sai; a foto só começa a voltar depois disso */
+        if (!gvMore.hidden) {
+          gvMore.classList.add('is-out');
+          setTimeout(function () { gvMore.hidden = true; gvMore.classList.remove('is-out'); backToGallery(); }, 500);
+        } else {
+          backToGallery();
+        }
+      }
+      function albOpen() {
+        var it = gItems[gIdx];
+        var list = ALBUMS[it.dataset.src] || [];
+        albTitle.textContent = it.dataset.alt;
+        albGrid.innerHTML = '';
+        if (!list.length) {
+          var e = document.createElement('p'); e.className = 'alb__empty'; e.textContent = 'Fotos do álbum em breve.'; albGrid.appendChild(e);
+        } else {
+          list.forEach(function (src) { var im = document.createElement('img'); im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
+        }
+        albEl.classList.add('is-open');
+        albIntro();
+      }
+      /* Textos do álbum: mesmo efeito de letras subindo da Home, depois do loading do site */
+      function albIntro() {
+        if (typeof gsap === 'undefined' || reduce) return;
+        var t = albTitle, txt = t.textContent;
+        t.textContent = '';
+        txt.split('').forEach(function (c) {
+          var ch = document.createElement('span'); ch.className = 'ch';
+          var i = document.createElement('i'); i.textContent = c === ' ' ? '\u00a0' : c;
+          ch.appendChild(i); t.appendChild(ch);
+        });
+        gsap.killTweensOf(t.querySelectorAll('.ch i'));
+        gsap.from(t.querySelectorAll('.ch i'), { yPercent: 110, duration: 1, stagger: .035, ease: 'power4.out', delay: 2.3 });
+        gsap.killTweensOf(albGrid.children);
+        gsap.from(albGrid.children, { opacity: 0, y: 40, duration: 1.2, ease: 'power3.out', stagger: .15, delay: 2.5 });
+      }
+      function albClose() { albEl.classList.remove('is-open'); }
+      gvMore.addEventListener('click', albOpen);
+      /* Brilho que segue o cursor dentro do botão de vidro */
+      gvMore.addEventListener('pointermove', function (e) {
+        var r = gvMore.getBoundingClientRect();
+        gvMore.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        gvMore.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+
+      document.getElementById('albClose').addEventListener('click', albClose);
+      function gvClose() {
+        if (!gv.classList.contains('is-open')) return;
+        clearTimeout(moreT); gv.classList.remove('more-on');
         if (!gvMore.hidden) {
           gvMore.classList.add('is-out');
           setTimeout(function () { gvMore.hidden = true; gvMore.classList.remove('is-out'); }, 500);
