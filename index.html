@@ -222,6 +222,7 @@
     .alb__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
     .alb__grid img { display: block; width: 100%; height: auto; }
     .alb__empty { color: var(--cinza); font-size: 14px; letter-spacing: .06em; }
+    .alb__label { display: block; margin-bottom: 14px; }
     .alb__title .ch { display: inline-block; overflow: hidden; vertical-align: top; }
     .alb__title .ch i { display: inline-block; font-style: normal; }
 
@@ -487,6 +488,7 @@
   <div class="alb" id="alb" role="dialog" aria-modal="true" aria-label="Álbum">
     <button class="alb__close" id="albClose" aria-label="Fechar álbum">×</button>
     <div class="intro-load alb__load" aria-hidden="true"><div class="intro-load__mark"><img class="intro-load__half intro-load__l" src="assets/img/logo-bs.png" alt=""><img class="intro-load__half intro-load__r" src="assets/img/logo-bs.png" alt=""></div></div>
+    <span class="eyebrow alb__label">Álbum</span>
     <h2 class="alb__title" id="albTitle"></h2>
     <div class="alb__grid" id="albGrid"></div>
   </div>
