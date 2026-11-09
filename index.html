@@ -524,8 +524,8 @@
         gvImg.src = src || it.dataset.src; gvImg.alt = it.dataset.alt; setCap(it);
         gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
         moreT = setTimeout(function () { gvMore.hidden = false; gv.classList.add('more-on'); }, 1100);
-        /* título e legenda entram junto com a ampliação da foto */
-        if (hasGsap && !reduce) gsap.fromTo(gvCap, { opacity: 0 }, { opacity: 1, duration: .8, delay: .45, ease: 'power2.out', overwrite: 'auto' });
+        /* título e legenda: começam invisíveis e aparecem quando a ampliação da foto termina */
+        if (hasGsap && !reduce) gsap.set(gvCap, { opacity: 0 });
         if (!(typeof gsap !== 'undefined') || reduce) return;
         /* A foto sai do lugar onde está na galeria e cresce até tomar conta da tela */
         var run = function () {
@@ -535,7 +535,8 @@
             x: (from.left + from.width / 2) - (to.left + to.width / 2),
             y: (from.top + from.height / 2) - (to.top + to.height / 2),
             scale: from.width / to.width, opacity: 1
-          }, { x: 0, y: 0, scale: 1, duration: 1, ease: 'power3.inOut', overwrite: 'auto', clearProps: 'transform' });
+          }, { x: 0, y: 0, scale: 1, duration: 1, ease: 'power3.inOut', overwrite: 'auto', clearProps: 'transform',
+            onComplete: function () { gsap.to(gvCap, { opacity: 1, duration: .6, ease: 'power2.out', overwrite: 'auto' }); } });
         };
         if (gvImg.decode) gvImg.decode().then(run, run); else run();
       }
