@@ -642,6 +642,10 @@
         it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gvOpen(i); } });
       });
       document.getElementById('gvClose').addEventListener('click', gvClose);
+      /* Clicar fora da foto também fecha o visualizador */
+      gv.addEventListener('click', function (e) {
+        if (e.target === gv || e.target.classList.contains('gv__stage')) gvClose();
+      });
       document.getElementById('gvPrev').addEventListener('click', function () { gvShow(gIdx - 1); });
       document.getElementById('gvNext').addEventListener('click', function () { gvShow(gIdx + 1); });
       document.addEventListener('keydown', function (e) {
