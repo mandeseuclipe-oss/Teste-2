@@ -172,8 +172,8 @@
     .gal-item__frame img { display: block; width: 100%; height: auto; will-change: transform; }
     .gal-item__shade { position: absolute; inset: 0; background: rgba(0,0,0,.3); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
     .gal-item:hover .gal-item__shade, .gal-item:focus-visible .gal-item__shade { opacity: 1; }
-    .gal-item__frame .gal-item__swap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0; transition: opacity 1s var(--ease); pointer-events: none; }
-    .gal-item__frame .gal-item__swap.on { opacity: 1; }
+    .gal-item__frame .gal-item__swap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 1; clip-path: inset(100% 0 0 0); transition: clip-path 1s var(--ease); pointer-events: none; }
+    .gal-item__frame .gal-item__swap.on { clip-path: inset(0 0 0 0); }
     .gal-item__title { position: absolute; right: 18px; bottom: 14px; z-index: 2; font-family: "Bebas Neue", sans-serif; font-size: clamp(22px, 2.4vw, 34px); letter-spacing: .06em; line-height: 1; color: var(--gelo); text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,.55); pointer-events: none; }
     .gal-item__title.is-left { right: auto; left: 18px; text-align: left; }
     .gal-item__cap { margin-top: 14px; font-size: 12px; line-height: 1.5; letter-spacing: .06em; color: var(--cinza); opacity: 0; transition: opacity .6s var(--ease); }
@@ -930,42 +930,50 @@
       window.addEventListener('load', placeGalTitles);
       window.addEventListener('resize', placeGalTitles);
 
-      /* Dakota: ao passar o cursor, a foto troca em transição por uma sequência aleatória das outras fotos, e volta para a Dakota ao sair */
+      /* Dakota: ao passar o cursor, a foto troca por outras em ordem aleatória (uma de cada vez, com transição de revelação) e volta para a Dakota ao sair */
       if (canHover && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         var dakotaFig = document.querySelector('[data-src="assets/img/home-dakota.jpg"]');
         if (dakotaFig) {
           var swaps = [].slice.call(dakotaFig.querySelectorAll('.gal-item__swap'));
-          var step = 0, timer = null;
-          function pickStep() { var n = swaps.length + 1, k; do { k = Math.floor(Math.random() * n); } while (n > 1 && k === step); return k; }
-          /* a foto anterior fica por baixo, sem sumir, até a nova cobrir tudo: assim não aparece a Dakota no meio da troca */
-          var prevActive = -1, hideTimer = null;
-          var setStep = function () {
+          var step = 0, timer = null, busy = false, pending = null, prevActive = -1, hideTimer = null;
+          var pickStep = function () {
+            var n = swaps.length + 1, k;
+            do { k = Math.floor(Math.random() * n); } while (n > 1 && k === step);
+            return k;
+          };
+          /* uma troca por vez: a nova foto é revelada por cima e só depois a anterior é recolhida */
+          var applyStep = function () {
             var active = step - 1;
-            clearTimeout(hideTimer);
+            busy = true;
             swaps.forEach(function (im, k) {
               if (k === active) { im.style.zIndex = '2'; im.classList.add('on'); }
               else if (k === prevActive && active >= 0) { im.style.zIndex = '1'; im.classList.add('on'); }
               else { im.style.zIndex = ''; im.classList.remove('on'); }
             });
-            hideTimer = setTimeout(function () {
-              swaps.forEach(function (im, k) { if (k !== active) im.classList.remove('on'); });
-            }, 1100);
             prevActive = active;
+            clearTimeout(hideTimer);
+            hideTimer = setTimeout(function () {
+              busy = false;
+              swaps.forEach(function (im, k) { if (k !== active) { im.classList.remove('on'); im.style.zIndex = ''; } });
+              if (pending !== null) { step = pending; pending = null; applyStep(); }
+            }, 1100);
+          };
+          var requestStep = function (n) {
+            if (busy) { pending = n; return; }
+            step = n;
+            applyStep();
           };
           dakotaFig.addEventListener('mouseenter', function () {
             clearInterval(timer);
-            /* a primeira troca acontece na hora, sem esperar o intervalo */
-            step = pickStep();
-            setStep();
+            requestStep(pickStep());
             timer = setInterval(function () {
-              step = pickStep();
-              setStep();
+              if (!busy) requestStep(pickStep());
             }, 2200);
           });
           dakotaFig.addEventListener('mouseleave', function () {
             clearInterval(timer);
-            step = 0;
-            setStep();
+            pending = null;
+            requestStep(0);
           });
         }
       }
