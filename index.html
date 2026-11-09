@@ -209,6 +209,9 @@
     .gv.more-on .gv__stage::after { opacity: 1; }
     .gv__more { position: absolute; z-index: 2; left: 0; right: 0; margin: 0 auto; width: max-content; bottom: 72px; --mx: 50%; --my: 50%; font-family: Montserrat, system-ui, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #fff; padding: 14px 30px; border-radius: 999px; background: rgba(255,255,255,.14); overflow: hidden; border: 1px solid rgba(255,255,255,.3); -webkit-backdrop-filter: blur(10px) saturate(170%); backdrop-filter: blur(10px) saturate(170%); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 30px rgba(0,0,0,.35); transition: transform .35s ease, background-color .35s ease; }
     .gv__more::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,.22) 0%, rgba(255,255,255,.08) 35%, rgba(255,255,255,0) 70%), repeating-linear-gradient(115deg, rgba(255,255,255,0) 0 9px, rgba(255,255,255,.06) 12px 15px, rgba(255,255,255,0) 18px 26px); background-size: 100% 100%, 60px 60px; -webkit-mask-image: radial-gradient(circle at var(--mx) var(--my), #000 0%, transparent 65%); mask-image: radial-gradient(circle at var(--mx) var(--my), #000 0%, transparent 65%); opacity: 0; transition: opacity .8s ease; animation: waterFlow 5s linear infinite; pointer-events: none; }
+    /* Gota d'água que se forma sob o cursor, escorre um pouco e some */
+    .gv__drop { position: absolute; z-index: -1; width: 12px; height: 15px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.85) 0%, rgba(255,255,255,.25) 35%, rgba(255,255,255,.06) 70%); box-shadow: inset 0 -1px 2px rgba(255,255,255,.35); pointer-events: none; transform: translate(-50%, -50%); animation: dropFall 1.5s cubic-bezier(.5,0,.8,.6) forwards; }
+    @keyframes dropFall { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.5); } 20% { opacity: .75; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, calc(-50% + 22px)) scale(.9); } }
     @keyframes waterFlow { from { background-position: 0 0, 0 0; } to { background-position: 0 0, 60px 30px; } }
     .gv__more:hover::before, .gv__more:focus-visible::before { opacity: 1; }
     .gv__more:hover, .gv__more:focus-visible { transform: translateY(-1px); }
@@ -590,6 +593,20 @@
       }
       function albClose() { albEl.classList.remove('is-open'); }
       gvMore.addEventListener('click', albOpen);
+      /* Gotas: aparecem de vez em quando sob o cursor, enquanto o mouse está sobre o botão */
+      var lastDrop = 0;
+      gvMore.addEventListener('pointermove', function (e) {
+        var now = Date.now();
+        if (now - lastDrop < 650) return;
+        lastDrop = now;
+        var r = gvMore.getBoundingClientRect();
+        var d = document.createElement('span');
+        d.className = 'gv__drop';
+        d.style.left = (e.clientX - r.left) + 'px';
+        d.style.top = (e.clientY - r.top) + 'px';
+        gvMore.appendChild(d);
+        setTimeout(function () { d.remove(); }, 1600);
+      });
       /* Brilho que segue o cursor dentro do botão de vidro */
       gvMore.addEventListener('pointermove', function (e) {
         var r = gvMore.getBoundingClientRect();
