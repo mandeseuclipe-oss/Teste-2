@@ -198,7 +198,8 @@
     .gv.is-open { display: flex; }
     .gv__stage { margin: 0; display: grid; justify-items: center; gap: 16px; max-width: 100%; }
     .gv__stage img { display: block; max-width: 100%; max-height: calc(100vh - 150px); width: auto; height: auto; object-fit: contain; }
-    .gv__cap { position: absolute; left: 0; right: 0; top: 100%; margin-top: 16px; font-size: 12px; letter-spacing: .06em; color: var(--cinza); text-align: center; max-width: 60ch; margin-left: auto; margin-right: auto; }
+    .gv__cap { position: absolute; left: 0; right: 0; top: 100%; margin-top: 16px; font-size: 14px; line-height: 1.5; letter-spacing: .04em; color: #fff; text-align: center; max-width: 60ch; margin-left: auto; margin-right: auto; text-shadow: 0 1px 12px rgba(0,0,0,.85), 0 0 2px rgba(0,0,0,.6); }
+    .gv__title { display: block; font-family: "Bebas Neue", sans-serif; font-size: clamp(26px, 3vw, 36px); letter-spacing: .06em; text-transform: uppercase; line-height: 1; margin-bottom: 8px; }
     .gv__close { position: absolute; top: 14px; right: 18px; font-size: 40px; line-height: 1; padding: 8px 12px; }
     .gv__close:hover { color: var(--alizarina); }
     .gv__nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 56px; line-height: 1; padding: 12px; }
@@ -567,6 +568,14 @@
       var gv = document.getElementById('gv');
       var gvImg = document.getElementById('gvImg');
       var gvCap = document.getElementById('gvCap');
+      /* legenda do visualizador: título do cartão + descrição da foto */
+      function setCap(it) {
+        var t = it.querySelector('.gal-item__title');
+        gvCap.innerHTML = '';
+        var h = document.createElement('span'); h.className = 'gv__title'; h.textContent = t ? t.textContent : '';
+        var d = document.createElement('span'); d.textContent = it.dataset.alt;
+        gvCap.appendChild(h); gvCap.appendChild(d);
+      }
       var gItems = Array.prototype.slice.call(document.querySelectorAll('.gal-item'));
       var gIdx = 0;
       /* Álbuns por foto: chave = arquivo da foto; lista de imagens a preencher quando as fotos chegarem */
@@ -581,7 +590,7 @@
         var it = gItems[gIdx];
         gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
         moreT = setTimeout(function () { gvMore.hidden = false; gv.classList.add('more-on'); }, 600);
-        var apply = function () { gvImg.src = it.dataset.src; gvImg.alt = it.dataset.alt; gvCap.textContent = it.dataset.alt; };
+        var apply = function () { gvImg.src = it.dataset.src; gvImg.alt = it.dataset.alt; setCap(it); };
         if (hasGsap && !reduce) {
           gsap.to(gvImg, { opacity: 0, duration: .25, ease: 'power1.in', onComplete: function () {
             apply();
@@ -596,7 +605,7 @@
         document.documentElement.style.overflow = 'hidden';
         gIdx = i;
         /* se a galeria estiver trocando de foto (ex.: Forza Meeting 1), abre a que está aparecendo */
-        gvImg.src = src || it.dataset.src; gvImg.alt = it.dataset.alt; gvCap.textContent = it.dataset.alt;
+        gvImg.src = src || it.dataset.src; gvImg.alt = it.dataset.alt; setCap(it);
         gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
         moreT = setTimeout(function () { gvMore.hidden = false; gv.classList.add('more-on'); }, 1100);
         if (!(typeof gsap !== 'undefined') || reduce) return;
