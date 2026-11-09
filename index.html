@@ -536,7 +536,7 @@
             y: (from.top + from.height / 2) - (to.top + to.height / 2),
             scale: from.width / to.width, opacity: 1
           }, { x: 0, y: 0, scale: 1, duration: 1, ease: 'power3.inOut', overwrite: 'auto', clearProps: 'transform',
-            onComplete: function () { gsap.to(gvCap, { opacity: 1, duration: .6, ease: 'power2.out', overwrite: 'auto' }); } });
+            onComplete: function () { gsap.to(gvCap, { opacity: 1, duration: 1.4, ease: 'sine.out', overwrite: 'auto' }); } });
         };
         if (gvImg.decode) gvImg.decode().then(run, run); else run();
       }
