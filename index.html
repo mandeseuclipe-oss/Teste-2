@@ -647,6 +647,8 @@
       function gvClose() {
         if (!gv.classList.contains('is-open')) return;
         clearTimeout(moreT); gv.classList.remove('more-on');
+        /* ao sair, o título e a legenda somem primeiro (efeito reverso) */
+        if (hasGsap && !reduce) gsap.to(gvCap, { opacity: 0, duration: .5, ease: 'sine.in', overwrite: 'auto' });
         if (!gvMore.hidden) {
           gvMore.classList.add('is-out');
           setTimeout(function () { gvMore.hidden = true; gvMore.classList.remove('is-out'); }, 500);
