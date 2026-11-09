@@ -222,6 +222,8 @@
     .alb__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
     .alb__grid img { display: block; width: 100%; height: auto; }
     .alb__empty { color: var(--cinza); font-size: 14px; letter-spacing: .06em; }
+    .alb__title .ch { display: inline-block; overflow: hidden; vertical-align: top; }
+    .alb__title .ch i { display: inline-block; font-style: normal; }
 
     /* Lightbox */
     .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.94); display: none; align-items: center; justify-content: center; padding: 24px; }
@@ -484,6 +486,7 @@
 
   <div class="alb" id="alb" role="dialog" aria-modal="true" aria-label="Álbum">
     <button class="alb__close" id="albClose" aria-label="Fechar álbum">×</button>
+    <div class="intro-load alb__load" aria-hidden="true"><div class="intro-load__mark"><img class="intro-load__half intro-load__l" src="assets/img/logo-bs.png" alt=""><img class="intro-load__half intro-load__r" src="assets/img/logo-bs.png" alt=""></div></div>
     <h2 class="alb__title" id="albTitle"></h2>
     <div class="alb__grid" id="albGrid"></div>
   </div>
@@ -607,6 +610,22 @@
           list.forEach(function (src) { var im = document.createElement('img'); im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
         }
         albEl.classList.add('is-open');
+        albIntro();
+      }
+      /* Textos do álbum: mesmo efeito de letras subindo da Home, depois do loading do site */
+      function albIntro() {
+        if (typeof gsap === 'undefined' || reduce) return;
+        var t = albTitle, txt = t.textContent;
+        t.textContent = '';
+        txt.split('').forEach(function (c) {
+          var ch = document.createElement('span'); ch.className = 'ch';
+          var i = document.createElement('i'); i.textContent = c === ' ' ? '\u00a0' : c;
+          ch.appendChild(i); t.appendChild(ch);
+        });
+        gsap.killTweensOf(t.querySelectorAll('.ch i'));
+        gsap.from(t.querySelectorAll('.ch i'), { yPercent: 110, duration: 1, stagger: .035, ease: 'power4.out', delay: 2.3 });
+        gsap.killTweensOf(albGrid.children);
+        gsap.from(albGrid.children, { opacity: 0, y: 40, duration: 1.2, ease: 'power3.out', stagger: .15, delay: 2.5 });
       }
       function albClose() { albEl.classList.remove('is-open'); }
       gvMore.addEventListener('click', albOpen);
