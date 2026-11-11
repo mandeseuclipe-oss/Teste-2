@@ -896,18 +896,21 @@
             }, 1100);
             prevActive = active;
           };
+          var startT = null;
           dakotaFig.addEventListener('mouseenter', function () {
-            clearInterval(timer);
-            /* a primeira troca acontece na hora, sem esperar o intervalo */
-            step = pickStep();
-            setStep();
-            timer = setInterval(function () {
+            clearInterval(timer); clearTimeout(startT);
+            /* espera um pouco antes da primeira troca, para não mudar de imagem logo ao passar o cursor */
+            startT = setTimeout(function () {
               step = pickStep();
               setStep();
-            }, 3800);
+              timer = setInterval(function () {
+                step = pickStep();
+                setStep();
+              }, 3800);
+            }, 1400);
           });
           dakotaFig.addEventListener('mouseleave', function () {
-            clearInterval(timer);
+            clearInterval(timer); clearTimeout(startT);
             step = 0;
             setStep();
           });
