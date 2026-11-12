@@ -586,6 +586,8 @@
         setTimeout(function () {
           ld.style.animation = 'none';
           ld.style.opacity = '0';
+          /* reinicia a mesma animação de entrada das metades da logo (igual ao loading do site) */
+          ld.querySelectorAll('.intro-load__half').forEach(function (h) { h.style.animation = 'none'; void h.offsetWidth; h.style.animation = ''; });
           gsap.to(ld, { opacity: 1, duration: .5, ease: 'power2.out', overwrite: 'auto' });
         }, 850);
         setTimeout(function () {
@@ -671,6 +673,8 @@
         setTimeout(function () {
           ld.style.animation = 'none';
           ld.style.opacity = '0';
+          /* reinicia a mesma animação de entrada das metades da logo (igual ao loading do site) */
+          ld.querySelectorAll('.intro-load__half').forEach(function (h) { h.style.animation = 'none'; void h.offsetWidth; h.style.animation = ''; });
           gsap.to(ld, { opacity: 1, duration: .5, ease: 'power2.out', overwrite: 'auto' });
         }, 850);
         setTimeout(function () {
