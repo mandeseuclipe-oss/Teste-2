@@ -592,8 +592,12 @@
         }, 850);
         setTimeout(function () {
           gsap.to(ld, { opacity: 0, duration: .5, ease: 'power2.in', overwrite: 'auto', onComplete: function () {
-            albEl.classList.remove('is-open'); albEl._closing = false;
-            ld.style.cssText = ''; gsap.set(items, { clearProps: 'opacity' });
+            /* o álbum some em fade e revela a página, sem corte */
+            gsap.to(albEl, { opacity: 0, duration: .9, ease: 'sine.inOut', overwrite: 'auto', onComplete: function () {
+              albEl.classList.remove('is-open'); albEl._closing = false;
+              gsap.set(albEl, { clearProps: 'opacity' });
+              ld.style.cssText = ''; gsap.set(items, { clearProps: 'opacity' });
+            } });
           } });
         }, 2850);
       }
@@ -679,8 +683,12 @@
         }, 850);
         setTimeout(function () {
           gsap.to(ld, { opacity: 0, duration: .5, ease: 'power2.in', overwrite: 'auto', onComplete: function () {
-            albEl.classList.remove('is-open'); albEl._closing = false;
-            ld.style.cssText = ''; gsap.set(items, { clearProps: 'opacity' });
+            /* o álbum some em fade e revela a página, sem corte */
+            gsap.to(albEl, { opacity: 0, duration: .9, ease: 'sine.inOut', overwrite: 'auto', onComplete: function () {
+              albEl.classList.remove('is-open'); albEl._closing = false;
+              gsap.set(albEl, { clearProps: 'opacity' });
+              ld.style.cssText = ''; gsap.set(items, { clearProps: 'opacity' });
+            } });
           } });
         }, 2850);
       }
