@@ -581,8 +581,14 @@
         var ld = albEl.querySelector('.alb__load');
         if (!ld || reduce) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
+        /* o conteúdo do álbum some em fade enquanto o loading da logo aparece */
+        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid');
+        if (hasGsap) gsap.to(items, { opacity: 0, duration: .9, ease: 'power2.in', overwrite: 'auto' });
         ld.style.animation = 'none'; void ld.offsetWidth; ld.style.animation = '';
-        setTimeout(function () { albEl.classList.remove('is-open'); albEl._closing = false; ld.style.animation = ''; }, 3000);
+        setTimeout(function () {
+          albEl.classList.remove('is-open'); albEl._closing = false; ld.style.animation = '';
+          if (hasGsap) gsap.set(items, { clearProps: 'opacity' });
+        }, 3000);
       }
       gvMore.addEventListener('click', albOpen);
       /* Brilho que segue o cursor dentro do botão de vidro */
@@ -655,8 +661,14 @@
         var ld = albEl.querySelector('.alb__load');
         if (!ld || reduce) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
+        /* o conteúdo do álbum some em fade enquanto o loading da logo aparece */
+        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid');
+        if (hasGsap) gsap.to(items, { opacity: 0, duration: .9, ease: 'power2.in', overwrite: 'auto' });
         ld.style.animation = 'none'; void ld.offsetWidth; ld.style.animation = '';
-        setTimeout(function () { albEl.classList.remove('is-open'); albEl._closing = false; ld.style.animation = ''; }, 3000);
+        setTimeout(function () {
+          albEl.classList.remove('is-open'); albEl._closing = false; ld.style.animation = '';
+          if (hasGsap) gsap.set(items, { clearProps: 'opacity' });
+        }, 3000);
       }
       gvMore.addEventListener('click', albOpen);
       /* Brilho que segue o cursor dentro do botão de vidro */
