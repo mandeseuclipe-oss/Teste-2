@@ -575,20 +575,25 @@
         gsap.killTweensOf(albGrid.children);
         gsap.from(albGrid.children, { opacity: 0, y: 40, duration: 1.2, ease: 'power3.out', stagger: .15, delay: 2.5 });
       }
-      /* ao sair do álbum, mostra de novo o loading da logo e só fecha depois dele */
+      /* ao sair do álbum: o conteúdo some em fade, depois entra o loading da logo e só então fecha */
       function albClose() {
         if (albEl._closing || !albEl.classList.contains('is-open')) return;
         var ld = albEl.querySelector('.alb__load');
-        if (!ld || reduce) { albEl.classList.remove('is-open'); return; }
+        if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
-        /* o conteúdo do álbum some em fade enquanto o loading da logo aparece */
         var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid');
-        if (hasGsap) gsap.to(items, { opacity: 0, duration: .9, ease: 'power2.in', overwrite: 'auto' });
-        ld.style.animation = 'none'; void ld.offsetWidth; ld.style.animation = '';
+        gsap.to(items, { opacity: 0, duration: .8, ease: 'power2.in', overwrite: 'auto' });
         setTimeout(function () {
-          albEl.classList.remove('is-open'); albEl._closing = false; ld.style.animation = '';
-          if (hasGsap) gsap.set(items, { clearProps: 'opacity' });
-        }, 3000);
+          ld.style.animation = 'none';
+          ld.style.opacity = '0';
+          gsap.to(ld, { opacity: 1, duration: .5, ease: 'power2.out', overwrite: 'auto' });
+        }, 850);
+        setTimeout(function () {
+          gsap.to(ld, { opacity: 0, duration: .5, ease: 'power2.in', overwrite: 'auto', onComplete: function () {
+            albEl.classList.remove('is-open'); albEl._closing = false;
+            ld.style.cssText = ''; gsap.set(items, { clearProps: 'opacity' });
+          } });
+        }, 2850);
       }
       gvMore.addEventListener('click', albOpen);
       /* Brilho que segue o cursor dentro do botão de vidro */
@@ -655,20 +660,25 @@
         gsap.killTweensOf(albGrid.children);
         gsap.from(albGrid.children, { opacity: 0, y: 40, duration: 1.2, ease: 'power3.out', stagger: .15, delay: 2.5 });
       }
-      /* ao sair do álbum, mostra de novo o loading da logo e só fecha depois dele */
+      /* ao sair do álbum: o conteúdo some em fade, depois entra o loading da logo e só então fecha */
       function albClose() {
         if (albEl._closing || !albEl.classList.contains('is-open')) return;
         var ld = albEl.querySelector('.alb__load');
-        if (!ld || reduce) { albEl.classList.remove('is-open'); return; }
+        if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
-        /* o conteúdo do álbum some em fade enquanto o loading da logo aparece */
         var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid');
-        if (hasGsap) gsap.to(items, { opacity: 0, duration: .9, ease: 'power2.in', overwrite: 'auto' });
-        ld.style.animation = 'none'; void ld.offsetWidth; ld.style.animation = '';
+        gsap.to(items, { opacity: 0, duration: .8, ease: 'power2.in', overwrite: 'auto' });
         setTimeout(function () {
-          albEl.classList.remove('is-open'); albEl._closing = false; ld.style.animation = '';
-          if (hasGsap) gsap.set(items, { clearProps: 'opacity' });
-        }, 3000);
+          ld.style.animation = 'none';
+          ld.style.opacity = '0';
+          gsap.to(ld, { opacity: 1, duration: .5, ease: 'power2.out', overwrite: 'auto' });
+        }, 850);
+        setTimeout(function () {
+          gsap.to(ld, { opacity: 0, duration: .5, ease: 'power2.in', overwrite: 'auto', onComplete: function () {
+            albEl.classList.remove('is-open'); albEl._closing = false;
+            ld.style.cssText = ''; gsap.set(items, { clearProps: 'opacity' });
+          } });
+        }, 2850);
       }
       gvMore.addEventListener('click', albOpen);
       /* Brilho que segue o cursor dentro do botão de vidro */
