@@ -388,9 +388,11 @@
       </div>
     </section>
 
-    <!-- Contato -->
-    <div data-contato="contato"></div>
-    <template id="tpl-contato">
+  </main>
+
+  <!-- Rodapé do site: contato (link "Contato" do menu aponta para cá) -->
+  <div data-contato="contato"></div>
+  <template id="tpl-contato">
     <footer class="contact">
       <h2 class="display">Vamos<br>fazer uma<br>foto?</h2>
       <a class="mail" href="mailto:brunosantsjob@gmail.com">brunosantsjob@gmail.com</a>
@@ -399,8 +401,7 @@
         <span>Retratos · Life · Automotivo</span>
       </div>
     </footer>
-    </template>
-  </main>
+  </template>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
     <button class="lightbox__close" id="lbClose" aria-label="Fechar">×</button>
@@ -705,10 +706,11 @@
         var tw = gsap.timeline({ paused: true });
         tw.fromTo(f, { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 2.4, ease: 'power2.out' }, 0);
         tw.from(letters, { yPercent: 110, duration: 1.6, stagger: .035, ease: 'power3.out' }, .35);
-        /* a animação acompanha a rolagem: aparece ao descer e some conforme sobe */
+        /* gatilho de rolagem: ao descer até o rodapé, ele sobe em fade e os textos seguem; ao subir, o efeito é revertido */
         ScrollTrigger.create({
-          trigger: f, scroller: scroller || window, start: 'top 96%', end: 'top 42%',
-          animation: tw, scrub: .8
+          trigger: f, scroller: scroller || window, start: 'top 85%',
+          onEnter: function () { tw.timeScale(1).play(); },
+          onLeaveBack: function () { tw.timeScale(2.2).reverse(); }
         });
       }
       if (hasGsap && typeof ScrollTrigger !== 'undefined' && !reduce) {
