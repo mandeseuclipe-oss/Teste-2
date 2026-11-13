@@ -862,13 +862,19 @@
         if (gvImg.decode) gvImg.decode().then(run, run); else run();
       }
       function albShotShow(i) {
+        /* direção do movimento: avançar empurra a foto para a esquerda; voltar, para a direita */
+        var dir = i >= albShotIdx ? 1 : -1;
         albShotIdx = (i + albShots.length) % albShots.length; gIdx = albShotIdx;
         var im = albShots[albShotIdx];
         var apply = function () { gvImg.src = im.src; gvImg.alt = im.alt; albCapText(albTitle.textContent, im.alt); };
         if (hasGsap && !reduce) {
-          gsap.to(gvImg, { opacity: 0, duration: .25, ease: 'power1.in', onComplete: function () {
+          var dist = Math.round(window.innerWidth * .45);
+          gsap.killTweensOf(gvImg);
+          /* a foto atual sai deslizando para o lado e, logo em seguida, a próxima entra deslizando */
+          /* efeito de cartão: a foto que sai gira e encolhe; a próxima entra girando e aumentando até o tamanho normal */
+          gsap.to(gvImg, { x: -dir * dist, rotation: -dir * 5, scale: .9, opacity: 0, duration: .5, ease: 'power2.in', onComplete: function () {
             apply();
-            gsap.to(gvImg, { opacity: 1, duration: .6, ease: 'power2.out' });
+            gsap.fromTo(gvImg, { x: dir * dist, rotation: dir * 5, scale: .9, opacity: 0 }, { x: 0, rotation: 0, scale: 1, opacity: 1, duration: .85, ease: 'power3.out', overwrite: 'auto' });
           } });
         } else { apply(); }
       }
