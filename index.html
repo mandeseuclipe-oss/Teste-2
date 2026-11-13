@@ -227,8 +227,8 @@
     .alb__close { position: absolute; top: 14px; right: 18px; font-size: 40px; line-height: 1; padding: 8px 12px; }
     .alb__close:hover { color: var(--alizarina); }
     .alb__title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: .9; text-transform: uppercase; margin: 0 0 40px; }
-    .alb__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
-    .alb__grid img { display: block; width: 100%; height: auto; }
+    .alb__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 28px; }
+    .alb__grid img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; cursor: zoom-in; }
     .alb__empty { color: var(--cinza); font-size: 14px; letter-spacing: .06em; }
     .alb__label { display: block; margin-bottom: 14px; }
     .alb__title .ch { display: inline-block; overflow: hidden; vertical-align: top; }
@@ -511,6 +511,7 @@
       var albTitle = document.getElementById('albTitle');
       var moreT = null;
       function gvShow(i) {
+        if (gvAlbMode) { albShotShow(i); return; }
         gIdx = (i + gItems.length) % gItems.length;
         var it = gItems[gIdx];
         gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
@@ -552,7 +553,7 @@
       function albOpen() {
         var it = gItems[gIdx];
         var list = ALBUMS[it.dataset.src] || [];
-        albTitle.textContent = it.dataset.alt;
+        var ct = it.querySelector('.gal-item__title'); albTitle.textContent = ct ? ct.textContent : it.dataset.alt;
         albGrid.innerHTML = '';
         if (!list.length) {
           var e = document.createElement('p'); e.className = 'alb__empty'; e.textContent = 'Fotos do álbum em breve.'; albGrid.appendChild(e);
@@ -643,7 +644,7 @@
       function albOpen() {
         var it = gItems[gIdx];
         var list = ALBUMS[it.dataset.src] || [];
-        albTitle.textContent = it.dataset.alt;
+        var ct = it.querySelector('.gal-item__title'); albTitle.textContent = ct ? ct.textContent : it.dataset.alt;
         albGrid.innerHTML = '';
         if (!list.length) {
           var e = document.createElement('p'); e.className = 'alb__empty'; e.textContent = 'Fotos do álbum em breve.'; albGrid.appendChild(e);
@@ -705,6 +706,7 @@
       document.getElementById('albClose').addEventListener('click', albClose);
       function gvClose() {
         if (!gv.classList.contains('is-open')) return;
+        if (gvAlbMode) return albShotClose();
         clearTimeout(moreT); gv.classList.remove('more-on'); gv.classList.add('is-leaving');
         /* ao sair, o título e a legenda somem primeiro (efeito reverso) */
         if (hasGsap && !reduce) gsap.to(gvCap, { opacity: 0, duration: .5, ease: 'sine.in', overwrite: 'auto' });
@@ -728,6 +730,71 @@
           scale: from.width / to.width, opacity: 0, duration: .7, ease: 'power3.inOut', overwrite: 'auto', onComplete: finish
         });
       }
+      /* Fotos do álbum: abrem no mesmo visualizador da galeria (ampliação, legenda e setas) */
+      var gvAlbMode = false, albShots = [], albShotIdx = 0, albShotFrom = null;
+      function albCapText(title, alt) {
+        gvCap.innerHTML = '';
+        var h = document.createElement('span'); h.className = 'gv__title'; h.textContent = title || '';
+        var d = document.createElement('span'); d.textContent = alt || '';
+        gvCap.appendChild(h); gvCap.appendChild(d);
+      }
+      function albShotOpen(idx, imgEl) {
+        gvAlbMode = true;
+        albShots = [].slice.call(albGrid.querySelectorAll('img'));
+        albShotIdx = idx; gIdx = idx;
+        albShotFrom = imgEl;
+        var from = imgEl.getBoundingClientRect();
+        gv.style.zIndex = '320';
+        gv.classList.add('is-open');
+        document.documentElement.style.overflow = 'hidden';
+        gvImg.src = imgEl.src; gvImg.alt = imgEl.alt;
+        albCapText(albTitle.textContent, imgEl.alt);
+        gvMore.hidden = true; gv.classList.remove('more-on'); clearTimeout(moreT);
+        if (hasGsap && !reduce) gsap.set(gvCap, { opacity: 0 });
+        if (!(typeof gsap !== 'undefined') || reduce) return;
+        var run = function () {
+          var to = gvImg.getBoundingClientRect();
+          if (!to.width || !from.width) return;
+          gsap.fromTo(gvImg, {
+            x: (from.left + from.width / 2) - (to.left + to.width / 2),
+            y: (from.top + from.height / 2) - (to.top + to.height / 2),
+            scale: from.width / to.width, opacity: 1
+          }, { x: 0, y: 0, scale: 1, duration: 1, ease: 'power3.inOut', overwrite: 'auto', clearProps: 'transform',
+            onComplete: function () { gsap.to(gvCap, { opacity: 1, duration: 1.4, ease: 'sine.out', overwrite: 'auto' }); } });
+        };
+        if (gvImg.decode) gvImg.decode().then(run, run); else run();
+      }
+      function albShotShow(i) {
+        albShotIdx = (i + albShots.length) % albShots.length; gIdx = albShotIdx;
+        var im = albShots[albShotIdx];
+        var apply = function () { gvImg.src = im.src; gvImg.alt = im.alt; albCapText(albTitle.textContent, im.alt); };
+        if (hasGsap && !reduce) {
+          gsap.to(gvImg, { opacity: 0, duration: .25, ease: 'power1.in', onComplete: function () {
+            apply();
+            gsap.to(gvImg, { opacity: 1, duration: .6, ease: 'power2.out' });
+          } });
+        } else { apply(); }
+      }
+      function albShotClose() {
+        clearTimeout(moreT); gv.classList.remove('more-on'); gv.classList.add('is-leaving');
+        if (hasGsap && !reduce) gsap.to(gvCap, { opacity: 0, duration: .5, ease: 'sine.in', overwrite: 'auto' });
+        var finish = function () {
+          gv.classList.remove('is-open', 'is-leaving');
+          gv.style.zIndex = '';
+          gvAlbMode = false;
+          document.documentElement.style.overflow = 'hidden';
+          gsap.set(gvImg, { clearProps: 'transform,opacity' });
+        };
+        if (!(typeof gsap !== 'undefined') || reduce) return finish();
+        var from = albShots[albShotIdx] ? albShots[albShotIdx].getBoundingClientRect() : null;
+        var to = gvImg.getBoundingClientRect();
+        if (!from || !from.width || !to.width) return finish();
+        gsap.to(gvImg, {
+          x: (from.left + from.width / 2) - (to.left + to.width / 2),
+          y: (from.top + from.height / 2) - (to.top + to.height / 2),
+          scale: from.width / to.width, opacity: 0, duration: .7, ease: 'power3.inOut', overwrite: 'auto', onComplete: finish
+        });
+      }
       /* foto que está aparecendo agora no cartão (base ou uma das trocas) */
       function visibleSrc(it) {
         var top = null;
@@ -739,6 +806,11 @@
         it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gvOpen(i, visibleSrc(it)); } });
       });
       document.getElementById('gvClose').addEventListener('click', gvClose);
+      albGrid.addEventListener('click', function (e) {
+        var im = e.target.closest('img');
+        if (!im) return;
+        albShotOpen([].indexOf.call(albGrid.querySelectorAll('img'), im), im);
+      });
       /* Clicar fora da foto também fecha o visualizador */
       gv.addEventListener('click', function (e) {
         if (e.target === gv || e.target.classList.contains('gv__stage')) gvClose();
@@ -747,7 +819,7 @@
       document.getElementById('gvNext').addEventListener('click', function () { gvShow(gIdx + 1); });
       document.addEventListener('keydown', function (e) {
         if (!gv.classList.contains('is-open')) return;
-        if (e.key === 'Escape') { if (albEl.classList.contains('is-open')) albClose(); else gvClose(); }
+        if (e.key === 'Escape') { if (gvAlbMode) gvClose(); else if (albEl.classList.contains('is-open')) albClose(); else gvClose(); }
         if (e.key === 'ArrowLeft') gvShow(gIdx - 1);
         if (e.key === 'ArrowRight') gvShow(gIdx + 1);
       });
