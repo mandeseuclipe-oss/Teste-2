@@ -706,9 +706,9 @@
         tw.fromTo(f, { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 2.4, ease: 'power2.out' }, 0);
         tw.from(letters, { yPercent: 110, duration: 1.6, stagger: .035, ease: 'power3.out' }, .35);
         ScrollTrigger.create({
-          trigger: f, scroller: scroller || window, start: 'top 88%',
+          trigger: f, scroller: scroller || window, start: 'top bottom',
           onEnter: function () { tw.timeScale(1).play(); },
-          onLeaveBack: function () { tw.timeScale(1).reverse(); }
+          onLeaveBack: function () { tw.timeScale(1.4).reverse(); }
         });
       }
       if (hasGsap && typeof ScrollTrigger !== 'undefined' && !reduce) {
