@@ -387,7 +387,9 @@
     </section>
 
     <!-- Contato -->
-    <footer class="contact" id="contato">
+    <div data-contato="contato"></div>
+    <template id="tpl-contato">
+    <footer class="contact">
       <h2 class="display" data-reveal>Vamos<br>fazer uma<br>foto?</h2>
       <a class="mail" href="mailto:brunosantsjob@gmail.com" data-reveal>brunosantsjob@gmail.com</a>
       <div class="foot">
@@ -395,6 +397,7 @@
         <span>Retratos · Life · Automotivo</span>
       </div>
     </footer>
+    </template>
   </main>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
@@ -419,19 +422,23 @@
     <span class="eyebrow alb__label">Álbum</span>
     <h2 class="alb__title" id="albTitle"></h2>
     <div class="alb__grid" id="albGrid"></div>
-    <footer class="contact">
-      <h2 class="display" data-reveal>Vamos<br>fazer uma<br>foto?</h2>
-      <a class="mail" href="mailto:brunosantsjob@gmail.com" data-reveal>brunosantsjob@gmail.com</a>
-      <div class="foot">
-        <span>© 2026 Bruno Sants</span>
-        <span>Retratos · Life · Automotivo</span>
-      </div>
-    </footer>
+    <div data-contato></div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
+    /* Componente global de contato: preenche cada [data-contato] com o bloco de #tpl-contato */
+    (function () {
+      var tpl = document.getElementById('tpl-contato');
+      if (!tpl) return;
+      document.querySelectorAll('[data-contato]').forEach(function (el) {
+        var copy = tpl.content.cloneNode(true);
+        var f = copy.querySelector('footer');
+        if (f && el.dataset.contato) f.id = el.dataset.contato;
+        el.replaceWith(copy);
+      });
+    })();
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
