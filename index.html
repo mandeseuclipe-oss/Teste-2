@@ -374,6 +374,8 @@
           <figure class="gal-item" tabindex="0" role="button" aria-label="Ampliar foto: Caminhões de Fórmula Truck na pista, com o caminhão vermelho Facchini número 377 em destaque" data-src="assets/img/formula-truck-2025.webp" data-alt="Caminhões de Fórmula Truck na pista, com o caminhão vermelho Facchini número 377 em destaque" style="width:60%;margin-left:12%;margin-top:14%;">
             <div class="gal-item__frame">
               <img src="assets/img/formula-truck-2025.webp" width="1280" height="1280" decoding="async" alt="Caminhões de Fórmula Truck na pista, com o caminhão vermelho Facchini número 377 em destaque">
+              <img class="gal-item__swap" src="assets/img/formula-truck-azul-2025.webp" width="1280" height="1280" decoding="async" alt="" aria-hidden="true">
+              <img class="gal-item__swap" src="assets/img/formula-truck-pb-2025.webp" width="1600" height="1600" decoding="async" alt="" aria-hidden="true">
               <span class="gal-item__shade" aria-hidden="true"></span>
               <span class="gal-item__title">Formula Truck 2025</span>
             </div>
@@ -935,8 +937,7 @@
 
       /* Dakota: ao passar o cursor, a foto troca em transição por uma sequência aleatória das outras fotos, e volta para a Dakota ao sair */
       if (canHover && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        var dakotaFig = document.querySelector('[data-src="assets/img/home-dakota.jpg"]');
-        if (dakotaFig) {
+        [].slice.call(document.querySelectorAll('.gal-item')).filter(function (f) { return f.querySelector('.gal-item__swap'); }).forEach(function (dakotaFig) {
           var swaps = [].slice.call(dakotaFig.querySelectorAll('.gal-item__swap'));
           var step = 0, timer = null;
           function pickStep() { var n = swaps.length + 1, k; do { k = Math.floor(Math.random() * n); } while (n > 1 && k === step); return k; }
@@ -973,7 +974,7 @@
             step = 0;
             setStep();
           });
-        }
+        });
       }
 
       /* Parallax vertical independente: cada foto tem amplitude e velocidade próprias, sem exagero */
