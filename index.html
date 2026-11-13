@@ -227,7 +227,9 @@
     .alb__close { position: absolute; top: 14px; right: 18px; font-size: 40px; line-height: 1; padding: 8px 12px; }
     .alb__close:hover { color: var(--alizarina); }
     .alb__title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: .9; text-transform: uppercase; margin: 0 0 40px; }
-    .alb__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 28px; }
+    .alb__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 100%; max-width: 1200px; margin: 0 auto; }
+    @media (max-width: 960px) { .alb__grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+    @media (max-width: 600px) { .alb__grid { grid-template-columns: 1fr; gap: 20px; } }
     .alb__grid img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; cursor: zoom-in; }
     .alb__empty { color: var(--cinza); font-size: 14px; letter-spacing: .06em; }
     .alb__label { display: block; margin-bottom: 14px; }
