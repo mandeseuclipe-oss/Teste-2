@@ -238,6 +238,8 @@
     .contact .ch { display: inline-block; overflow: hidden; vertical-align: top; }
     .contact .ch i { display: inline-block; font-style: normal; }
     .alb__title .ch i { display: inline-block; font-style: normal; }
+    /* Rodapé no álbum: fundo de ponta a ponta (sai das margens laterais e encosta na base) */
+    .alb > footer.contact { margin: 0 calc(var(--gutter) * -1) -88px; padding: 300px var(--gutter) 208px; }
 
     /* Lightbox */
     .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.94); display: none; align-items: center; justify-content: center; padding: 24px; }
