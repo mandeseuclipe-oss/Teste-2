@@ -390,8 +390,8 @@
     <div data-contato="contato"></div>
     <template id="tpl-contato">
     <footer class="contact">
-      <h2 class="display" data-reveal>Vamos<br>fazer uma<br>foto?</h2>
-      <a class="mail" href="mailto:brunosantsjob@gmail.com" data-reveal>brunosantsjob@gmail.com</a>
+      <h2 class="display">Vamos<br>fazer uma<br>foto?</h2>
+      <a class="mail" href="mailto:brunosantsjob@gmail.com">brunosantsjob@gmail.com</a>
       <div class="foot">
         <span>© 2026 Bruno Sants</span>
         <span>Retratos · Life · Automotivo</span>
@@ -678,9 +678,21 @@
         });
         return tw;
       }
+      /* Componente de contato: ao rolar até ele, o bloco aparece em fade vindo de baixo e os textos sobem suavemente */
+      function contactReveal(f, scroller) {
+        var parts = [f.querySelector('h2'), f.querySelector('.mail'), f.querySelector('.foot')].filter(Boolean);
+        var tw = gsap.timeline({ paused: true });
+        tw.fromTo(f, { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 1.8, ease: 'power2.out' }, 0);
+        tw.fromTo(parts, { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 1.6, ease: 'power2.out', stagger: .2 }, .3);
+        ScrollTrigger.create({
+          trigger: f, scroller: scroller || window, start: 'top 90%',
+          onEnter: function () { tw.timeScale(1).play(); },
+          onLeaveBack: function () { tw.timeScale(1.6).reverse(); }
+        });
+      }
       if (hasGsap && typeof ScrollTrigger !== 'undefined' && !reduce) {
-        gsap.utils.toArray('#alb footer.contact [data-reveal]').forEach(function (el) {
-          albRevealOn(gsap.from(el, { y: 60, opacity: 0, duration: 1.1, ease: 'power3.out', paused: true }), el, 'top 88%');
+        document.querySelectorAll('footer.contact').forEach(function (f) {
+          contactReveal(f, f.closest('#alb') ? albEl : null);
         });
       }
       /* Parallax das fotos do álbum: cada foto sobe e desce um pouco conforme a rolagem do álbum */
