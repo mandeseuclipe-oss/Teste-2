@@ -235,6 +235,8 @@
     .alb__empty { color: var(--cinza); font-size: 14px; letter-spacing: .06em; }
     .alb__label { display: block; margin-bottom: 14px; }
     .alb__title .ch { display: inline-block; overflow: hidden; vertical-align: top; }
+    .contact .ch { display: inline-block; overflow: hidden; vertical-align: top; }
+    .contact .ch i { display: inline-block; font-style: normal; }
     .alb__title .ch i { display: inline-block; font-style: normal; }
 
     /* Lightbox */
@@ -679,15 +681,34 @@
         return tw;
       }
       /* Componente de contato: ao rolar até ele, o bloco aparece em fade vindo de baixo e os textos sobem suavemente */
+      /* Letras separadas em spans (igual ao efeito de "O Artista"), mantendo quebras de linha */
+      function splitLetters(el) {
+        [].slice.call(el.childNodes).forEach(function (n) {
+          if (n.nodeType === 3) {
+            var frag = document.createDocumentFragment();
+            n.textContent.split('').forEach(function (c) {
+              var ch = document.createElement('span'); ch.className = 'ch';
+              var i = document.createElement('i'); i.textContent = c === ' ' ? ' ' : c;
+              ch.appendChild(i); frag.appendChild(ch);
+            });
+            n.parentNode.replaceChild(frag, n);
+          } else if (n.nodeType === 1 && n.tagName !== 'BR') {
+            splitLetters(n);
+          }
+        });
+      }
       function contactReveal(f, scroller) {
-        var parts = [f.querySelector('h2'), f.querySelector('.mail'), f.querySelector('.foot')].filter(Boolean);
+        splitLetters(f.querySelector('h2'));
+        splitLetters(f.querySelector('.mail'));
+        splitLetters(f.querySelector('.foot'));
+        var letters = f.querySelectorAll('.ch i');
         var tw = gsap.timeline({ paused: true });
-        tw.fromTo(f, { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 1.8, ease: 'power2.out' }, 0);
-        tw.fromTo(parts, { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 1.6, ease: 'power2.out', stagger: .2 }, .3);
+        tw.fromTo(f, { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 1.4, ease: 'power2.out' }, 0);
+        tw.from(letters, { yPercent: 110, duration: 1, stagger: .025, ease: 'power4.out' }, .2);
         ScrollTrigger.create({
-          trigger: f, scroller: scroller || window, start: 'top 90%',
+          trigger: f, scroller: scroller || window, start: 'top 88%',
           onEnter: function () { tw.timeScale(1).play(); },
-          onLeaveBack: function () { tw.timeScale(1.6).reverse(); }
+          onLeaveBack: function () { tw.timeScale(2.2).reverse(); }
         });
       }
       if (hasGsap && typeof ScrollTrigger !== 'undefined' && !reduce) {
