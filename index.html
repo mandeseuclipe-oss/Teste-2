@@ -460,8 +460,10 @@
         if (il) il.remove();
         document.documentElement.style.overflow = '';
       }, 3000);
-      /* Ao atualizar a página, o navegador mantém a posição de rolagem em que o usuário estava (não volta para a home) */
-      if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+      /* Cada carregamento começa no topo, para que a intro e as animações de entrada toquem sempre */
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+      [0, 60, 300].forEach(function (t) { window.addEventListener('load', function () { setTimeout(function () { window.scrollTo(0, 0); }, t); }); });
       var hasGsap = typeof window.gsap !== 'undefined';
 
       /* Menu: troca de cor no hover (CSS) + menu mobile */
