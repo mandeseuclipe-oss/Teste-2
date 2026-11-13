@@ -928,6 +928,31 @@
         touchX = null;
         if (Math.abs(dx) > 40) gvShow(dx < 0 ? gIdx + 1 : gIdx - 1);
       });
+      /* Mouse: clique e arraste a foto ampliada para o lado para passar para a próxima ou a anterior */
+      var dragX = null, dragging = false;
+      gv.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'touch' || e.button !== 0 || e.target.closest('button')) return;
+        dragX = e.clientX; dragging = false;
+      });
+      gv.addEventListener('pointermove', function (e) {
+        if (dragX === null) return;
+        var dx = e.clientX - dragX;
+        if (Math.abs(dx) > 6) dragging = true;
+        if (dragging && hasGsap && !reduce) gsap.set(gvImg, { x: dx * .6, overwrite: 'auto' });
+      });
+      function dragEnd(e) {
+        if (dragX === null) return;
+        var dx = e.clientX - dragX;
+        var was = dragging;
+        dragX = null; dragging = false;
+        if (!was) return;
+        if (hasGsap && !reduce) gsap.to(gvImg, { x: 0, duration: .5, ease: 'power3.out', overwrite: 'auto' });
+        if (Math.abs(dx) > 80) gvShow(dx < 0 ? gIdx + 1 : gIdx - 1);
+      }
+      gv.addEventListener('pointerup', dragEnd);
+      gv.addEventListener('pointercancel', dragEnd);
+      /* impede o arraste nativo da imagem do navegador, que interrompe o gesto */
+      gv.addEventListener('dragstart', function (e) { e.preventDefault(); });
 
       if (!hasGsap || reduce) return;
 
