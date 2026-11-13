@@ -227,10 +227,11 @@
     .alb__close { position: absolute; top: 14px; right: 18px; font-size: 40px; line-height: 1; padding: 8px 12px; }
     .alb__close:hover { color: var(--alizarina); }
     .alb__title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: .9; text-transform: uppercase; margin: 0 0 40px; }
-    .alb__grid { column-count: 3; column-gap: 24px; width: 100%; max-width: 1200px; margin: 0 auto; }
-    @media (max-width: 960px) { .alb__grid { column-count: 2; column-gap: 20px; } }
-    @media (max-width: 600px) { .alb__grid { column-count: 1; column-gap: 20px; } }
-    .alb__grid img { display: block; width: 100%; height: auto; margin: 0 0 24px; break-inside: avoid; cursor: zoom-in; }
+    .alb__grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-flow: dense; align-items: start; gap: 24px; width: 100%; max-width: 1200px; margin: 0 auto; }
+    @media (max-width: 960px) { .alb__grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+    @media (max-width: 600px) { .alb__grid { grid-template-columns: 1fr; gap: 20px; } .alb__grid img.is-wide { grid-column: auto; } }
+    .alb__grid img { display: block; width: 100%; height: auto; cursor: zoom-in; }
+    .alb__grid img.is-wide { grid-column: span 2; }
     .alb__empty { color: var(--cinza); font-size: 14px; letter-spacing: .06em; }
     .alb__label { display: block; margin-bottom: 14px; }
     .alb__title .ch { display: inline-block; overflow: hidden; vertical-align: top; }
@@ -560,7 +561,7 @@
         if (!list.length) {
           var e = document.createElement('p'); e.className = 'alb__empty'; e.textContent = 'Fotos do álbum em breve.'; albGrid.appendChild(e);
         } else {
-          list.forEach(function (src) { var im = document.createElement('img'); im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
+          list.forEach(function (src) { var im = document.createElement('img'); im.onload = function () { if (im.naturalWidth > im.naturalHeight) im.classList.add('is-wide'); }; im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
         }
         albEl.classList.add('is-open');
         albIntro();
@@ -651,7 +652,7 @@
         if (!list.length) {
           var e = document.createElement('p'); e.className = 'alb__empty'; e.textContent = 'Fotos do álbum em breve.'; albGrid.appendChild(e);
         } else {
-          list.forEach(function (src) { var im = document.createElement('img'); im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
+          list.forEach(function (src) { var im = document.createElement('img'); im.onload = function () { if (im.naturalWidth > im.naturalHeight) im.classList.add('is-wide'); }; im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
         }
         albEl.classList.add('is-open');
         albIntro();
