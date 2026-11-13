@@ -569,10 +569,12 @@
         killAlbPar();
         if (!hasGsap || reduce || typeof ScrollTrigger === 'undefined') return;
         [].slice.call(albGrid.querySelectorAll('img')).forEach(function (im, i) {
-          var amp = [22, 34, 16, 28][i % 4];
-          albParTweens.push(gsap.fromTo(im, { y: -amp }, {
-            y: amp, ease: 'none', overwrite: 'auto',
-            scrollTrigger: { trigger: im, scroller: albEl, start: 'top bottom', end: 'bottom top', scrub: .6 }
+          /* Parallax em profundidade: cada foto tem velocidade e direção próprias, com rolagem suave */
+          var amp = [46, 64, 36, 56][i % 4];
+          var dir = i % 2 ? 1 : -1;
+          albParTweens.push(gsap.fromTo(im, { y: -amp * dir, scale: 1.06 }, {
+            y: amp * dir, scale: 1, ease: 'none', overwrite: 'auto',
+            scrollTrigger: { trigger: im, scroller: albEl, start: 'top bottom', end: 'bottom top', scrub: 1.2 }
           }));
         });
       }
@@ -725,10 +727,12 @@
         killAlbPar();
         if (!hasGsap || reduce || typeof ScrollTrigger === 'undefined') return;
         [].slice.call(albGrid.querySelectorAll('img')).forEach(function (im, i) {
-          var amp = [22, 34, 16, 28][i % 4];
-          albParTweens.push(gsap.fromTo(im, { y: -amp }, {
-            y: amp, ease: 'none', overwrite: 'auto',
-            scrollTrigger: { trigger: im, scroller: albEl, start: 'top bottom', end: 'bottom top', scrub: .6 }
+          /* Parallax em profundidade: cada foto tem velocidade e direção próprias, com rolagem suave */
+          var amp = [46, 64, 36, 56][i % 4];
+          var dir = i % 2 ? 1 : -1;
+          albParTweens.push(gsap.fromTo(im, { y: -amp * dir, scale: 1.06 }, {
+            y: amp * dir, scale: 1, ease: 'none', overwrite: 'auto',
+            scrollTrigger: { trigger: im, scroller: albEl, start: 'top bottom', end: 'bottom top', scrub: 1.2 }
           }));
         });
       }
