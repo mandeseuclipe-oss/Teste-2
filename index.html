@@ -222,19 +222,22 @@
     .gv__more.is-out { animation: glassOut .5s cubic-bezier(.4,0,.6,1) forwards; }
     @keyframes glassOut { to { opacity: 0; transform: translateY(18px) scale(.94); filter: blur(8px); } }
     .gv__more[hidden] { display: none; }
-    .alb { position: fixed; inset: 0; z-index: 310; background: #000; display: none; flex-direction: column; padding: 72px var(--gutter) 56px; overflow-y: auto; }
+    .alb { position: fixed; inset: 0; z-index: 310; background: #000; display: none; flex-direction: column; padding: 112px var(--gutter) 88px; overflow-y: auto; }
     .alb.is-open { display: flex; }
     .alb__close { position: absolute; top: 14px; right: 18px; font-size: 40px; line-height: 1; padding: 8px 12px; }
     .alb__close:hover { color: var(--alizarina); }
     .alb__title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: .9; text-transform: uppercase; margin: 0 0 40px; }
-    .alb__grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-flow: dense; align-items: start; gap: 56px 40px; width: 100%; max-width: 1120px; margin: 0 auto; }
-    @media (max-width: 960px) { .alb__grid { gap: 40px 28px; } }
-    @media (max-width: 600px) { .alb__grid { grid-template-columns: 1fr; gap: 36px; } .alb__grid img.is-wide { grid-column: auto; } }
+    .alb__contact { margin: 110px calc(-1 * var(--gutter)) calc(-1 * 88px); }
+    .alb__grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-flow: dense; align-items: start; gap: 80px 56px; width: 100%; max-width: 1120px; margin: 0 auto; }
+    @media (max-width: 960px) { .alb__grid { gap: 60px 36px; } }
+    @media (max-width: 600px) { .alb__grid { grid-template-columns: 1fr; gap: 56px; } .alb__grid img.is-wide { grid-column: auto; } }
     .alb__grid img { display: block; width: 100%; height: auto; cursor: zoom-in; }
     .alb__grid img.is-wide { grid-column: span 2; }
     .alb__empty { color: var(--cinza); font-size: 14px; letter-spacing: .06em; }
     .alb__label { display: block; margin-bottom: 14px; }
     .alb__title .ch { display: inline-block; overflow: hidden; vertical-align: top; }
+    .alb__contact .foot .ch { display: inline-block; overflow: hidden; vertical-align: top; }
+    .alb__contact .foot .ch i { display: inline-block; font-style: normal; }
     .alb__title .ch i { display: inline-block; font-style: normal; }
 
     /* Lightbox */
@@ -684,6 +687,20 @@
         gsap.utils.toArray('#albContato [data-reveal]').forEach(function (el) {
           albRevealOn(gsap.from(el, { y: 60, opacity: 0, duration: 1.1, ease: 'power3.out', paused: true }), el, 'top 88%');
         });
+      }
+      /* Rodapé do álbum: aparece em fade vindo por baixo e os textos sobem por letra, como na Home */
+      var albFoot = albEl.querySelector('#albContato .foot');
+      if (albFoot && hasGsap && typeof ScrollTrigger !== 'undefined' && !reduce) {
+        albFoot.querySelectorAll('span').forEach(function (sp) {
+          var txt = sp.textContent; sp.textContent = '';
+          txt.split('').forEach(function (c) {
+            var ch = document.createElement('span'); ch.className = 'ch';
+            var i = document.createElement('i'); i.textContent = c === ' ' ? ' ' : c;
+            ch.appendChild(i); sp.appendChild(ch);
+          });
+        });
+        albRevealOn(gsap.fromTo(albFoot, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', paused: true }), albFoot, 'top 95%');
+        albRevealOn(gsap.from(albFoot.querySelectorAll('.ch i'), { yPercent: 110, duration: 1, stagger: .025, ease: 'power4.out', paused: true }), albFoot, 'top 95%');
       }
       /* Parallax das fotos do álbum: cada foto sobe e desce um pouco conforme a rolagem do álbum */
       var albParTweens = [];
