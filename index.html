@@ -428,6 +428,14 @@
     <span class="eyebrow alb__label">Álbum</span>
     <h2 class="alb__title" id="albTitle"></h2>
     <div class="alb__grid" id="albGrid"></div>
+    <footer class="contact alb__contact" id="albContato">
+      <h2 class="display" data-reveal>Vamos<br>fazer uma<br>foto?</h2>
+      <a class="mail" href="mailto:brunosantsjob@gmail.com" data-reveal>brunosantsjob@gmail.com</a>
+      <div class="foot">
+        <span>© 2026 Bruno Sants</span>
+        <span>Retratos · Life · Automotivo</span>
+      </div>
+    </footer>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -581,6 +589,7 @@
           list.forEach(function (src) { var im = document.createElement('img'); im.onload = function () { if (im.naturalWidth > im.naturalHeight) im.classList.add('is-wide'); }; im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
         }
         albEl.classList.add('is-open');
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
         albIntro();
         setTimeout(albParallax, 3800);
       }
@@ -662,6 +671,20 @@
           backToGallery();
         }
       }
+      /* Contato no fim do álbum: mesmos efeitos de texto da Home, disparados pela rolagem do álbum */
+      function albRevealOn(tw, trigger, start) {
+        ScrollTrigger.create({
+          trigger: trigger, scroller: albEl, start: start,
+          onEnter: function () { tw.timeScale(1).play(); },
+          onLeaveBack: function () { tw.timeScale(2.2).reverse(); }
+        });
+        return tw;
+      }
+      if (hasGsap && typeof ScrollTrigger !== 'undefined' && !reduce) {
+        gsap.utils.toArray('#albContato [data-reveal]').forEach(function (el) {
+          albRevealOn(gsap.from(el, { y: 60, opacity: 0, duration: 1.1, ease: 'power3.out', paused: true }), el, 'top 88%');
+        });
+      }
       /* Parallax das fotos do álbum: cada foto sobe e desce um pouco conforme a rolagem do álbum */
       var albParTweens = [];
       function killAlbPar() {
@@ -690,6 +713,7 @@
           list.forEach(function (src) { var im = document.createElement('img'); im.onload = function () { if (im.naturalWidth > im.naturalHeight) im.classList.add('is-wide'); }; im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
         }
         albEl.classList.add('is-open');
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
         albIntro();
         setTimeout(albParallax, 3800);
       }
