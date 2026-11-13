@@ -708,7 +708,7 @@
         ScrollTrigger.create({
           trigger: f, scroller: scroller || window, start: 'top 88%',
           onEnter: function () { tw.timeScale(1).play(); },
-          onLeaveBack: function () { tw.timeScale(1.25).reverse(); }
+          onLeaveBack: function () { tw.timeScale(2.2).reverse(); }
         });
       }
       if (hasGsap && typeof ScrollTrigger !== 'undefined' && !reduce) {
