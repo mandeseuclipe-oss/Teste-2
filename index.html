@@ -242,8 +242,9 @@
     /* Rodapé próprio do álbum, no estilo da home: bloco vermelho, título grande e barra inferior */
     .alb-foot { margin: 140px calc(var(--gutter) * -1) -88px; background: var(--alizarina); color: var(--preto); padding: 110px var(--gutter) 136px; }
     .alb-foot h2 { font-size: clamp(56px, 11vw, 160px); margin: 0; line-height: .85; }
-    .alb-foot a.mail { display: inline-block; margin-top: 32px; font-size: clamp(18px, 3vw, 28px); font-weight: 700; color: var(--gelo); text-decoration: none; border-bottom: 2px solid var(--preto); }
-    .alb-foot a.mail:hover { color: var(--preto); }
+    .alb-foot, .alb-foot * { color: #000; }
+    .alb-foot a.mail { display: inline-block; margin-top: 32px; font-size: clamp(18px, 3vw, 28px); font-weight: 700; color: #000; text-decoration: none; border-bottom: 2px solid #000; }
+    .alb-foot a.mail:hover { opacity: .6; }
     .alb-foot__bar { margin-top: 72px; display: flex; justify-content: space-between; gap: 16px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; flex-wrap: wrap; }
 
     /* Lightbox */
@@ -575,6 +576,21 @@
         if (gvImg.decode) gvImg.decode().then(run, run); else run();
       }
       /* Parallax das fotos do álbum: cada foto sobe e desce um pouco conforme a rolagem do álbum */
+      /* Rodapé do álbum: os textos sobem em fade quando a rolagem chega nele; ao subir de novo, voltam a sumir */
+      (function () {
+        if (!hasGsap || reduce || typeof ScrollTrigger === 'undefined') return;
+        var ft = albEl.querySelector('.alb-foot');
+        if (!ft) return;
+        var items = ft.querySelectorAll('h2, a.mail, .alb-foot__bar');
+        gsap.set(items, { opacity: 0, y: 60 });
+        var tw = gsap.timeline({ paused: true });
+        tw.to(items, { opacity: 1, y: 0, duration: 1.2, stagger: .18, ease: 'power3.out' });
+        ScrollTrigger.create({
+          trigger: ft, scroller: albEl, start: 'top 85%',
+          onEnter: function () { tw.timeScale(1).play(); },
+          onLeaveBack: function () { tw.timeScale(1.6).reverse(); }
+        });
+      })();
       var albParTweens = [];
       function killAlbPar() {
         albParTweens.forEach(function (t) { if (t.scrollTrigger) t.scrollTrigger.kill(); t.kill(); });
