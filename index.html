@@ -928,7 +928,7 @@
       });
       /* Zoom na foto ampliada do álbum: roda do mouse ou duplo clique para ampliar; ao ampliar, arraste para ver outras partes; pinça no celular */
       var zm = { z: 1, x: 0, y: 0 };
-      function zoomClamp() { zm.z = Math.min(Math.max(zm.z, 1), 4); if (zm.z === 1) { zm.x = 0; zm.y = 0; } }
+      function zoomClamp() { zm.z = Math.min(Math.max(zm.z, 1), 2); if (zm.z === 1) { zm.x = 0; zm.y = 0; } }
       function zoomApply(anim) {
         if (!hasGsap || reduce) { gvImg.style.transform = 'translate(' + zm.x + 'px,' + zm.y + 'px) scale(' + zm.z + ')'; return; }
         gsap.to(gvImg, { scale: zm.z, x: zm.x, y: zm.y, duration: anim ? .35 : 0, ease: 'power2.out', overwrite: 'auto' });
@@ -941,7 +941,7 @@
       }, { passive: false });
       gv.addEventListener('dblclick', function (e) {
         if (!gvAlbMode || e.target.closest('button')) return;
-        zm = zm.z > 1 ? { z: 1, x: 0, y: 0 } : { z: 2.5, x: 0, y: 0 };
+        zm = zm.z > 1 ? { z: 1, x: 0, y: 0 } : { z: 2, x: 0, y: 0 };
         zoomApply(true);
       });
       function tdist(t) { return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY); }
