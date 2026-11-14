@@ -242,7 +242,8 @@
     /* Rodapé próprio do álbum, no estilo da home: bloco vermelho, título grande e barra inferior */
     .alb-foot { margin: 140px calc(var(--gutter) * -1) -88px; background: var(--alizarina); color: var(--preto); padding: 110px var(--gutter) 136px; }
     .alb-foot h2 { font-size: clamp(56px, 11vw, 160px); margin: 0; line-height: .85; }
-    .alb-foot__txt { margin: 36px 0 0; max-width: 520px; font-size: clamp(16px, 2vw, 20px); line-height: 1.5; }
+    .alb-foot a.mail { display: inline-block; margin-top: 32px; font-size: clamp(18px, 3vw, 28px); font-weight: 700; color: var(--gelo); text-decoration: none; border-bottom: 2px solid var(--preto); }
+    .alb-foot a.mail:hover { color: var(--preto); }
     .alb-foot__bar { margin-top: 72px; display: flex; justify-content: space-between; gap: 16px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; flex-wrap: wrap; }
 
     /* Lightbox */
@@ -432,11 +433,11 @@
     <h2 class="alb__title" id="albTitle"></h2>
     <div class="alb__grid" id="albGrid"></div>
     <footer class="alb-foot">
-      <h2 class="display">Forza<br>Meeting</h2>
-      <p class="alb-foot__txt">Registros de encontros automotivos, na lente de Bruno Sants.</p>
+      <h2 class="display">Vamos<br>fazer uma<br>foto?</h2>
+      <a class="mail" href="mailto:brunosantsjob@gmail.com">brunosantsjob@gmail.com</a>
       <div class="alb-foot__bar">
         <span>© 2026 Bruno Sants</span>
-        <span>Automotivo</span>
+        <span>Retratos · Life · Automotivo</span>
       </div>
     </footer>
   </div>
