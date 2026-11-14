@@ -599,6 +599,7 @@
       function albParallax() {
         killAlbPar();
         if (!hasGsap || reduce || typeof ScrollTrigger === 'undefined') return;
+        ScrollTrigger.refresh(); /* recalcula posições depois que as fotos carregam, para o rodapé disparar no lugar certo */
         [].slice.call(albGrid.querySelectorAll('img')).forEach(function (im, i) {
           /* Parallax em profundidade: cada foto tem velocidade e direção próprias, com rolagem suave */
           var amp = [22, 30, 16, 26][i % 4];
@@ -757,6 +758,7 @@
       function albParallax() {
         killAlbPar();
         if (!hasGsap || reduce || typeof ScrollTrigger === 'undefined') return;
+        ScrollTrigger.refresh(); /* recalcula posições depois que as fotos carregam, para o rodapé disparar no lugar certo */
         [].slice.call(albGrid.querySelectorAll('img')).forEach(function (im, i) {
           /* Parallax em profundidade: cada foto tem velocidade e direção próprias, com rolagem suave */
           var amp = [22, 30, 16, 26][i % 4];
