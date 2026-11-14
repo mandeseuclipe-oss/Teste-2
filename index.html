@@ -703,8 +703,8 @@
         splitLetters(f.querySelector('.foot'));
         var letters = f.querySelectorAll('.ch i');
         var tw = gsap.timeline({ paused: true });
-        tw.fromTo(f, { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 2.4, ease: 'power2.out' }, 0);
-        tw.from(letters, { yPercent: 110, duration: 1.6, stagger: .035, ease: 'power3.out' }, .35);
+        tw.fromTo(f, { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 1.7, ease: 'power2.out' }, 0);
+        tw.from(letters, { yPercent: 110, duration: 1.1, stagger: .025, ease: 'power3.out' }, .25);
         /* gatilho de rolagem: ao descer até o rodapé, ele sobe em fade e os textos seguem; ao subir, o efeito é revertido */
         ScrollTrigger.create({
           trigger: f, scroller: scroller || window, start: 'top 85%',
