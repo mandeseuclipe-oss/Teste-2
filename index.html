@@ -836,7 +836,7 @@
         gvCap.appendChild(h); gvCap.appendChild(d);
       }
       function albShotOpen(idx, imgEl) {
-        gvAlbMode = true;
+        gvAlbMode = true; zm = { z: 1, x: 0, y: 0 };
         albShots = [].slice.call(albGrid.querySelectorAll('img'));
         albShotIdx = idx; gIdx = idx;
         albShotFrom = imgEl;
@@ -866,7 +866,7 @@
         var dir = i >= albShotIdx ? 1 : -1;
         albShotIdx = (i + albShots.length) % albShots.length; gIdx = albShotIdx;
         var im = albShots[albShotIdx];
-        var apply = function () { gvImg.src = im.src; gvImg.alt = im.alt; albCapText(albTitle.textContent, im.alt); };
+        var apply = function () { zm = { z: 1, x: 0, y: 0 }; gsap.set && gsap.set(gvImg, { scale: 1 }); gvImg.style.transform = ''; gvImg.src = im.src; gvImg.alt = im.alt; albCapText(albTitle.textContent, im.alt); };
         if (hasGsap && !reduce) {
           var dist = Math.round(window.innerWidth * .45);
           gsap.killTweensOf(gvImg);
@@ -926,32 +926,65 @@
         if (e.key === 'ArrowLeft') gvShow(gIdx - 1);
         if (e.key === 'ArrowRight') gvShow(gIdx + 1);
       });
-      var touchX = null;
-      gv.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+      /* Zoom na foto ampliada do álbum: roda do mouse ou duplo clique para ampliar; ao ampliar, arraste para ver outras partes; pinça no celular */
+      var zm = { z: 1, x: 0, y: 0 };
+      function zoomClamp() { zm.z = Math.min(Math.max(zm.z, 1), 4); if (zm.z === 1) { zm.x = 0; zm.y = 0; } }
+      function zoomApply(anim) {
+        if (!hasGsap || reduce) { gvImg.style.transform = 'translate(' + zm.x + 'px,' + zm.y + 'px) scale(' + zm.z + ')'; return; }
+        gsap.to(gvImg, { scale: zm.z, x: zm.x, y: zm.y, duration: anim ? .35 : 0, ease: 'power2.out', overwrite: 'auto' });
+      }
+      gv.addEventListener('wheel', function (e) {
+        if (!gvAlbMode || !gv.classList.contains('is-open')) return;
+        e.preventDefault();
+        var f = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+        zm.z *= f; zm.x *= f; zm.y *= f; zoomClamp(); zoomApply(true);
+      }, { passive: false });
+      gv.addEventListener('dblclick', function (e) {
+        if (!gvAlbMode || e.target.closest('button')) return;
+        zm = zm.z > 1 ? { z: 1, x: 0, y: 0 } : { z: 2.5, x: 0, y: 0 };
+        zoomApply(true);
+      });
+      function tdist(t) { return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY); }
+      var touchX = null, touchY = null, touchPan = null, pinch = null;
+      gv.addEventListener('touchstart', function (e) {
+        if (e.touches.length === 2 && gvAlbMode) { pinch = { d: tdist(e.touches), z: zm.z }; touchX = null; return; }
+        touchX = e.touches[0].clientX; touchY = e.touches[0].clientY;
+        touchPan = { x: zm.x, y: zm.y };
+      }, { passive: true });
+      gv.addEventListener('touchmove', function (e) {
+        if (pinch && e.touches.length === 2) { zm.z = pinch.z * tdist(e.touches) / pinch.d; zoomClamp(); zoomApply(false); return; }
+        if (zm.z > 1 && touchX !== null && e.touches.length === 1) {
+          zm.x = touchPan.x + (e.touches[0].clientX - touchX); zm.y = touchPan.y + (e.touches[0].clientY - touchY); zoomApply(false);
+        }
+      }, { passive: true });
       gv.addEventListener('touchend', function (e) {
+        if (pinch) { if (e.touches.length < 2) pinch = null; touchX = null; return; }
         if (touchX === null) return;
         var dx = e.changedTouches[0].clientX - touchX;
         touchX = null;
+        if (zm.z > 1) return;
         if (Math.abs(dx) > 40) gvShow(dx < 0 ? gIdx + 1 : gIdx - 1);
       });
-      /* Mouse: clique e arraste a foto ampliada para o lado para passar para a próxima ou a anterior */
-      var dragX = null, dragging = false;
+      /* Mouse: arrastar navega para a próxima/anterior; quando a foto está ampliada, arrastar apenas move a foto */
+      var dragX = null, dragY = null, dragging = false, panX0 = 0, panY0 = 0;
       gv.addEventListener('pointerdown', function (e) {
         if (e.pointerType === 'touch' || e.button !== 0 || e.target.closest('button')) return;
-        dragX = e.clientX; dragging = false;
+        dragX = e.clientX; dragY = e.clientY; dragging = false; panX0 = zm.x; panY0 = zm.y;
       });
       gv.addEventListener('pointermove', function (e) {
         if (dragX === null) return;
-        var dx = e.clientX - dragX;
-        if (Math.abs(dx) > 6) dragging = true;
-        if (dragging && hasGsap && !reduce) gsap.set(gvImg, { x: dx * .6, overwrite: 'auto' });
+        var dx = e.clientX - dragX, dy = e.clientY - dragY;
+        if (Math.abs(dx) > 6 || Math.abs(dy) > 6) dragging = true;
+        if (!dragging) return;
+        if (zm.z > 1) { zm.x = panX0 + dx; zm.y = panY0 + dy; zoomApply(false); return; }
+        if (hasGsap && !reduce) gsap.set(gvImg, { x: dx * .6, overwrite: 'auto' });
       });
       function dragEnd(e) {
         if (dragX === null) return;
         var dx = e.clientX - dragX;
         var was = dragging;
         dragX = null; dragging = false;
-        if (!was) return;
+        if (!was || zm.z > 1) return;
         if (hasGsap && !reduce) gsap.to(gvImg, { x: 0, duration: .5, ease: 'power3.out', overwrite: 'auto' });
         if (Math.abs(dx) > 80) gvShow(dx < 0 ? gIdx + 1 : gIdx - 1);
       }
