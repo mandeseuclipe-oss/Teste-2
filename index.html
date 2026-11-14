@@ -929,7 +929,16 @@
       /* Zoom na foto ampliada do álbum: roda do mouse ou duplo clique para ampliar; ao ampliar, arraste para ver outras partes; pinça no celular */
       var zm = { z: 1, x: 0, y: 0 };
       function zoomClamp() { zm.z = Math.min(Math.max(zm.z, 1), 1.5); if (zm.z <= 1) { zm.x = 0; zm.y = 0; } }
+      /* limite de arraste: a foto ampliada não sai da área do site (mantém uma margem), sem voltar sozinha */
+      function panClamp() {
+        var w = gvImg.offsetWidth * zm.z, h = gvImg.offsetHeight * zm.z, m = 24;
+        var mx = Math.max(0, w / 2 - (gv.clientWidth / 2 - m));
+        var my = Math.max(0, h / 2 - (gv.clientHeight / 2 - m));
+        zm.x = Math.min(Math.max(zm.x, -mx), mx);
+        zm.y = Math.min(Math.max(zm.y, -my), my);
+      }
       function zoomApply(anim) {
+        if (zm.z > 1) panClamp();
         if (!hasGsap || reduce) { gvImg.style.transform = 'translate(' + zm.x + 'px,' + zm.y + 'px) scale(' + zm.z + ')'; return; }
         gsap.to(gvImg, { scale: zm.z, x: zm.x, y: zm.y, duration: anim ? .35 : 0, ease: 'power2.out', overwrite: 'auto' });
       }
