@@ -618,7 +618,7 @@
         if (!list.length) {
           var e = document.createElement('p'); e.className = 'alb__empty'; e.textContent = 'Fotos do álbum em breve.'; albGrid.appendChild(e);
         } else {
-          list.forEach(function (src) { var im = document.createElement('img'); im.onload = function () { if (im.naturalWidth > im.naturalHeight) im.classList.add('is-wide'); }; im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
+          list.forEach(function (src) { var im = document.createElement('img'); im.onload = function () { if (im.naturalWidth > im.naturalHeight) im.classList.add('is-wide'); if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }; im.src = src; im.alt = it.dataset.alt; albGrid.appendChild(im); });
         }
         albEl.classList.add('is-open');
         if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
@@ -777,7 +777,7 @@
         if (!list.length) {
           var e = document.createElement('p'); e.className = 'alb__empty'; e.textContent = 'Fotos do álbum em breve.'; albGrid.appendChild(e);
         } else {
-          list.forEach(function (src) { var im = document.createElement('img'); im.onload = function () { if (im.naturalWidth > im.naturalHeight) im.classList.add('is-wide'); }; im.src = src; im.alt = it.dataset.alt; im.loading = 'lazy'; albGrid.appendChild(im); });
+          list.forEach(function (src) { var im = document.createElement('img'); im.onload = function () { if (im.naturalWidth > im.naturalHeight) im.classList.add('is-wide'); if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }; im.src = src; im.alt = it.dataset.alt; albGrid.appendChild(im); });
         }
         albEl.classList.add('is-open');
         if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
