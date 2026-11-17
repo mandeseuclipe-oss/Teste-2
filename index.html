@@ -243,7 +243,7 @@
     .alb-foot { margin: 140px calc(var(--gutter) * -1) -88px; background: var(--alizarina); color: var(--preto); padding: 110px var(--gutter) 136px; }
     .alb-foot h2 { font-size: clamp(56px, 11vw, 160px); margin: 0; line-height: .85; }
     .alb-foot, .alb-foot * { color: #000; }
-    .alb-foot__links { margin-top: 80px; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+    .alb-foot__links { margin-top: 80px; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 20px 40px; }
     .alb-foot a.mail, .alb-foot__link { display: inline-flex; align-items: center; gap: 12px; font-size: clamp(14px, 2vw, 18px); font-weight: 700; color: #000; text-decoration: none; border-bottom: 2px solid #000; }
     .alb-foot__kicker { margin: 28px 0 0; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
     .alb-foot a.mail:hover, .alb-foot__link:hover { opacity: .6; }
@@ -436,8 +436,7 @@
     <h2 class="alb__title" id="albTitle"></h2>
     <div class="alb__grid" id="albGrid"></div>
     <footer class="alb-foot">
-      <h2 class="display">Vamos<br>fazer uma<br>foto?</h2>
-      <p class="alb-foot__kicker">Entre em contato</p>
+      <h2 class="display">Entre em<br>contato</h2>
       <div class="alb-foot__links">
         <a class="mail" href="mailto:brunosantsjob@gmail.com">brunosantsjob@gmail.com</a>
         <a class="alb-foot__link" href="https://wa.me/5511921248816" target="_blank" rel="noopener">
