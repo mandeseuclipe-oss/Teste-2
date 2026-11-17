@@ -529,11 +529,8 @@
       var gvCap = document.getElementById('gvCap');
       /* legenda do visualizador: título do cartão + descrição da foto */
       function setCap(it) {
-        var t = it.querySelector('.gal-item__title');
+        /* ao clicar na categoria, a foto aparece sem título nem legenda embaixo */
         gvCap.innerHTML = '';
-        var h = document.createElement('span'); h.className = 'gv__title'; h.textContent = t ? t.textContent : '';
-        var d = document.createElement('span'); d.textContent = it.dataset.alt;
-        gvCap.appendChild(h); gvCap.appendChild(d);
       }
       var gItems = Array.prototype.slice.call(document.querySelectorAll('.gal-item'));
       var gIdx = 0;
