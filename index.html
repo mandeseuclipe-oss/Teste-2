@@ -695,17 +695,17 @@
       document.getElementById('albClose').addEventListener('click', albClose);
       /* Botão "Voltar à home": fecha o álbum e leva o cliente ao topo da página principal */
       document.getElementById('albHome').addEventListener('click', function () {
-        /* volta direto para a home: fecha álbum e foto ampliada na hora e leva ao topo */
-        if (history.state && history.state.album) { try { history.replaceState({}, ''); } catch (e) {} }
-        albEl._closing = false;
-        albEl.classList.remove('is-open');
-        gv.classList.remove('is-open', 'is-leaving', 'more-on', 'alb-shot');
-        gvAlbMode = false; zm = { z: 1, x: 0, y: 0 };
-        document.documentElement.style.overflow = '';
-        if (hasGsap) gsap.set(gvImg, { clearProps: 'transform,opacity' });
-        window.scrollTo({ top: 0, behavior: 'instant' });
-        /* o histórico do navegador pode devolver a rolagem antiga logo depois; garante o topo */
-        setTimeout(function () { window.scrollTo({ top: 0, behavior: 'instant' }); }, 300);
+        /* mesma animação de saída do álbum (loading da logo), e só depois volta direto ao topo da home */
+        albClose();
+        setTimeout(function () {
+          albEl._closing = false;
+          albEl.classList.remove('is-open');
+          gv.classList.remove('is-open', 'is-leaving', 'more-on', 'alb-shot');
+          gvAlbMode = false; zm = { z: 1, x: 0, y: 0 };
+          document.documentElement.style.overflow = '';
+          if (hasGsap) gsap.set(gvImg, { clearProps: 'transform,opacity' });
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }, 4400);
       });
       /* Botão Voltar do navegador: se o álbum estiver aberto, ele fecha (em vez de sair da página) */
       window.addEventListener('popstate', function () {
