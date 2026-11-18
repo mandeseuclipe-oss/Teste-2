@@ -1200,6 +1200,12 @@
           opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', delay: k * .16, paused: true
         }), it, 'top 88%');
       });
+      /* Efeito de card: cada categoria chega inclinada e vai se assentando ao rolar até ela; ao subir, volta */
+      gsap.utils.toArray('.gal-row').forEach(function (row) {
+        revealOn(gsap.fromTo(row, { rotationX: 14, scale: .93, opacity: .35, transformPerspective: 1400, transformOrigin: '50% 0%' }, {
+          rotationX: 0, scale: 1, opacity: 1, duration: 1.3, ease: 'power3.out', paused: true
+        }), row, 'top 84%');
+      });
       /* Hover e parallax do cursor só com mouse (dispositivos touch não recebem esses efeitos) */
       var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
       if (canHover) {
