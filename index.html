@@ -682,7 +682,7 @@
         var ld = albEl.querySelector('.alb__load');
         if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
-        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid, .alb__home, .alb__close');
+        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid, .alb__home, .alb__close, .alb-foot');
         gsap.to(items, { opacity: 0, duration: .8, ease: 'power2.in', overwrite: 'auto' });
         setTimeout(function () {
           ld.style.animation = 'none';
@@ -696,9 +696,7 @@
             /* o álbum some em fade e revela a página, sem corte */
             gsap.to(albEl, { opacity: 0, duration: .9, ease: 'sine.inOut', overwrite: 'auto', onComplete: function () {
               albEl.classList.remove('is-open'); albEl._closing = false;
-              /* ao terminar a saída, a foto ampliada da categoria também fecha: a página volta limpa e rolável */
-              gv.classList.remove('is-open', 'is-leaving', 'more-on', 'alb-shot'); gvAlbMode = false; gvMore.hidden = true; zm = { z: 1, x: 0, y: 0 };
-              document.documentElement.style.overflow = '';
+              /* ao terminar, a tela volta para a categoria (foto ampliada) */
               gsap.set(albEl, { clearProps: 'opacity' });
               ld.style.cssText = ''; gsap.set(items, { clearProps: 'opacity' });
             } });
@@ -864,7 +862,7 @@
         var ld = albEl.querySelector('.alb__load');
         if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
-        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid, .alb__home, .alb__close');
+        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid, .alb__home, .alb__close, .alb-foot');
         gsap.to(items, { opacity: 0, duration: .8, ease: 'power2.in', overwrite: 'auto' });
         setTimeout(function () {
           ld.style.animation = 'none';
@@ -878,9 +876,7 @@
             /* o álbum some em fade e revela a página, sem corte */
             gsap.to(albEl, { opacity: 0, duration: .9, ease: 'sine.inOut', overwrite: 'auto', onComplete: function () {
               albEl.classList.remove('is-open'); albEl._closing = false;
-              /* ao terminar a saída, a foto ampliada da categoria também fecha: a página volta limpa e rolável */
-              gv.classList.remove('is-open', 'is-leaving', 'more-on', 'alb-shot'); gvAlbMode = false; gvMore.hidden = true; zm = { z: 1, x: 0, y: 0 };
-              document.documentElement.style.overflow = '';
+              /* ao terminar, a tela volta para a categoria (foto ampliada) */
               gsap.set(albEl, { clearProps: 'opacity' });
               ld.style.cssText = ''; gsap.set(items, { clearProps: 'opacity' });
             } });
