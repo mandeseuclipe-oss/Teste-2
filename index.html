@@ -211,7 +211,8 @@
 
     /* Botão "Veja mais" e álbum da foto */
     .gv__stage { position: relative; }
-    .gv__stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.7) 28%, rgba(0,0,0,0) 62%); pointer-events: none; opacity: 0; transition: opacity .9s ease; z-index: 1; }
+    .gv__stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.7) 28%, rgba(0,0,0,0) 62%); pointer-events: none; opacity: 0; transform: translateX(var(--gx, 0px)); transition: opacity .9s ease, transform .5s ease; z-index: 1; }
+    .gv.is-dragging .gv__stage::after { transition: none; }
     .gv.more-on .gv__stage::after { opacity: 1; }
     .gv.is-leaving .gv__stage::after { transition: opacity .5s ease; }
     .gv__more { position: absolute; z-index: 2; left: 0; right: 0; margin: 0 auto; width: max-content; bottom: 22px; --mx: 50%; --my: 50%; font-family: Montserrat, system-ui, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #fff; padding: 9px 20px; border-radius: 999px; background: rgba(255,255,255,.14); overflow: hidden; border: 1px solid rgba(255,255,255,.3); background-image: linear-gradient(180deg, rgba(255,255,255,.28) 0%, rgba(255,255,255,.06) 48%, rgba(255,255,255,.14) 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 30px rgba(0,0,0,.35); transition: transform .35s ease, background-color .35s ease; }
@@ -1032,6 +1033,8 @@
         if (Math.abs(dx) > 6 || Math.abs(dy) > 6) dragging = true;
         if (!dragging) return;
         if (zm.z > 1) { zm.x = panX0 + dx; zm.y = panY0 + dy; zoomApply(false); return; }
+        gv.classList.add('is-dragging');
+        gv.querySelector('.gv__stage').style.setProperty('--gx', (dx * .6) + 'px');
         if (hasGsap && !reduce) gsap.set(gvImg, { x: dx * .6, overwrite: 'auto' });
       });
       function dragEnd(e) {
@@ -1040,6 +1043,8 @@
         var was = dragging;
         dragX = null; dragging = false;
         if (!was || zm.z > 1) return;
+        gv.classList.remove('is-dragging');
+        gv.querySelector('.gv__stage').style.setProperty('--gx', '0px');
         if (hasGsap && !reduce) gsap.to(gvImg, { x: 0, duration: .5, ease: 'power3.out', overwrite: 'auto' });
         if (Math.abs(dx) > 80) gvShow(dx < 0 ? gIdx + 1 : gIdx - 1);
       }
