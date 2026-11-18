@@ -435,7 +435,7 @@
 
   <div class="alb" id="alb" role="dialog" aria-modal="true" aria-label="Álbum">
     <button class="alb__close" id="albClose" aria-label="Fechar álbum">×</button>
-    <button class="alb__home" id="albHome" type="button" aria-label="Voltar à home" title="Voltar à home"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+    <button class="alb__home" id="albHome" type="button" aria-label="Voltar à home" title="Voltar à home"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 11l9-7 9 7M5 10v10h5v-6h4v6h5V10"/></svg></button>
     <div class="intro-load alb__load" aria-hidden="true"><div class="intro-load__mark"><img class="intro-load__half intro-load__l" src="assets/img/logo-bs.png" alt=""><img class="intro-load__half intro-load__r" src="assets/img/logo-bs.png" alt=""></div></div>
     <span class="eyebrow alb__label">Álbum</span>
     <h2 class="alb__title" id="albTitle"></h2>
@@ -695,8 +695,15 @@
       document.getElementById('albClose').addEventListener('click', albClose);
       /* Botão "Voltar à home": fecha o álbum e leva o cliente ao topo da página principal */
       document.getElementById('albHome').addEventListener('click', function () {
-        albClose();
-        setTimeout(function () { window.scrollTo(0, 0); }, 3900);
+        /* volta direto para a home: fecha álbum e foto ampliada na hora e leva ao topo */
+        if (history.state && history.state.album) { try { history.back(); } catch (e) {} }
+        albEl._closing = false;
+        albEl.classList.remove('is-open');
+        gv.classList.remove('is-open', 'is-leaving', 'more-on', 'alb-shot');
+        gvAlbMode = false; zm = { z: 1, x: 0, y: 0 };
+        document.documentElement.style.overflow = '';
+        if (hasGsap) gsap.set(gvImg, { clearProps: 'transform,opacity' });
+        window.scrollTo({ top: 0, behavior: 'instant' });
       });
       /* Botão Voltar do navegador: se o álbum estiver aberto, ele fecha (em vez de sair da página) */
       window.addEventListener('popstate', function () {
