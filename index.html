@@ -704,6 +704,8 @@
         document.documentElement.style.overflow = '';
         if (hasGsap) gsap.set(gvImg, { clearProps: 'transform,opacity' });
         window.scrollTo({ top: 0, behavior: 'instant' });
+        /* o histórico do navegador pode devolver a rolagem antiga logo depois; garante o topo */
+        setTimeout(function () { window.scrollTo({ top: 0, behavior: 'instant' }); }, 300);
       });
       /* Botão Voltar do navegador: se o álbum estiver aberto, ele fecha (em vez de sair da página) */
       window.addEventListener('popstate', function () {
