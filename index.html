@@ -232,7 +232,7 @@
     .alb__close:hover { color: var(--alizarina); }
     .alb__home { position: absolute; top: 14px; left: 18px; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: #fff; background: none; border: 0; padding: 0; cursor: pointer; }
     .alb__home:hover { color: var(--alizarina); }
-    .alb__title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: .9; text-transform: uppercase; margin: 0 0 120px; }
+    .alb__title { max-width: 16ch; text-wrap: balance; font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: .9; text-transform: uppercase; margin: 0 0 120px; }
     .alb__grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-flow: dense; align-items: start; gap: 80px 56px; width: 100%; max-width: 1120px; margin: 0 auto; }
     @media (max-width: 960px) { .alb__grid { gap: 60px 36px; } }
     @media (max-width: 600px) { .alb__grid { grid-template-columns: 1fr; gap: 56px; } .alb__grid img.is-wide { grid-column: auto; } }
@@ -561,7 +561,8 @@
       var gIdx = 0;
       /* Álbuns por foto: chave = arquivo da foto; lista de imagens a preencher quando as fotos chegarem */
       var ALBUMS = {
-        'assets/img/home-dakota.jpg': ['assets/img/forza-meeting-01.webp', 'assets/img/forza-meeting-02.webp', 'assets/img/forza-meeting-03.webp', 'assets/img/forza-meeting-04.webp', 'assets/img/forza-meeting-05.webp', 'assets/img/forza-meeting-06.webp', 'assets/img/forza-meeting-07.webp', 'assets/img/forza-meeting-08.webp', 'assets/img/forza-meeting-09.webp', 'assets/img/forza-meeting-10.webp', 'assets/img/forza-meeting-11.png', 'assets/img/forza-meeting-12.webp', 'assets/img/forza-meeting-13.png', 'assets/img/forza-meeting-14.webp', 'assets/img/forza-meeting-15.webp', 'assets/img/forza-meeting-16.jpg', 'assets/img/forza-meeting-17.jpg', 'assets/img/forza-meeting-18.jpg', 'assets/img/forza-meeting-19.jpg', 'assets/img/forza-meeting-20.jpg']
+        'assets/img/home-dakota.jpg': ['assets/img/forza-meeting-01.webp', 'assets/img/forza-meeting-02.webp', 'assets/img/forza-meeting-03.webp', 'assets/img/forza-meeting-04.webp', 'assets/img/forza-meeting-05.webp', 'assets/img/forza-meeting-06.webp', 'assets/img/forza-meeting-07.webp', 'assets/img/forza-meeting-08.webp', 'assets/img/forza-meeting-09.webp', 'assets/img/forza-meeting-10.webp', 'assets/img/forza-meeting-11.png', 'assets/img/forza-meeting-12.webp', 'assets/img/forza-meeting-13.png', 'assets/img/forza-meeting-14.webp', 'assets/img/forza-meeting-15.webp', 'assets/img/forza-meeting-16.jpg', 'assets/img/forza-meeting-17.jpg', 'assets/img/forza-meeting-18.jpg', 'assets/img/forza-meeting-19.jpg', 'assets/img/forza-meeting-20.jpg'],
+        'assets/img/campeonato-paulista-etapa-3.webp': ['assets/img/campeonato-paulista-etapa-3-album-74.jpg', 'assets/img/campeonato-paulista-etapa-3-album-75.jpg', 'assets/img/campeonato-paulista-etapa-3-album-76.jpg', 'assets/img/campeonato-paulista-etapa-3-album-77.jpg', 'assets/img/campeonato-paulista-etapa-3-album-78.jpg']
       };
       var gvMore = document.getElementById('gvMore');
       var albEl = document.getElementById('alb');
@@ -665,10 +666,16 @@
         if (typeof gsap === 'undefined' || reduce) return;
         var t = albTitle, txt = t.textContent;
         t.textContent = '';
-        txt.split('').forEach(function (c) {
-          var ch = document.createElement('span'); ch.className = 'ch';
-          var i = document.createElement('i'); i.textContent = c === ' ' ? '\u00a0' : c;
-          ch.appendChild(i); t.appendChild(ch);
+        txt.split(' ').forEach(function (word, wi) {
+          /* cada palavra fica junta (não quebra no meio): a quebra de linha só acontece entre palavras */
+          if (wi > 0) t.appendChild(document.createTextNode(' '));
+          var wd = document.createElement('span'); wd.style.whiteSpace = 'nowrap'; wd.style.display = 'inline-block';
+          word.split('').forEach(function (c) {
+            var ch = document.createElement('span'); ch.className = 'ch';
+            var i = document.createElement('i'); i.textContent = c;
+            ch.appendChild(i); wd.appendChild(ch);
+          });
+          t.appendChild(wd);
         });
         gsap.killTweensOf(t.querySelectorAll('.ch i'));
         gsap.from(t.querySelectorAll('.ch i'), { yPercent: 110, duration: 1, stagger: .035, ease: 'power4.out', delay: 2.3 });
@@ -845,10 +852,16 @@
         if (typeof gsap === 'undefined' || reduce) return;
         var t = albTitle, txt = t.textContent;
         t.textContent = '';
-        txt.split('').forEach(function (c) {
-          var ch = document.createElement('span'); ch.className = 'ch';
-          var i = document.createElement('i'); i.textContent = c === ' ' ? '\u00a0' : c;
-          ch.appendChild(i); t.appendChild(ch);
+        txt.split(' ').forEach(function (word, wi) {
+          /* cada palavra fica junta (não quebra no meio): a quebra de linha só acontece entre palavras */
+          if (wi > 0) t.appendChild(document.createTextNode(' '));
+          var wd = document.createElement('span'); wd.style.whiteSpace = 'nowrap'; wd.style.display = 'inline-block';
+          word.split('').forEach(function (c) {
+            var ch = document.createElement('span'); ch.className = 'ch';
+            var i = document.createElement('i'); i.textContent = c;
+            ch.appendChild(i); wd.appendChild(ch);
+          });
+          t.appendChild(wd);
         });
         gsap.killTweensOf(t.querySelectorAll('.ch i'));
         gsap.from(t.querySelectorAll('.ch i'), { yPercent: 110, duration: 1, stagger: .035, ease: 'power4.out', delay: 2.3 });
