@@ -228,6 +228,8 @@
     .alb.is-open { display: flex; }
     .alb__close { position: absolute; top: 14px; right: 18px; font-size: 40px; line-height: 1; padding: 8px 12px; }
     .alb__close:hover { color: var(--alizarina); }
+    .alb__home { position: absolute; top: 18px; left: var(--gutter); font-family: Montserrat, system-ui, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.5); padding: 10px 18px; border-radius: 999px; cursor: pointer; }
+    .alb__home:hover { background: rgba(255,255,255,.2); }
     .alb__title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: .9; text-transform: uppercase; margin: 0 0 120px; }
     .alb__grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-flow: dense; align-items: start; gap: 80px 56px; width: 100%; max-width: 1120px; margin: 0 auto; }
     @media (max-width: 960px) { .alb__grid { gap: 60px 36px; } }
@@ -433,6 +435,7 @@
 
   <div class="alb" id="alb" role="dialog" aria-modal="true" aria-label="Álbum">
     <button class="alb__close" id="albClose" aria-label="Fechar álbum">×</button>
+    <button class="alb__home" id="albHome" type="button">Voltar à home</button>
     <div class="intro-load alb__load" aria-hidden="true"><div class="intro-load__mark"><img class="intro-load__half intro-load__l" src="assets/img/logo-bs.png" alt=""><img class="intro-load__half intro-load__r" src="assets/img/logo-bs.png" alt=""></div></div>
     <span class="eyebrow alb__label">Álbum</span>
     <h2 class="alb__title" id="albTitle"></h2>
@@ -623,6 +626,8 @@
         });
       }
       function albOpen() {
+        /* o álbum entra no histórico: o botão Voltar do navegador fecha o álbum */
+        try { history.pushState({ album: true }, ''); } catch (e) {}
         var it = gItems[gIdx];
         var list = ALBUMS[it.dataset.src] || [];
         var ct = it.querySelector('.gal-item__title'); albTitle.textContent = ct ? ct.textContent : it.dataset.alt;
@@ -655,6 +660,7 @@
       /* ao sair do álbum: o conteúdo some em fade, depois entra o loading da logo e só então fecha */
       function albClose() {
         if (albEl._closing || !albEl.classList.contains('is-open')) return;
+        if (history.state && history.state.album) { try { history.back(); } catch (e) {} }
         var ld = albEl.querySelector('.alb__load');
         if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
@@ -687,6 +693,15 @@
       });
 
       document.getElementById('albClose').addEventListener('click', albClose);
+      /* Botão "Voltar à home": fecha o álbum e leva o cliente ao topo da página principal */
+      document.getElementById('albHome').addEventListener('click', function () {
+        albClose();
+        setTimeout(function () { window.scrollTo(0, 0); }, 3900);
+      });
+      /* Botão Voltar do navegador: se o álbum estiver aberto, ele fecha (em vez de sair da página) */
+      window.addEventListener('popstate', function () {
+        if (albEl.classList.contains('is-open')) albClose();
+      });
       function gvClose() {
         if (!gv.classList.contains('is-open')) return;
         clearTimeout(moreT); gv.classList.remove('more-on');
@@ -782,6 +797,8 @@
         });
       }
       function albOpen() {
+        /* o álbum entra no histórico: o botão Voltar do navegador fecha o álbum */
+        try { history.pushState({ album: true }, ''); } catch (e) {}
         var it = gItems[gIdx];
         var list = ALBUMS[it.dataset.src] || [];
         var ct = it.querySelector('.gal-item__title'); albTitle.textContent = ct ? ct.textContent : it.dataset.alt;
@@ -814,6 +831,7 @@
       /* ao sair do álbum: o conteúdo some em fade, depois entra o loading da logo e só então fecha */
       function albClose() {
         if (albEl._closing || !albEl.classList.contains('is-open')) return;
+        if (history.state && history.state.album) { try { history.back(); } catch (e) {} }
         var ld = albEl.querySelector('.alb__load');
         if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
