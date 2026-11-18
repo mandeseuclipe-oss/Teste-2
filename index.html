@@ -696,7 +696,7 @@
       /* Botão "Voltar à home": fecha o álbum e leva o cliente ao topo da página principal */
       document.getElementById('albHome').addEventListener('click', function () {
         /* volta direto para a home: fecha álbum e foto ampliada na hora e leva ao topo */
-        if (history.state && history.state.album) { try { history.back(); } catch (e) {} }
+        if (history.state && history.state.album) { try { history.replaceState({}, ''); } catch (e) {} }
         albEl._closing = false;
         albEl.classList.remove('is-open');
         gv.classList.remove('is-open', 'is-leaving', 'more-on', 'alb-shot');
