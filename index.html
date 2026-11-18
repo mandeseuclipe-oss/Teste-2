@@ -664,7 +664,7 @@
         var ld = albEl.querySelector('.alb__load');
         if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
-        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid');
+        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid, .alb__home, .alb__close');
         gsap.to(items, { opacity: 0, duration: .8, ease: 'power2.in', overwrite: 'auto' });
         setTimeout(function () {
           ld.style.animation = 'none';
@@ -843,7 +843,7 @@
         var ld = albEl.querySelector('.alb__load');
         if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
-        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid');
+        var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid, .alb__home, .alb__close');
         gsap.to(items, { opacity: 0, duration: .8, ease: 'power2.in', overwrite: 'auto' });
         setTimeout(function () {
           ld.style.animation = 'none';
