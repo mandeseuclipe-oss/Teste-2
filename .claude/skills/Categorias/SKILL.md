@@ -38,6 +38,42 @@ Se algo precisar mudar além dos cinco itens acima, pare e pergunte antes.
 7. Faça commit local com a mensagem `Categoria <nome>: nova categoria a partir do modelo Forza Meeting`. Não faça push sem o usuário pedir.
 8. Publique o artefato atualizado (mesmo link) e informe o link ao usuário.
 
+## Configurações atuais do Forza Meeting (modelo)
+
+Estas são as configurações que a categoria principal tem hoje. Ao copiar, mantenha tudo isso.
+
+**Card na galeria**
+- `figure` com `style="width:62%;margin-left:4%;margin-top:0;"`. Cada categoria fica em sua própria `.gal-row`.
+- Layout em zigue-zague: a categoria seguinte pode usar `margin-left:34%;margin-top:160px;` para ficar à direita e mais abaixo (é o único ajuste de posição permitido).
+- Efeito de card ao rolar (JS, na linha da revelação de `.gal-row`): entra com `rotationX: 14`, `scale: .93`, `opacity: .35`, e assenta até o normal ao chegar a `top 84%`. Reverte ao subir.
+- Revelação de cada foto (`.gal-item`): sobe e aparece com `y: 60`, em sequência por linha. Não mexer.
+- Troca de fotos ao passar o cursor (só com mouse): roda para todas as categorias, usando as 4 `gal-item__swap`. A capa aparece primeiro.
+- Parallax vertical do card: amplitudes em `galAmps`. Não mexer.
+- Texto do título: `<span class="gal-item__title">` aparece no card e é o título do álbum.
+
+**Visualizador (ao clicar na categoria)**
+- Legenda: título da categoria + "Exposição de carros e Cosplayers" (texto fixo na função `setCap`).
+- Zoom de 1x a 1.5x (roda do mouse e duplo clique). Arrastar foto ampliada move a imagem, com limite de margem.
+- Arrastar para o lado troca de foto. O degradê preto de baixo acompanha a foto durante o arraste e volta junto ao soltar.
+- Veja mais e setas seguem o padrão do modelo.
+
+**Álbum (Veja mais)**
+- Título vem do card. Fotos vêm de `ALBUMS`, com a chave igual à foto principal. Sem fotos, mostra "Fotos do álbum em breve."
+- Casinha (`#albHome`, canto superior esquerdo): fecha tudo com o loading da logo e volta ao topo da home.
+- Seta de retorno (`#albClose`, canto superior direito): loading da logo, fecha o álbum e a foto ampliada, e a página volta a rolar.
+- Botão Voltar do navegador fecha o álbum.
+- Parallax das fotos do álbum e sem desfoque ao rolar.
+- Rodapé (`footer.alb-foot`), com esta ordem:
+  - "Vamos fazer uma foto?" (título, em duas linhas).
+  - Legenda: "Registre seus melhores momentos, experiências e novidades agora! Clique e tenha sempre algo pra lembrar daquele momento de maneira nostálgica."
+  - Linha de links, distribuída na largura: e-mail `brunosantsjob@gmail.com` (com ícone de envelope), WhatsApp (`https://wa.me/5511921248816`, texto "whatsapp", com ícone), Banlek (`https://banlek.com/brunosantsfotografias`, texto "Banlek", com ícone de câmera).
+  - Barra de baixo: "© 2026 Bruno Sants" e "Retratos · Automotivo".
+  - Títulos, textos e links têm cor preta. Entrada com fade ao rolar, de baixo para cima.
+  - Ocupa a largura do site e encosta na base do álbum.
+
+**Global (vale para todas as categorias)**
+- Bloqueio de download: clique direito, arrastar e seleção de imagens ficam desativados.
+
 ## Atenção
 
 - A legenda do visualizador é definida na função `setCap` e é a mesma para todas as categorias. Antes de criar a nova, pergunte se ela deve ter o mesmo texto ou um próprio.
