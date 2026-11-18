@@ -211,7 +211,7 @@
 
     /* Botão "Veja mais" e álbum da foto */
     .gv__stage { position: relative; }
-    .gv__stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.7) 28%, rgba(0,0,0,0) 62%); pointer-events: none; opacity: 0; transform: translateX(var(--gx, 0px)); transition: opacity .9s ease, transform .5s ease; z-index: 1; }
+    .gv__stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.7) 28%, rgba(0,0,0,0) 62%); pointer-events: none; opacity: 0; transform: translateX(var(--gx, 0px)); transition: opacity .9s ease; z-index: 1; }
     .gv.is-dragging .gv__stage::after { transition: none; }
     .gv.more-on .gv__stage::after { opacity: 1; }
     .gv.is-leaving .gv__stage::after { transition: opacity .5s ease; }
@@ -1044,7 +1044,11 @@
         dragX = null; dragging = false;
         if (!was || zm.z > 1) return;
         gv.classList.remove('is-dragging');
-        gv.querySelector('.gv__stage').style.setProperty('--gx', '0px');
+        /* o degradê volta junto com a foto, usando a mesma animação (gsap), para não sair de sincronia */
+        var stg = gv.querySelector('.gv__stage');
+        var gx = { v: parseFloat(stg.style.getPropertyValue('--gx')) || 0 };
+        if (hasGsap && !reduce) gsap.to(gx, { v: 0, duration: .5, ease: 'power3.out', overwrite: 'auto', onUpdate: function () { stg.style.setProperty('--gx', gx.v + 'px'); } });
+        else stg.style.setProperty('--gx', '0px');
         if (hasGsap && !reduce) gsap.to(gvImg, { x: 0, duration: .5, ease: 'power3.out', overwrite: 'auto' });
         if (Math.abs(dx) > 80) gvShow(dx < 0 ? gIdx + 1 : gIdx - 1);
       }
