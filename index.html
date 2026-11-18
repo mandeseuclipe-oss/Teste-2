@@ -683,8 +683,6 @@
         if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
         var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid, .alb__home, .alb__close');
-        /* a foto ampliada da categoria some enquanto o loading da logo cobre a tela, para não aparecer atrás do álbum */
-        setTimeout(function () { gv.classList.remove('is-open', 'is-leaving', 'more-on', 'alb-shot'); gvAlbMode = false; gvMore.hidden = true; zm = { z: 1, x: 0, y: 0 }; }, 1400);
         gsap.to(items, { opacity: 0, duration: .8, ease: 'power2.in', overwrite: 'auto' });
         setTimeout(function () {
           ld.style.animation = 'none';
@@ -867,8 +865,6 @@
         if (!ld || reduce || !hasGsap) { albEl.classList.remove('is-open'); return; }
         albEl._closing = true;
         var items = albEl.querySelectorAll('.alb__label, .alb__title, .alb__grid, .alb__home, .alb__close');
-        /* a foto ampliada da categoria some enquanto o loading da logo cobre a tela, para não aparecer atrás do álbum */
-        setTimeout(function () { gv.classList.remove('is-open', 'is-leaving', 'more-on', 'alb-shot'); gvAlbMode = false; gvMore.hidden = true; zm = { z: 1, x: 0, y: 0 }; }, 1400);
         gsap.to(items, { opacity: 0, duration: .8, ease: 'power2.in', overwrite: 'auto' });
         setTimeout(function () {
           ld.style.animation = 'none';
