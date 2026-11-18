@@ -20,6 +20,8 @@
     }
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
+    /* Proteção das fotos: sem arrastar, sem selecionar e sem o menu de salvar ao clicar com o botão direito ou segurar no celular */
+    img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
     html { scroll-behavior: smooth; }
     body {
       background: var(--preto);
@@ -488,6 +490,9 @@
         if (il) il.remove();
         document.documentElement.style.overflow = '';
       }, 3000);
+      /* Bloqueio de download das fotos: clique direito e arrastar sobre imagens ficam desativados */
+      document.addEventListener('contextmenu', function (e) { if (e.target.tagName === 'IMG') e.preventDefault(); });
+      document.addEventListener('dragstart', function (e) { if (e.target.tagName === 'IMG') e.preventDefault(); });
       /* Ao atualizar a página, o navegador mantém a posição de rolagem em que o usuário estava (não volta para a home) */
       if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
       var hasGsap = typeof window.gsap !== 'undefined';
