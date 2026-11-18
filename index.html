@@ -233,8 +233,8 @@
     .alb__home { position: absolute; top: 14px; left: 18px; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: #fff; background: none; border: 0; padding: 0; cursor: pointer; }
     .alb__home:hover { color: var(--alizarina); }
     .alb__title { max-width: 16ch; text-wrap: balance; font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: .9; text-transform: uppercase; margin: 0 0 120px; }
-    .alb__grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-flow: dense; align-items: start; gap: 80px 56px; width: 100%; max-width: 1120px; margin: 0 auto; }
-    @media (max-width: 960px) { .alb__grid { gap: 60px 36px; } }
+    .alb__grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-flow: row; align-items: start; gap: 56px; width: 100%; max-width: 1120px; margin: 0 auto; }
+    @media (max-width: 960px) { .alb__grid { gap: 40px; } }
     @media (max-width: 600px) { .alb__grid { grid-template-columns: 1fr; gap: 56px; } .alb__grid img.is-wide { grid-column: auto; } }
     .alb__grid img { display: block; width: 100%; height: auto; cursor: zoom-in; }
     .alb__grid img.is-wide { grid-column: span 2; }
