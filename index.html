@@ -193,6 +193,8 @@
     /* Galeria: sombra leve nas fotos que ficam sobre as vizinhas (somente desktop) */
     @media (min-width: 641px) {
       .gal-item--over .gal-item__frame { box-shadow: 0 22px 54px -18px rgba(0,0,0,.9), 0 6px 16px -6px rgba(0,0,0,.6); }
+      /* teste: borda branca por dentro da foto de capa */
+      .gal-item--border .gal-item__frame::before { content: ""; position: absolute; inset: 0; border: 3px solid #fff; z-index: 3; pointer-events: none; }
     }
 
     /* Visualizador da galeria */
@@ -409,7 +411,7 @@
           </figure>
         </div>
         <div class="gal-row">
-          <figure class="gal-item gal-item--over" tabindex="0" role="button" aria-label="Ampliar foto: Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira" data-src="assets/img/expo-campo-de-marte.jpg" data-alt="Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira" data-desc="" style="width:62%;margin-left:34%;margin-top:160px;">
+          <figure class="gal-item gal-item--over gal-item--border" tabindex="0" role="button" aria-label="Ampliar foto: Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira" data-src="assets/img/expo-campo-de-marte.jpg" data-alt="Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira" data-desc="" style="width:62%;margin-left:34%;margin-top:160px;">
             <div class="gal-item__frame">
               <img src="assets/img/expo-campo-de-marte.jpg" width="2000" height="1125" decoding="async" alt="Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira">
               <img class="gal-item__swap" src="assets/img/expo-campo-de-marte.jpg" width="2000" height="1125" decoding="async" alt="" aria-hidden="true">
