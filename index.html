@@ -409,7 +409,7 @@
           </figure>
         </div>
         <div class="gal-row">
-          <figure class="gal-item gal-item--over" tabindex="0" role="button" aria-label="Ampliar foto: Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira" data-src="assets/img/expo-campo-de-marte.jpg" data-alt="Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira" style="width:62%;margin-left:34%;margin-top:160px;">
+          <figure class="gal-item gal-item--over" tabindex="0" role="button" aria-label="Ampliar foto: Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira" data-src="assets/img/expo-campo-de-marte.jpg" data-alt="Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira" data-desc="" style="width:62%;margin-left:34%;margin-top:160px;">
             <div class="gal-item__frame">
               <img src="assets/img/expo-campo-de-marte.jpg" width="2000" height="1125" decoding="async" alt="Expo Campo de Marte: Dodge cinza estacionado em evento, vista traseira">
               <img class="gal-item__swap" src="assets/img/expo-campo-de-marte.jpg" width="2000" height="1125" decoding="async" alt="" aria-hidden="true">
@@ -580,8 +580,12 @@
         var t = it.querySelector('.gal-item__title');
         gvCap.innerHTML = '';
         var h = document.createElement('span'); h.className = 'gv__title'; h.textContent = t ? t.textContent : '';
-        var d = document.createElement('span'); d.textContent = it.dataset.desc || 'Exposição de carros e Cosplayers';
-        gvCap.appendChild(h); gvCap.appendChild(d);
+        gvCap.appendChild(h);
+        /* data-desc vazio = sem descrição (só o título); sem o atributo = texto padrão */
+        if (it.dataset.desc !== '') {
+          var d = document.createElement('span'); d.textContent = it.dataset.desc || 'Exposição de carros e Cosplayers';
+          gvCap.appendChild(d);
+        }
       }
       var gItems = Array.prototype.slice.call(document.querySelectorAll('.gal-item'));
       var gIdx = 0;
