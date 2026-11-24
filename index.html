@@ -94,6 +94,7 @@
     .hero__content { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: calc(env(safe-area-inset-bottom) + 22vh); }
     .hero__word { display: flex; flex-wrap: wrap; font-size: clamp(54px, 13.5vw, 180px); margin: 0; }
     .hero__word span { display: inline-block; overflow: hidden; }
+    .hero__logo { display: block; height: .8em; width: auto; align-self: center; margin-right: .22em; }
     .hero__word span > i { display: inline-block; font-style: normal; }
     .hero__meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
     .hero__meta p { margin: 0; max-width: 40ch; font-size: 15px; line-height: 1.55; opacity: .9; }
@@ -355,6 +356,7 @@
       </div>
       <div class="hero__content">
         <h1 class="display hero__word" aria-label="Bruno Sants">
+          <img class="hero__logo" src="assets/img/logo-hero.png" alt="" aria-hidden="true">
           <span><i>B</i></span><span><i>R</i></span><span><i>U</i></span><span><i>N</i></span><span><i>O</i></span><span><i>S</i></span><span><i>A</i></span><span><i>N</i></span><span><i>T</i></span><span><i>S</i></span>
         </h1>
         <div class="hero__meta">
