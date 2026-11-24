@@ -348,11 +348,10 @@
     <section class="hero" aria-label="Apresentação">
       <div class="hero__media" data-hero>
         <!-- Fundo do hero: fotos que se alternam com fade lento. Trocar o src de cada uma quando necessário -->
-        <img class="hero__img" src="assets/img/home-gaiola.jpg" alt="Pássaro preto e branco atrás de grades de madeira">
-        <img class="hero__img" src="assets/img/home-banco.jpg" alt="Homem sentado em banco de concreto em praça, com saco preto no colo" loading="lazy">
-        <img class="hero__img" src="assets/img/home-publiset.jpg" alt="Carro de corrida Publiset em curva de autódromo" loading="lazy">
-        <img class="hero__img" src="assets/img/home-dakota.jpg" alt="Pickup amarela Dakota em garagem, vista frontal" loading="lazy">
-        <img class="hero__img" src="assets/img/home-flor.jpg" alt="Flores de kalanchoe vermelhas e alaranjadas em vaso, centralizadas" style="object-position: 50% 50%" loading="lazy">
+        <img class="hero__img" src="assets/img/home-fundo-01.jpg" alt="Detalhe do farol e da roda de um Porsche cinza" loading="lazy">
+        <img class="hero__img" src="assets/img/home-fundo-02.jpg" alt="Carro de corrida Biolev em pista de autódromo" loading="lazy">
+        <img class="hero__img" src="assets/img/home-fundo-03.jpg" alt="Volkswagen azul-turquesa com placa da Califórnia estacionado na grama" loading="lazy">
+        <img class="hero__img" src="assets/img/home-fundo-04.jpg" alt="Dodge cinza estacionado em evento com público ao redor" loading="lazy">
       </div>
       <div class="hero__content">
         <h1 class="display hero__word" aria-label="Bruno Sants">
@@ -1177,11 +1176,10 @@
         // Movimento por foto (nome do arquivo -> 'none' | 'zoom-in' | 'slide-left' | 'slide-right')
         // Definido em HOME_MOTION abaixo. Com 'none', a foto só faz o fade.
         var HOME_MOTION = {
-          'home-gaiola.jpg': 'zoom-in',      // passarinho
-          'home-banco.jpg': 'zoom-in',       // homem no banco
-          'home-publiset.jpg': 'slide-left', // carro
-          'home-dakota.jpg': 'slide-left',   // carro
-          'home-flor.jpg': 'zoom-in'         // flor, centralizada
+          'home-fundo-01.jpg': 'zoom-in',
+          'home-fundo-02.jpg': 'slide-left',
+          'home-fundo-03.jpg': 'zoom-in',
+          'home-fundo-04.jpg': 'slide-left'
         };
         var motionOf = function (layer) {
           return HOME_MOTION[(layer.getAttribute('src') || '').split('/').pop()] || 'none';
