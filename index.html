@@ -117,7 +117,9 @@
     .frame--slot:hover img { transform: none; }
     .caption { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cinza); margin-top: 12px; }
     .portrait__text h3 { font-family: "Bebas Neue", sans-serif; font-size: clamp(48px, 7vw, 96px); margin: 0; line-height: .9; }
-    .portrait__text p { font-size: 16px; line-height: 1.7; color: #cfcfcf; max-width: 44ch; }
+    .portrait__text p { font-size: clamp(17px, 1.25vw, 19px); line-height: 1.75; color: #d6d6d6; max-width: 56ch; margin: 0 0 1.2em; text-wrap: pretty; }
+    .portrait__text p:last-child { margin-bottom: 0; }
+    @media (max-width: 640px) { .portrait { gap: 56px; } .portrait__text p { font-size: 17px; line-height: 1.7; max-width: none; } }
 
     /* Life: grade com parallax */
     .life { display: grid; grid-template-columns: 1fr; gap: 16px; }
@@ -1401,17 +1403,22 @@
 
       /* Introduções com letras que sobem uma a uma ao aparecer (heading e primeiro parágrafo de O Artista) */
       document.querySelectorAll('.intro-split').forEach(function (el) {
-        var keepSpaces = el.classList.contains('intro-para');
         var txt = el.textContent;
         el.textContent = '';
-        txt.split('').forEach(function (c) {
-          if (c === ' ' && keepSpaces) { el.appendChild(document.createTextNode(' ')); return; }
-          var ch = document.createElement('span');
-          ch.className = 'ch';
-          var i = document.createElement('i');
-          i.textContent = c === ' ' ? '\u00a0' : c;
-          ch.appendChild(i);
-          el.appendChild(ch);
+        /* cada palavra fica junta (sem quebrar no meio), e o espa\u00e7o entre elas permite quebra de linha */
+        txt.split(' ').forEach(function (word, wi) {
+          if (wi > 0) el.appendChild(document.createTextNode(' '));
+          var wd = document.createElement('span');
+          wd.style.whiteSpace = 'nowrap'; wd.style.display = 'inline-block';
+          word.split('').forEach(function (c) {
+            var ch = document.createElement('span');
+            ch.className = 'ch';
+            var i = document.createElement('i');
+            i.textContent = c;
+            ch.appendChild(i);
+            wd.appendChild(ch);
+          });
+          el.appendChild(wd);
         });
         revealOn(gsap.from(el.querySelectorAll('.ch i'), {
           yPercent: 110, duration: 1, stagger: .025, ease: 'power4.out', paused: true
